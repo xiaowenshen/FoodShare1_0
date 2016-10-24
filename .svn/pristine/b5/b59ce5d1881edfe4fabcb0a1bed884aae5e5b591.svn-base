@@ -1,0 +1,9 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/guide.Master" AutoEventWireup="true" CodeBehind="TESTGUID.aspx.cs" Inherits="FoodShare1_0.TESTGUID" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    --------------------
+    显示菜谱
+    最新的8个
+    --------------------
+</asp:Content>

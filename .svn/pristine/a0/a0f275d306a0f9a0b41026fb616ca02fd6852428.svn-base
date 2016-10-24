@@ -1,0 +1,151 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <title>一起用餐吧注册</title>
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <link href="./login_file/style_log.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="./login_file/style.css" />
+    <link rel="stylesheet" type="text/css" href="./login_file/userpanel.css" />
+    <script type="text/javascript">
+        $(function () {
+            //隐藏用户存在提示
+            $("#msg").css("display", "none");
+            //为用户名文本框注册失去焦点事件
+            $("#account").blur(function()
+            {
+                checkAccount();
+            })
+            //注册点击事件
+            $("#registerbtn").click(function(){
+                if (checkdata())
+                {
+                    if (checkPwd())
+                    {
+                        insertData();
+                    }
+                    else
+                    {
+                        alert("两次输入的密码不一致！")
+                    }
+                }
+                else
+                {
+                    alert("请把数据补全！");
+                }
+            });
+        });
+        function insertData()
+        {
+            var inputvals = document.getElementsByTagName("input");
+            var jsondata = $("#infoform").serializeArray();
+            $.post("register.ashx",jsondata,function(data){
+                if(data == "OK")
+                {
+                    //注册成功
+                    location.href="login.aspx";
+                }
+                else
+                {
+                    //注册失败
+                    alert("注册失败，请稍后再试！");
+                }
+
+            })
+
+        }
+        //检查输入是否为空
+        function checkdata()
+        {
+            var res = 1 ;
+            var inputvals = document.getElementsByTagName("input");
+            for(var i = 0;i<inputvals.length-1;i++)
+            {
+                if(inputvals[i].value=="")
+                {
+                    res = 0;
+                }
+            };
+            return res == 1;
+
+        }
+        //检查密码是否两次一致
+        function checkPwd()
+        {
+            var pwd = $("#upwd").val();
+            var apwd = $("#aupwd").val();
+            return pwd == apwd;
+        }
+        //检查用户名是否存在
+        function checkAccount()
+        {
+            var account = $("#account").val();
+            $.post("checkAccount.ashx", { "account": account }, function (data) {
+                if(data != "OK" )
+                {
+                    $("#msg").css("display", "block");
+                    $("#account").val("");
+
+                }
+                else {
+                    $("#msg").css("display", "none");
+                }
+            })
+        }
+    </script>
+</head>
+
+<body class="login" mycollectionplug="bind">
+    <form id="infoform">
+        <div class="login_m">
+            <div class="login_logo"><img src="./login_file/logo.png" width="196" height="46" /></div>
+            <div class="login_boder" id="info">
+
+                <div class="login_padding" id="login_model">
+                    <h2>姓名</h2>
+                    <label>
+                        <input type="text" id="name" name="name" class="txt_input" value="" />
+                    </label>
+
+                    <h2>用户名</h2>
+                    <label>
+                        <input type="text" id="account" name="account" class="txt_input" value="" />
+                        <span id="msg" style="font-size:13px;color:red">此用户已存在！</span>
+                    </label>
+                    <h2>密码</h2>
+                    <label>
+                        <input type="password" name="pwd" id="upwd" class="txt_input"  value="" />
+                    </label>
+                    <h2>再次确认密码</h2>
+                    <label>
+                        <input type="password" name="apwd" id="aupwd" class="txt_input" value="" />
+                    </label>
+                    <h2>email</h2>
+                    <label>
+                        <input type="text" id="email" name="email" class="txt_input" value="" />
+                    </label>
+                    <h2>设置密保问题</h2>
+                    <label>
+                        <input type="text" id="uquestion" name="uquestion" class="txt_input"  value="" />
+                    </label>
+                    <h2>设置密保答案</h2>
+                    <label>
+                        <input type="text" id="uanswer" name="uanswer" class="txt_input" value="" />
+                    </label>
+                    <div class="rem_sub">
+
+                        <label>
+                            <input type="button" class="sub_button" name="button" id="registerbtn" value="注册" style="opacity: 0.7;" />
+                        </label>
+                    </div>
+                </div>
+
+            </div><!--login_boder end-->
+        </div><!--login_m end-->
+
+    </form>
+
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data;
+using FoodShareDAL;
+using FoodShareMODEL;
+using System.Data.SqlClient;
+namespace FoodShareDAL
+{
+	/// <summary>
+	/// 数据访问类:MyWorks
+	/// </summary>
+	public partial class  MyWorksDAL
+	{
+        public MyWorksDAL()
+		{}
+
+
+		/// <summary>
+		/// 增加一条数据-------------
+		/// </summary>
+		public int Add(MyWorks model)
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("insert into MyWorks(");
+			strSql.Append("WTitle,introduce,UId,isdel,addtime)");
+			strSql.Append(" values (");
+			strSql.Append("@WTitle,@introduce,@UId,@isdel,@addtime)");
+			strSql.Append(";select @@IDENTITY");
+			SqlParameter[] parameters = {
+					new SqlParameter("@WTitle", SqlDbType.NVarChar,50),
+					new SqlParameter("@introduce", SqlDbType.NVarChar,150),
+					new SqlParameter("@UId", SqlDbType.Int,4),
+					new SqlParameter("@isdel", SqlDbType.Bit,1),
+					new SqlParameter("@addtime", SqlDbType.DateTime)};
+			parameters[0].Value = model.WTitle;
+			parameters[1].Value = model.introduce;
+			parameters[2].Value = model.UId;
+			parameters[3].Value = model.isdel;
+			parameters[4].Value = model.addtime;
+            ///----
+	        return DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
+		}
+		/// <summary>
+		/// 更新一条数据
+		/// </summary>
+		public bool Update(MyWorks model)
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("update MyWorks set ");
+			strSql.Append("WTitle=@WTitle,");
+			strSql.Append("introduce=@introduce,");
+			strSql.Append("UId=@UId,");
+			strSql.Append("isdel=@isdel,");
+			strSql.Append("addtime=@addtime");
+			strSql.Append(" where WId=@WId");
+			SqlParameter[] parameters = {
+					new SqlParameter("@WTitle", SqlDbType.NVarChar,50),
+					new SqlParameter("@introduce", SqlDbType.NVarChar,150),
+					new SqlParameter("@UId", SqlDbType.Int,4),
+					new SqlParameter("@isdel", SqlDbType.Bit,1),
+					new SqlParameter("@addtime", SqlDbType.DateTime),
+					new SqlParameter("@WId", SqlDbType.Int,4)};
+			parameters[0].Value = model.WTitle;
+			parameters[1].Value = model.introduce;
+			parameters[2].Value = model.UId;
+			parameters[3].Value = model.isdel;
+			parameters[4].Value = model.addtime;
+			parameters[5].Value = model.WId;
+
+	return DbHelperSQL.ExecuteSql(strSql.ToString(),parameters) > 0;
+		}
+
+		/// <summary>
+		/// 删除一条数据
+		/// </summary>
+		public bool Delete(int WId)
+		{
+			
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("delete from MyWorks ");
+			strSql.Append(" where WId=@WId");
+			SqlParameter[] parameters = {
+					new SqlParameter("@WId", SqlDbType.Int,4)
+			};
+			parameters[0].Value = WId;
+
+			return DbHelperSQL.ExecuteSql(strSql.ToString(),parameters) > 0;
+	
+		}
+		/// <summary>
+		/// 批量删除数据
+		/// </summary>
+		public bool DeleteList(string WIdlist )
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("delete from MyWorks ");
+			strSql.Append(" where WId in ("+WIdlist + ")  ");
+			int rows=DbHelperSQL.ExecuteSql(strSql.ToString());
+			if (rows > 0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+
+
+	}
+}
+

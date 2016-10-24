@@ -1,0 +1,189 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data;
+using FoodShareDAL;
+using FoodShareMODEL;
+using System.Data.SqlClient;
+namespace FoodShareDAL
+{
+	/// <summary>
+	/// 数据访问类:UserInfo
+	/// </summary>
+	public partial class UserInfoDAL
+	{
+		public UserInfoDAL()
+		{}
+		
+
+		/// <summary>
+		/// 得到最大ID
+		/// </summary>
+		public int GetMaxId()
+		{
+            string sql = "select max(UId) From UserInfo where isdel = 0 ";
+            return Convert.ToInt32(DbHelperSQL.ExecuteScalar(sql));
+		}
+
+	
+
+		/// <summary>
+		/// 增加一条数据------------
+		/// </summary>
+		public int Add(UserInfo model)
+		{
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("insert into UserInfo(");
+            strSql.Append("name,account,pwd,email,address,introduce,display,sex,birthday,addtime,isdel,question,answer)");
+            strSql.Append(" values (");
+            strSql.Append("@name,@account,@pwd,@email,@address,@introduce,@display,@sex,@birthday,@addtime,@isdel,@question,@answer)");
+            strSql.Append(";select @@IDENTITY");
+            SqlParameter[] parameters = {
+					new SqlParameter("@name", SqlDbType.NVarChar,50),
+					new SqlParameter("@account", SqlDbType.NVarChar,50),
+					new SqlParameter("@pwd", SqlDbType.NVarChar,50),
+					new SqlParameter("@email", SqlDbType.NVarChar,50),
+					new SqlParameter("@address", SqlDbType.NVarChar,50),
+					new SqlParameter("@introduce", SqlDbType.NVarChar,150),
+					new SqlParameter("@display", SqlDbType.NVarChar,100),
+					new SqlParameter("@sex", SqlDbType.Bit,1),
+					new SqlParameter("@birthday", SqlDbType.NChar,20),
+					new SqlParameter("@addtime", SqlDbType.DateTime),
+					new SqlParameter("@isdel", SqlDbType.Bit,1),
+					new SqlParameter("@question", SqlDbType.NVarChar,50),
+					new SqlParameter("@answer", SqlDbType.NVarChar,50)};
+            parameters[0].Value = model.name;
+            parameters[1].Value = model.account;
+            parameters[2].Value = model.pwd;
+            parameters[3].Value = model.email;
+            parameters[4].Value = model.address;
+            parameters[5].Value = model.introduce;
+            parameters[6].Value = model.display;
+            parameters[7].Value = model.sex;
+            parameters[8].Value = model.birthday;
+            parameters[9].Value = model.addtime;
+            parameters[10].Value = model.isdel;
+            parameters[11].Value = model.question;
+            parameters[12].Value = model.answer;
+			return DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
+		
+		}
+		/// <summary>
+		/// 更新一条数据
+		/// </summary>
+		public bool Update(UserInfo model)
+		{
+
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("insert into UserInfo(");
+            strSql.Append("name,account,pwd,email,address,introduce,display,sex,birthday,addtime,isdel,question,answer)");
+            strSql.Append(" values (");
+            strSql.Append("@name,@account,@pwd,@email,@address,@introduce,@display,@sex,@birthday,@addtime,@isdel,@question,@answer)");
+            strSql.Append(";select @@IDENTITY");
+            SqlParameter[] parameters = {
+					new SqlParameter("@name", SqlDbType.NVarChar,50),
+					new SqlParameter("@account", SqlDbType.NVarChar,50),
+					new SqlParameter("@pwd", SqlDbType.NVarChar,50),
+					new SqlParameter("@email", SqlDbType.NVarChar,50),
+					new SqlParameter("@address", SqlDbType.NVarChar,50),
+					new SqlParameter("@introduce", SqlDbType.NVarChar,150),
+					new SqlParameter("@display", SqlDbType.NVarChar,100),
+					new SqlParameter("@sex", SqlDbType.Bit,1),
+					new SqlParameter("@birthday", SqlDbType.NChar,20),
+					new SqlParameter("@addtime", SqlDbType.DateTime),
+					new SqlParameter("@isdel", SqlDbType.Bit,1),
+					new SqlParameter("@question", SqlDbType.NVarChar,50),
+					new SqlParameter("@answer", SqlDbType.NVarChar,50)};
+            parameters[0].Value = model.name;
+            parameters[1].Value = model.account;
+            parameters[2].Value = model.pwd;
+            parameters[3].Value = model.email;
+            parameters[4].Value = model.address;
+            parameters[5].Value = model.introduce;
+            parameters[6].Value = model.display;
+            parameters[7].Value = model.sex;
+            parameters[8].Value = model.birthday;
+            parameters[9].Value = model.addtime;
+            parameters[10].Value = model.isdel;
+            parameters[11].Value = model.question;
+            parameters[12].Value = model.answer;
+
+		return DbHelperSQL.ExecuteSql(strSql.ToString(),parameters) > 0;
+		}
+
+		/// <summary>
+		/// 删除一条数据
+		/// </summary>
+		public bool Delete(int UId)
+		{
+			
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("delete from UserInfo ");
+			strSql.Append(" where UId=@UId");
+			SqlParameter[] parameters = {
+					new SqlParameter("@UId", SqlDbType.Int,4)
+			};
+			parameters[0].Value = UId;
+            return DbHelperSQL.ExecuteSql(strSql.ToString(), parameters) > 0;
+		
+		}
+		/// <summary>
+		/// 批量删除数据
+		/// </summary>
+		public bool DeleteList(string UIdlist )
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("delete from UserInfo ");
+			strSql.Append(" where UId in ("+UIdlist + ")  ");
+			int rows=DbHelperSQL.ExecuteSql(strSql.ToString());
+			if (rows > 0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+        public UserInfo GetInfo(string account)
+        {
+            string sql = "select * from UserInfo where account = @account and isdel = 0";
+            SqlParameter p = new SqlParameter("@account" , SqlDbType.NVarChar );
+            p.Value = account;
+            DataTable dt = DbHelperSQL.GetDataTable(sql, p);
+            UserInfo info = new UserInfo();
+            if(dt.Rows.Count >　0)
+            {
+
+                LoadInfo(info, dt.Rows[0]);
+            }
+            else
+            {
+                info = null;
+            }
+
+            return info;
+        }
+	    
+        private UserInfo LoadInfo(UserInfo uinfo,DataRow dr)
+        {
+            uinfo.account =dr["account"] != DBNull.Value ? dr["account"].ToString() :string.Empty;
+            uinfo.address = dr["address"] != DBNull.Value ?dr["address"] .ToString() : string.Empty;
+            uinfo.addtime = Convert.ToDateTime(dr["addtime"]);
+            uinfo.birthday = dr["birthday"] != DBNull.Value ?dr["birthday"].ToString() : string.Empty;
+            uinfo.display = dr["display"] != DBNull.Value ? dr["display"].ToString() : string.Empty;
+            uinfo.email = dr["email"] != DBNull.Value ? dr["email"].ToString() : string.Empty;
+            uinfo.UId = Convert.ToInt32(dr["UId"]);
+            uinfo.sex = Convert.ToBoolean(dr["sex"]);
+            uinfo.pwd =  dr["pwd"] != DBNull.Value ?  dr["pwd"].ToString() : string.Empty;
+            uinfo.name = dr["name"] != DBNull.Value ? dr["name"].ToString() : string.Empty;
+            uinfo.introduce = dr["introduce"] != DBNull.Value ? dr["introduce"].ToString() : string.Empty;
+            uinfo.isdel = false;
+            return uinfo;
+        }
+	}
+}
+

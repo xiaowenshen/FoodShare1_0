@@ -1,0 +1,75 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="guide.master.cs" Inherits="FoodShare1_0.guide" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>一起用餐吧美食分享</title>
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery-1.11.0.min.js"></script>
+<!-- Custom Theme files -->
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
+<!-- Custom Theme files -->
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Horse Farm Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!--Google Fonts-->
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'/>
+<link href='https://fonts.googleapis.com/css?family=Baumans' rel='stylesheet' type='text/css'/>
+<!-- start-->
+<link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+               <!--header start here-->
+    
+ <div class="header">
+	<div class="container">
+		 <div class="header-main">
+				<div class="logo">
+					<h1><a href="index.html">美食分享网站</a></h1>
+				</div>
+				<div class="top-nav">
+				<nav class="cl-effect-20">
+					   <span class="menu"> <img src="images/icon.png" alt=""/></span>
+					<ul class="res">
+					   <li><a href="TESTGUID.aspx" class="active">主页</a></li> 
+						<li><a href="mypage.aspx">我的主页</a></li> 
+						<li><a href="#">我的厨房</a></li> <%--gallery.html typo.html contact.html --%>
+						<li><a href="#">搜索</a></li> 
+						<li><a href="#">联系我们</a></li> 
+				   </ul>
+				</nav>
+					<!-- script-for-menu -->
+						 <script>
+						     $("span.menu").click(function () {
+						         $("ul.res").slideToggle(300, function () {
+						             // Animation complete.
+						         });
+						     });
+						</script>
+		        <!-- /script-for-menu -->
+				</div>
+		 <div class="clearfix"> </div>
+	  </div>
+	</div>
+ </div>
+
+<!--header end here-->
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+ 
+        </asp:ContentPlaceHolder>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server"></asp:ContentPlaceHolder>
+    </div>
+    </form>
+</body>
+</html>
