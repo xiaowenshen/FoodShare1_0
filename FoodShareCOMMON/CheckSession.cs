@@ -12,7 +12,7 @@ namespace FoodShareCOMMON
         {
             if(Session["uinfo"]==null)
             {
-                Response.Redirect("login.aspx");
+                Response.Redirect(Page.ResolveUrl("~/login.aspx"));
             }
 
         }

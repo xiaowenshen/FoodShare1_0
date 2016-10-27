@@ -27,7 +27,7 @@ namespace FoodShareUI
             index = index <= 0 ? 1 : index;
             index = index >= pagecount ? pagecount : index;
             string pagebar = FoodShareCOMMON.PageBarHelper.GetPageBar(index, pagecount);
-            pagebar = pagebar.Replace("pageindex", "mspageindex");
+            pagebar = pagebar.Replace("pageindex", "mspageindex").Replace("pages","mspages");
             List<MyStrategy> list = sbll.GetList(index, pagesize);
             System.Web.Script.Serialization.JavaScriptSerializer js = new System.Web.Script.Serialization.JavaScriptSerializer();
             string json = js.Serialize(new { SList = list, PageBar = pagebar });

@@ -124,6 +124,7 @@
     <Content Include="images\t4.jpg" />
     <Content Include="index.html" />
     <Content Include="js\jquery-1.11.0.min.js" />
+    <Content Include="js\jquery.easyui.min.js" />
     <Content Include="js\jquery.flexslider.js" />
     <Content Include="js\jquery.swipebox.min.js" />
     <Content Include="js\main.js" />
@@ -154,6 +155,9 @@
     <Content Include="login_file\userpanel.css" />
     <Content Include="login_file\webtemples.js" />
     <Content Include="mymainpage.aspx" />
+    <Content Include="showpage\addstrategy.aspx" />
+    <Content Include="showpage\editstrategy.aspx" />
+    <Content Include="showpage\showstrategy.aspx" />
     <Content Include="SubmitInfo.aspx" />
     <Content Include="temple\mymainpage.html" />
     <Content Include="mypage.aspx" />
@@ -218,6 +222,30 @@
     <Compile Include="register.ashx.cs">
       <DependentUpon>register.ashx</DependentUpon>
     </Compile>
+    <Compile Include="showpage\addstrategy.aspx.cs">
+      <DependentUpon>addstrategy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="showpage\addstrategy.aspx.designer.cs">
+      <DependentUpon>addstrategy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="showpage\DelStrategy.ashx.cs">
+      <DependentUpon>DelStrategy.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="showpage\editstrategy.aspx.cs">
+      <DependentUpon>editstrategy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="showpage\editstrategy.aspx.designer.cs">
+      <DependentUpon>editstrategy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="showpage\showstrategy.aspx.cs">
+      <DependentUpon>showstrategy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="showpage\showstrategy.aspx.designer.cs">
+      <DependentUpon>showstrategy.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ShowStrategy.ashx.cs">
       <DependentUpon>ShowStrategy.ashx</DependentUpon>
     </Compile>
@@ -272,6 +300,7 @@
     <Content Include="mymainpageoperation\addCookbookinfo.ashx" />
     <Content Include="ShowStrategy.ashx" />
     <Content Include="mymainpageoperation\ShowMyStrategy.ashx" />
+    <Content Include="showpage\DelStrategy.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -6,9 +6,10 @@
 <head runat="server">
      <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <title>Volton - Responsive Mobile Template</title>
+        <title>个人主页</title>
         <meta name="description" content=""/>
         <script src="js/jquery-1.11.0.min.js"></script>
+        <script src="js/jquery.easyui.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link href="css/pageStyle.css" rel="stylesheet" />
         <link rel="stylesheet" href="css/normalize.css"/>
@@ -41,12 +42,13 @@
                 var jlength = jsondata.SList.length;
                 for (var i = 0; i < jlength; i++) {
                     $("<tr><td>" + jsondata.SList[i].STitle + "</td><td>" + jsondata.SList[i].Uname + "</td><td>" +
-                        ChangeDateFormat(jsondata.SList[i].addtime) + "</td><td>" + "<a href='#' class='detail'>详情</a>" + "" +
-                        "</td><td><a href='#' class='edit'>编辑</a></td>" + "<td><a href='#' class='del'>删除</a></td>" + "</tr>").appendTo("#Strategylist");
+                        ChangeDateFormat(jsondata.SList[i].addtime) + "</td><td>" + "<a target=\"_blank\" href='<%=Page.ResolveUrl("~/showpage/showstrategy.aspx")%>?Sid="+jsondata.SList[i].SId+"' class='detail'>详情</a>" + "" +
+                        "</td><td><a href='<%=Page.ResolveUrl("~/showpage/editstrategy.aspx")%>?Sid=" + jsondata.SList[i].SId + "' class='edit'>编辑</a></td>" + "<td><a href='javascript:void(0)' sid='" + jsondata.SList[i].SId + "' class='del'>删除</a></td>" + "</tr>").appendTo("#Strategylist");
                 }
                 $("#mspagebar").html(jsondata.PageBar);
                 PageBar();
-
+                BindDel();
+                BindAdd();
             })
         }
         //显示页码条
@@ -61,6 +63,37 @@
                 return false;
             });
         }
+        //删除攻略
+        function BindDel() {
+            
+            $('.del').click(function () {
+                var sid = $(this).attr("sid");
+                if (!confirm("确认要删除吗？"))
+                    return false;
+                else {
+                    $.post("showpage/DelStrategy.ashx", { "sid": sid }, function (data) {
+                        if (data == "ok") {
+                            //清楚原有表格数据
+                            //把tr从第一行的数据开始 全部清除
+                            $("#Strategylist tr:gt(0)").remove();
+                            //重新加载
+                            LoadStrategyInfo();
+                            alert("删除成功！");
+                        }
+                    });
+                }
+
+            });
+        }
+        //添加攻略
+        function BindAdd()
+        {
+            $("#addStrategy").click(function () {
+                location.href="showpage/addstrategy.aspx"
+
+            });
+        }
+      
         //将序列化成json格式后日期(毫秒数)转成日期格式
         function ChangeDateFormat(cellval) {
             var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
@@ -117,10 +150,11 @@
                     <%--<li><a href="#"><i class="fa fa-link"></i>我的厨房</a></li>--%>
                     <li><a href="#myworks"><i class="fa fa-link"></i>我的作品</a></li>
                     <li><a href="#mycookbook"><i class="fa fa-link"></i>我的菜谱</a></li>
-                    <li><a href="#contact"><i class="fa fa-link"></i>我的菜单</a></li>
-                    <li><a href="#"><i class="fa fa-link"></i>我的收藏</a></li>
-                    <li><a href="#"><i class="fa fa-link"></i>关注的人</a></li>
-                    <li><a href="#"><i class="fa fa-link"></i>留言板</a></li>
+                    <li><a href="#mystrategy"><i class="fa fa-link"></i>我的攻略</a></li>
+                    <li><a href="#cookmenu"><i class="fa fa-link"></i>我的菜单</a></li>
+                    <li><a href="#mycollect"><i class="fa fa-link"></i>我的收藏</a></li>
+                    <li><a href="#myconcern"><i class="fa fa-link"></i>关注的人</a></li>
+                    <li><a href="#myboard"><i class="fa fa-link"></i>留言板</a></li>
                 </ul>
             </div> <!-- .main-navigation -->
             
@@ -183,12 +217,9 @@
                         </asp:Repeater>
                             </div>
                     </div>
-                        
                     <!---myworks-end--->
-                    <!-- PROJECTS -->
-                    <!----mycookbook----->
-                 
-                    
+
+                    <!----mycookbook----->          
                     <div class="page-section" id="mycookbook" >
                     <div class="row">
                         <div class="col-md-12">
@@ -228,7 +259,9 @@
                     </div>
                         </form>
                     <!---mycookbook-end--->
+
                       <!----mystrategy------->
+                     <div class="page-section" id="mystrategy" >
                      <center><h4 style="font-size:3px;color : gray">攻略</h4></center>
                       <div class="bann-strip">
 	                    <div class="container">
@@ -246,27 +279,31 @@
 	                    </div>
                     </div>
                      <input type="button" id="addStrategy" class="btn btn-1 btn-info" value ="添加攻略"/>
-                        <!----endmystrategy------->
-                    <!-- ABOUT -->
-                    <div class="page-section" id="about">
+                    </div>
+                    <!----endmystrategy------->
+
+                    <!-- cookmenu -->
+                    <div class="page-section" id="cookmenu">
                     <div class="row">
                         <div class="col-md-12">
-                            <h4 class="widget-title">Learn About Me</h4>
+                            <h4 class="widget-title">菜单</h4>
                             <div class="about-image">
                                 <img src="images/8.jpg" alt="about me"/>
                             </div>
                             <p>Volton is free <a rel="nofollow" href="http://www.templatemo.com/page/1">responsive mobile template</a> from <span class="blue">template</span><span class="green">mo</span> website. You can use this template for any purpose. Please tell your friends about it. Thank you. Credit goes to <a rel="nofollow" href="#">Unsplash</a> for images used in this design. You can <strong>change menu icons</strong> by checking <a rel="nofollow" href="#/font-awesome-icon-world-map/">Font Awesome</a> (version 4). Example: <strong>&lt;i class=&quot;fa fa-camera&quot;&gt;&lt;/i&gt;</strong></p>
                             <hr/>
                         </div>
-                    </div> <!-- #about -->
                     </div>
-                    
-                    <!-- PROJECTS -->
-                    <div class="page-section" id="projects">
+                         
+                    </div>
+                    <!-- endcookmenu -->
+
+                    <!-- mycollect -->
+                    <div class="page-section" id="mycollect">
                     <div class="row">
                         <div class="col-md-12">
-                            <h4 class="widget-title">PHOTOS OF WHAT I DO</h4>
-                            <p>Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Maecenas et lorem molestie, maximus justo dignissim, cursus nisl. Nullam at ante quis ex pharetra pulvinar quis id dolor. Integer lorem odio, euismod ut sem sit amet, imperdiet condimentum diam.</p>
+                            <h4 class="widget-title">我的收藏</h4>
+                            <p></p>
                         </div>
                     </div>
                     <div class="row projects-holder">
@@ -281,64 +318,44 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-6">
-                            <div class="project-item">
-                                <img src="images/2.jpg" alt=""/>
-                                <div class="project-hover">
-                                    <div class="inside">
-                                        <h5><a href="#">Pellentesque porta ligula</a></h5>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6">
-                            <div class="project-item">
-                                <img src="images/3.jpg" alt=""/>
-                                <div class="project-hover">
-                                    <div class="inside">
-                                        <h5><a href="#">Pellentesque porta ligula</a></h5>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6">
-                            <div class="project-item">
-                                <img src="images/4.jpg" alt=""/>
-                                <div class="project-hover">
-                                    <div class="inside">
-                                        <h5><a href="#">Pellentesque porta ligula</a></h5>
-                                        <p>Quisque mattis sit amet dolor eu scelerisque. Vivamus bibendum massa et nisl tempus commodo.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6">
-                            <div class="project-item">
-                                <img src="images/5.jpg" alt=""/>
-                                <div class="project-hover">
-                                    <div class="inside">
-                                        <h5><a href="#">Pellentesque porta ligula</a></h5>
-                                        <p>Quisque mattis sit amet dolor eu scelerisque. Vivamus bibendum massa et nisl tempus commodo.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6">
-                            <div class="project-item">
-                                <img src="images/6.jpg" alt=""/>
-                                <div class="project-hover">
-                                    <div class="inside">
-                                        <h5><a href="#">Pellentesque porta ligula</a></h5>
-                                        <p>Quisque mattis sit amet dolor eu scelerisque. Vivamus bibendum massa et nisl tempus commodo.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- .projects-holder -->
                     </div>
+            
+                    </div> 
+                    <!-- endmycollect -->、
                     <hr/>
+                     <!----myconcern------->
+                     <div class="page-section" id="myconcern" >
+                     <center><h4 style="font-size:3px;color : gray">攻略</h4></center>
+                      <div class="bann-strip">
+	                    <div class="container">
+		                    <div class="bann-strip-main">
+                                <center>
+                                    <table id="concernlist">
+                                        <tr><th>攻略名</th><th>作者</th><th>攻略添加时间</th><th>详情</th><th>编辑</th><th>删除</th></tr>
+                    
+                                    </table>
+                                    <div id="mcpagebar" class ="page">
+
+                                    </div>
+                                </center>
+                            </div>
+	                    </div>
+                    </div>
+                    </div>
+                    <!----endmyconcern------->
+
+                     <!----myboard------->
+                     <div class="page-section" id="myboard" >
+                     <center><h4 style="font-size:3px;color : gray">留言板</h4></center>
+                      <div class="bann-strip">
+	                    <div class="container">
+		                    
+	                    </div>
+                    </div>
+                    
+                    </div>
+                        <!----endmyboard------->
+
 
                     <!-- CONTACT -->
                     <div class="page-section" id="contact">

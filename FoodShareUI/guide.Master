@@ -30,7 +30,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </asp:ContentPlaceHolder>
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="form1" runat="server" enctype="multipart/form-data" >
     <div>
                <!--header start here-->
     
@@ -44,8 +44,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<nav class="cl-effect-20">
 					   <span class="menu"> <img src="images/icon.png" alt=""/></span>
 					<ul class="res">
-					   <li><a href="TESTGUID.aspx" class="active">主页</a></li> 
-						<li><a href="mypage.aspx">我的主页</a></li> 
+					   <li><a href="<%=Page.ResolveUrl("~/TESTGUID.aspx")%>" class="active">主页</a></li> 
+						<li><a href="<%=Page.ResolveUrl("~/mypage.aspx")%>">我的主页</a></li> 
 						<li><a href="#">我的厨房</a></li> <%--gallery.html typo.html contact.html --%>
 						<li><a href="#">搜索</a></li> 
 						<li><a href="#">联系我们</a></li> 

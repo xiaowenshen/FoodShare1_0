@@ -149,8 +149,10 @@ namespace FoodShareDAL
         public MyStrategy GetMyStrategyById(int SId)
         {
             MyStrategy ms = new MyStrategy();
-            string sql = "select * from MyStrategy where isdel = 0 and SId = @sid";
+            //-------------
+            string sql = "select * from (select t2.name as Uname, t1.* from MyStrategy as t1 inner join UserInfo as t2 on(t1.UId = t2.UId and t1.isdel = 0 and t2.isdel = 0) ) as t where t.SId = @sid";
             SqlParameter p = new SqlParameter("@sid", SqlDbType.Int);
+            p.Value = SId;
             DataTable dt = DbHelperSQL.GetDataTable(sql, p);
             if(dt.Rows.Count > 0)
             {

@@ -9,6 +9,7 @@
         //加载攻略
         function LoadStrategyInfo(strategypageindex)
         {
+            $("#Strategylist tr:gt(0)").remove();
             $.post("ShowStrategy.ashx", { "mspageindex": strategypageindex }, function (data) {
                 var jsondata = $.parseJSON(data);
                 var length = jsondata.SList.length;
@@ -23,7 +24,7 @@
         }
         //显示页码条
         function PageBar() {
-            $(".pages").click(function () {
+            $(".mspages").click(function () {
                 var pageindex = $(this).attr("href").split("=")[1];
                 //alert(pageindex);
                 //清除数据
