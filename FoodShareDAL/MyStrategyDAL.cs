@@ -52,7 +52,7 @@ namespace FoodShareDAL
 			strSql.Append("insert into MyStrategy(");
 			strSql.Append("addtime,isdel,STitle,SContent,UId,Path)");
 			strSql.Append(" values (");
-			strSql.Append("@SId,@addtime,@isdel,@STitle,@SContent,@UId,@Path)");
+			strSql.Append("@addtime,@isdel,@STitle,@SContent,@UId,@Path)");
 			SqlParameter[] parameters = {
 					new SqlParameter("@addtime", SqlDbType.DateTime),
 					new SqlParameter("@isdel", SqlDbType.Bit,1),

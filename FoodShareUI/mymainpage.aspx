@@ -88,10 +88,10 @@
         //添加攻略
         function BindAdd()
         {
-            $("#addStrategy").click(function () {
-                location.href="showpage/addstrategy.aspx"
+            //$("#addStrategy").click(function () {
+            //    location.href="showpage/addstrategy.aspx"
 
-            });
+            //});
         }
       
         //将序列化成json格式后日期(毫秒数)转成日期格式
@@ -278,7 +278,7 @@
                             </div>
 	                    </div>
                     </div>
-                     <input type="button" id="addStrategy" class="btn btn-1 btn-info" value ="添加攻略"/>
+                     <input type="button"   onclick="window.open('showpage/addstrategy.aspx')"  id="addStrategy" class="btn btn-1 btn-info" value ="添加攻略"/>
                     </div>
                     <!----endmystrategy------->
 

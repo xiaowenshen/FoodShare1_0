@@ -33,7 +33,7 @@
                </div>
            
     
-        <input type="button" class="btn btn-lg btn-warning" id="returnpage" value="返回我的主页" />
+         <asp:Button ID="returnmypage" runat="server" class="btn btn-lg btn-warning" Text="返回我的主页" OnClick="returnmypage_Click" />
             </div>
     </div>
     </div>

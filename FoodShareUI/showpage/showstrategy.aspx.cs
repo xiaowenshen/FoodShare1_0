@@ -30,6 +30,12 @@ namespace FoodShareUI.showpage
             }
         }
 
+        protected void returnmypage_Click(object sender, EventArgs e)
+        {
+            Response.Redirect(Page.ResolveUrl("~/mymainpage.aspx"));
+
+        }
+
         private MyStrategy LoadMyStrategy(int sid)
         {
             MyStrategyBLL sbll = new MyStrategyBLL();
