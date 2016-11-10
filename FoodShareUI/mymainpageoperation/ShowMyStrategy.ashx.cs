@@ -34,7 +34,6 @@ namespace FoodShareUI.mymainpageoperation
             System.Web.Script.Serialization.JavaScriptSerializer js = new System.Web.Script.Serialization.JavaScriptSerializer();
             string pagebar = FoodShareCOMMON.PageBarHelper.GetPageBar(index, pagecount);
             pagebar = pagebar.Replace("pageindex", "mspageindex").Replace("pages", "mspages");
-
             string json = js.Serialize(new { SList = list,PageBar = pagebar });
             context.Response.Write(json);
 

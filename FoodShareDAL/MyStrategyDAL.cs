@@ -159,6 +159,7 @@ namespace FoodShareDAL
                 foreach (DataRow dr in dt.Rows)
                 {
                     LoadMyStrategy(ms, dr);
+                    
                 }
             }
             else

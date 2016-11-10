@@ -30,6 +30,7 @@
             })
             //加载攻略列表
             LoadStrategyInfo(1);
+           LoadMenuInfo(1);
         })
     
         //加载攻略
@@ -46,16 +47,16 @@
                         "</td><td><a href='<%=Page.ResolveUrl("~/showpage/editstrategy.aspx")%>?Sid=" + jsondata.SList[i].SId + "' class='edit'>编辑</a></td>" + "<td><a href='javascript:void(0)' sid='" + jsondata.SList[i].SId + "' class='del'>删除</a></td>" + "</tr>").appendTo("#Strategylist");
                 }
                 $("#mspagebar").html(jsondata.PageBar);
-                PageBar();
+                StrategyPageBar();
                 BindDel();
                 BindAdd();
             })
         }
+        
         //显示页码条
-        function PageBar() {
+        function StrategyPageBar() {
             $(".mspages").click(function () {
                 var pageindex = $(this).attr("href").split("=")[1];
-               
                 //清除数据
                 $("#Strategylist tr:gt(0)").remove();
                 LoadStrategyInfo(pageindex);
@@ -63,6 +64,51 @@
                 return false;
             });
         }
+        // //加载菜单
+        function LoadMenuInfo(menupageindex)
+        {
+            //清除数据
+           // $("#showmenu").remove();
+            $.post("mymainpageoperation/ShowMenu.ashx", { "menupageindex": menupageindex }, function (data) {
+                
+                var jsondata = data ;//$.parsejson(data);
+                var jlength = jsondata.SList.length;
+                var string = "";
+                //alert(jsondata.Index);
+                for (var i = 0; i < jlength; i++) {
+                   string = string + "<img src=\"" + jsondata.SList[i].path + "\"  style=\"width:100px;height:100px\"/>"
+                            + "<p>介绍:</p>"
+                            + "<p>"
+                            + jsondata.SList[i].MenuIntroduce
+                            + "..."
+                            + "<a target='_blank' href='<%=Page.ResolveUrl("~/showpage/showmenu.aspx")%>?MenuId=" + jsondata.SList[i].MenuId + "' >详情</a>"
+                            + "</p>"
+                            + "<hr />"
+                }
+                
+                $.parseHTML(string);
+                //alert(string);
+                //alert(jlength);
+                $("#showmenu").html(string)
+                //alert($("#showmenu").html());
+                $("#menupagebar").html(jsondata.PageBar);
+                MenuPageBar();
+            },"json");
+        }
+            //显示页码条
+            function  MenuPageBar()
+            {
+                $(".menupages").click(function ()
+                {
+                    var menupageindex = $(this).attr("href").split("=")[1];
+                    //清除数据   
+                  //  $("#showmenu").remove();
+                    LoadMenuInfo(menupageindex);
+                    //不发生跳转
+                    return false;
+                });
+            }
+
         //删除攻略
         function BindDel() {
             
@@ -85,13 +131,15 @@
 
             });
         }
-        //添加攻略
+        //添加到收藏夹
+        function AddToCollect()
+        {
+            $(".btn btn-1 btn-info name=")
+        }
+        //绑定添加项
         function BindAdd()
         {
-            //$("#addStrategy").click(function () {
-            //    location.href="showpage/addstrategy.aspx"
-
-            //});
+            AddToCollect();
         }
       
         //将序列化成json格式后日期(毫秒数)转成日期格式
@@ -211,7 +259,7 @@
                                      <p><%=FoodShareCOMMON.PageBarHelper.GetPageBar(WorkIndex,WorkPageCount) %></p>
                                 </div>
                                 <div>
-                                    <input type="button" id="addMyWork" class="btn btn-1 btn-info" value ="添加个人作品"/>
+                                    <input type="button" id="addMyWork" class="btn btn-1 btn-primary" value ="添加个人作品"/>
                                 </div>
                             </FooterTemplate>
                         </asp:Repeater>
@@ -236,13 +284,14 @@
                                             <img src="<%#Eval("path") %>" alt=""/>
                                             <div class="project-hover">
                                                 <div class="inside">
-                                                    <h5><a href="#"><%#Eval("CTitle") %></a></h5>
+                                                    <h5><a target="_blank" href="showpage/showcookbook.aspx?cid=<%#Eval("CId")  %>"><%#Eval("CTitle") %></a></h5>
                                                     <p><%#Eval("CIntroduce") %></p>
                                                 </div>
                                             </div>
                                         </div>
+                                        <input type="button" name="addtocookbook" class="btn btn-1 btn-info" value ="添加至菜单" />
+                                        <input type="button" name="addtocollection"  class="btn btn-1 btn-info" value ="添加至收藏夹" />
                                     </div>
-                      
                             </ItemTemplate>
                                 
                             <FooterTemplate>
@@ -251,7 +300,7 @@
                                      <p><%=CookPageBar%></p>
                                 </div>
                                 <div>
-                                    <input type="button" id="addCookBook" class="btn btn-1 btn-info" value ="添加个人菜谱"/>
+                                    <input type="button" id="addCookBook" class="btn btn-1 btn-primary" value ="添加个人菜谱"/>
                                 </div>
                             </FooterTemplate>
                         </asp:Repeater>
@@ -278,7 +327,7 @@
                             </div>
 	                    </div>
                     </div>
-                     <input type="button"   onclick="window.open('showpage/addstrategy.aspx')"  id="addStrategy" class="btn btn-1 btn-info" value ="添加攻略"/>
+                     <input type="button"   onclick="window.open('showpage/addstrategy.aspx')"  id="addStrategy" class="btn btn-1 btn-primary" value ="添加攻略"/>
                     </div>
                     <!----endmystrategy------->
 
@@ -287,11 +336,16 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h4 class="widget-title">菜单</h4>
-                            <div class="about-image">
-                                <img src="images/8.jpg" alt="about me"/>
+                          
+                            <div id="menucontent" >
+                                <div id ="showmenu">
+
                             </div>
-                            <p>Volton is free <a rel="nofollow" href="http://www.templatemo.com/page/1">responsive mobile template</a> from <span class="blue">template</span><span class="green">mo</span> website. You can use this template for any purpose. Please tell your friends about it. Thank you. Credit goes to <a rel="nofollow" href="#">Unsplash</a> for images used in this design. You can <strong>change menu icons</strong> by checking <a rel="nofollow" href="#/font-awesome-icon-world-map/">Font Awesome</a> (version 4). Example: <strong>&lt;i class=&quot;fa fa-camera&quot;&gt;&lt;/i&gt;</strong></p>
-                            <hr/>
+                                <div id="menupagebar" class="page">
+                            </div>
+                                <input type="button"   onclick="window.open('showpage/addcookmenu.aspx')"  id="addcookmenu" class="btn btn-1 btn-primary" value ="添加个人菜单"/>
+                          </div>
+                              
                         </div>
                     </div>
                          

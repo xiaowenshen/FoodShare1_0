@@ -18,6 +18,24 @@ namespace FoodShareDAL
         { }
 
 
+        public CookBook  GetCookBookById(int cid)
+        {
+            CookBook cb = new CookBook();
+            string sql = "select * from CookBook where isdel = 0 and CId =@cid";
+            SqlParameter p = new SqlParameter("@cid", SqlDbType.Int);
+            p.Value = cid;
+            DataTable dt = new DataTable();
+            dt = DbHelperSQL.GetDataTable(sql , p);
+            if(dt.Rows.Count > 0)
+            {
+                cb = DataRowToModel(dt.Rows[0]);
+            }
+            else
+            {
+                cb = null;
+            }
+            return cb;
+        }
 
 
         /// <summary>

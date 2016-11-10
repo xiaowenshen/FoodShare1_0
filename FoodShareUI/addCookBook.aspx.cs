@@ -117,7 +117,7 @@ namespace FoodShareUI
             StringBuilder sb = new StringBuilder();
             for (int i = 1; i <= cb.stepcount; i++)
             {
-                sb.Append(Request.Form["introduce" + i].ToString());
+                sb.Append(Request.Form["introduce" + i].ToString() + '$' );
             }
             cb.CContent = sb.ToString();
             cb.CIntroduce = Request.Form["CIntroduce"].ToString();

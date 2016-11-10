@@ -43,6 +43,7 @@
     <Compile Include="CookBook.cs" />
     <Compile Include="FollowTable.cs" />
     <Compile Include="FoodMenu.cs" />
+    <Compile Include="ManageMenu.cs" />
     <Compile Include="MyStrategy.cs" />
     <Compile Include="MyWorks.cs" />
     <Compile Include="PartialClass.cs" />

@@ -45,6 +45,7 @@
     <Compile Include="DbHelperSQL.cs" />
     <Compile Include="FollowTableDAL.cs" />
     <Compile Include="FoodMenuDAL.cs" />
+    <Compile Include="ManageMenuDAL.cs" />
     <Compile Include="MyStrategyDAL.cs" />
     <Compile Include="MyWorksDAL.cs" />
     <Compile Include="PhotoCollectionDAL.cs" />

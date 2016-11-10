@@ -24,6 +24,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href='https://fonts.googleapis.com/css?family=Baumans' rel='stylesheet' type='text/css'/>
 <!-- start-->
 <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
+
+<link rel="stylesheet" type="text/css" href="css/style_common.css" />
+<link rel="stylesheet" type="text/css" href="css/style3.css" />
 
     <asp:ContentPlaceHolder ID="head" runat="server">
 

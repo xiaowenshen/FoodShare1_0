@@ -63,12 +63,20 @@ namespace FoodShareBLL
             int works = cdal.GetMaxCount();
             return works % pagesize == 0 ? works / pagesize : works / pagesize + 1;
         }
-        
+        /// <summary>
+        /// 添加菜谱
+        /// </summary>
+        /// <param name="cb"></param>
+        /// <returns></returns>
         public bool AddCookBook(CookBook cb)
         {
             return cdal.Add(cb);
         }
 
+        public CookBook GetCookBookById(int cid)
+        {
+           return  cdal.GetCookBookById(cid);
+        }
 
     }
 }

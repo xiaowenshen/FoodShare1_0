@@ -40,6 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CookBookBLL.cs" />
+    <Compile Include="FoodMenuBLL.cs" />
+    <Compile Include="ManageMenuBLL.cs" />
     <Compile Include="MyStrategyBLL.cs" />
     <Compile Include="MyWorksBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

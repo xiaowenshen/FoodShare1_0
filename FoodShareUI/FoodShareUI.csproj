@@ -155,8 +155,11 @@
     <Content Include="login_file\userpanel.css" />
     <Content Include="login_file\webtemples.js" />
     <Content Include="mymainpage.aspx" />
+    <Content Include="showpage\addcookmenu.aspx" />
     <Content Include="showpage\addstrategy.aspx" />
     <Content Include="showpage\editstrategy.aspx" />
+    <Content Include="showpage\showcookbook.aspx" />
+    <Content Include="showpage\showmenu.aspx" />
     <Content Include="showpage\showstrategy.aspx" />
     <Content Include="SubmitInfo.aspx" />
     <Content Include="temple\mymainpage.html" />
@@ -202,6 +205,9 @@
     <Compile Include="mymainpageoperation\addCookbookinfo.ashx.cs">
       <DependentUpon>addCookbookinfo.ashx</DependentUpon>
     </Compile>
+    <Compile Include="mymainpageoperation\ShowMenu.ashx.cs">
+      <DependentUpon>ShowMenu.ashx</DependentUpon>
+    </Compile>
     <Compile Include="mymainpageoperation\ShowMyStrategy.ashx.cs">
       <DependentUpon>ShowMyStrategy.ashx</DependentUpon>
     </Compile>
@@ -222,6 +228,13 @@
     <Compile Include="register.ashx.cs">
       <DependentUpon>register.ashx</DependentUpon>
     </Compile>
+    <Compile Include="showpage\addcookmenu.aspx.cs">
+      <DependentUpon>addcookmenu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="showpage\addcookmenu.aspx.designer.cs">
+      <DependentUpon>addcookmenu.aspx</DependentUpon>
+    </Compile>
     <Compile Include="showpage\addstrategy.aspx.cs">
       <DependentUpon>addstrategy.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -238,6 +251,20 @@
     </Compile>
     <Compile Include="showpage\editstrategy.aspx.designer.cs">
       <DependentUpon>editstrategy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="showpage\showcookbook.aspx.cs">
+      <DependentUpon>showcookbook.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="showpage\showcookbook.aspx.designer.cs">
+      <DependentUpon>showcookbook.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="showpage\showmenu.aspx.cs">
+      <DependentUpon>showmenu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="showpage\showmenu.aspx.designer.cs">
+      <DependentUpon>showmenu.aspx</DependentUpon>
     </Compile>
     <Compile Include="showpage\showstrategy.aspx.cs">
       <DependentUpon>showstrategy.aspx</DependentUpon>
@@ -301,6 +328,7 @@
     <Content Include="ShowStrategy.ashx" />
     <Content Include="mymainpageoperation\ShowMyStrategy.ashx" />
     <Content Include="showpage\DelStrategy.ashx" />
+    <Content Include="mymainpageoperation\ShowMenu.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

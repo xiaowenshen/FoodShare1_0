@@ -4,6 +4,7 @@ using FoodShareMODEL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -15,6 +16,7 @@ namespace FoodShareUI.showpage
      
         public MyStrategy ms { get; set; }
 
+        public string cookbokcontent { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
             int sid = -1;
@@ -28,6 +30,8 @@ namespace FoodShareUI.showpage
             {
                 ms = LoadMyStrategy(sid);
             }
+            
+
         }
 
         protected void returnmypage_Click(object sender, EventArgs e)

@@ -19,6 +19,9 @@ namespace FoodShareMODEL
 		private string _fname;
 		private int _cid;
 		private string _cname;
+        private int _classID;
+        private int _uId;
+        private string _fIntroduce;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -51,8 +54,47 @@ namespace FoodShareMODEL
 			set{ _cname=value;}
 			get{return _cname;}
 		}
-		#endregion Model
 
-	}
+        public int ClassID
+        {
+            get
+            {
+                return _classID;
+            }
+
+            set
+            {
+                _classID = value;
+            }
+        }
+
+        public int UId
+        {
+            get
+            {
+                return _uId;
+            }
+
+            set
+            {
+                _uId = value;
+            }
+        }
+
+        public string FIntroduce
+        {
+            get
+            {
+                return _fIntroduce;
+            }
+
+            set
+            {
+                _fIntroduce = value;
+            }
+        }
+        #endregion Model
+
+    }
 }
 

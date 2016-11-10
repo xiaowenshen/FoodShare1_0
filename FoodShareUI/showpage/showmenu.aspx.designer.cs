@@ -7,9 +7,9 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace FoodShare1_0 {
+namespace FoodShareUI.showpage {
     
     
-    public partial class mypage {
+    public partial class showmenu {
     }
 }
