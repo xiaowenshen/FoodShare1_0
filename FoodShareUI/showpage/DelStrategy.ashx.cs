@@ -28,7 +28,6 @@ namespace FoodShareUI.showpage
                 res = "error";
             }
             context.Response.Write( res);
-
         }
 
         public bool IsReusable

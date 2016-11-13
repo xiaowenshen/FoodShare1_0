@@ -29,7 +29,7 @@ namespace FoodShareUI
         {
             Uinfo = (UserInfo)Session["uinfo"];
             ShowMyWorks();
-            ShowCookBook();
+           // ShowCookBook();
         }
         /// <summary>
         /// 展示作品
@@ -56,22 +56,22 @@ namespace FoodShareUI
         /// </summary>
         private void ShowCookBook()
         {
-            int cookindex;
-            if(Request["CookIndex"] == null || !int.TryParse(Request["CookIndex"].ToString(), out cookindex))
-            {
-                cookindex = 1;
-            }
-            int cookpagesize = 6;
-            int cookpagecount = cbll.GetPageCount(cookpagesize);
-            cookindex = cookindex < 1 ? 1 : cookindex;
-            cookindex = cookindex > cookpagecount ? cookpagecount : cookindex;
-            CookIndex = cookindex;
-            CookPageCount = cookpagecount;
-            string cookPageBar = PageBarHelper.GetPageBar(cookindex, cookpagecount);
-            cookPageBar = cookPageBar.Replace("pageindex", "CookIndex");
-            CookPageBar = cookPageBar;
-            Repeater2.DataSource = cbll.GetList(cookindex, cookpagesize,Uinfo.UId);
-            Repeater2.DataBind();
+            //int cookindex;
+            //if(Request["CookIndex"] == null || !int.TryParse(Request["CookIndex"].ToString(), out cookindex))
+            //{
+            //    cookindex = 1;
+            //}
+            //int cookpagesize = 6;
+            //int cookpagecount = cbll.GetPageCount(cookpagesize);
+            //cookindex = cookindex < 1 ? 1 : cookindex;
+            //cookindex = cookindex > cookpagecount ? cookpagecount : cookindex;
+            //CookIndex = cookindex;
+            //CookPageCount = cookpagecount;
+            //string cookPageBar = PageBarHelper.GetPageBar(cookindex, cookpagecount);
+            //cookPageBar = cookPageBar.Replace("pageindex", "CookIndex");
+            //CookPageBar = cookPageBar;
+            //Repeater2.DataSource = cbll.GetList(cookindex, cookpagesize,Uinfo.UId);
+            //Repeater2.DataBind();
 
         }
 

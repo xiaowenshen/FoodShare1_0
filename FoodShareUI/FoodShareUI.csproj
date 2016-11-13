@@ -205,6 +205,18 @@
     <Compile Include="mymainpageoperation\addCookbookinfo.ashx.cs">
       <DependentUpon>addCookbookinfo.ashx</DependentUpon>
     </Compile>
+    <Compile Include="mymainpageoperation\addtocollection.ashx.cs">
+      <DependentUpon>addtocollection.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="mymainpageoperation\deleteCollection.ashx.cs">
+      <DependentUpon>deleteCollection.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="mymainpageoperation\showCollection.ashx.cs">
+      <DependentUpon>showCollection.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="mymainpageoperation\showCookBook.ashx.cs">
+      <DependentUpon>showCookBook.ashx</DependentUpon>
+    </Compile>
     <Compile Include="mymainpageoperation\ShowMenu.ashx.cs">
       <DependentUpon>ShowMenu.ashx</DependentUpon>
     </Compile>
@@ -329,6 +341,10 @@
     <Content Include="mymainpageoperation\ShowMyStrategy.ashx" />
     <Content Include="showpage\DelStrategy.ashx" />
     <Content Include="mymainpageoperation\ShowMenu.ashx" />
+    <Content Include="mymainpageoperation\addtocollection.ashx" />
+    <Content Include="mymainpageoperation\showCookBook.ashx" />
+    <Content Include="mymainpageoperation\showCollection.ashx" />
+    <Content Include="mymainpageoperation\deleteCollection.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

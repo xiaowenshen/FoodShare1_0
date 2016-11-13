@@ -28,11 +28,79 @@
             $("#addCookBook").click(function () {
                 location.href = "addCookBook.aspx";
             })
+            
             //加载攻略列表
             LoadStrategyInfo(1);
-           LoadMenuInfo(1);
+            //加载菜单
+            LoadMenuInfo(1);
+            //加载菜谱
+            LoadCookBook(1);
+            //加载收藏
+            LoadCollect();
         })
-    
+
+        //加载收藏
+        function LoadCollect()
+        {
+            $.post("mymainpageoperation/showCollection.ashx", {}, function (data) {
+                var jsondata = $.parseJSON(data);
+                var jlength = jsondata.SList.length;
+                var string = "";
+                for (var i = 0; i < jlength; i++) {
+                    string = string + "<div class=\"col-md-4 col-sm-6\"><div class=\"project-item\" ><img src='" + jsondata.SList[i].path + "' style=\"width:433px;height:320px\"  /><div class=\"project-hover\">" +
+                                                "<div class=\"inside\">" +
+                                                    "<h5><a target='_blank' href=\"showpage/showcookbook.aspx?cid=" + jsondata.SList[i].CId + "\">" + jsondata.SList[i].CTitle + "</a></h5>" +
+                                                    "<p>" + jsondata.SList[i].CIntroduce + "</p>" +
+                                               " </div>" +
+                                           " </div>" +
+                                     " </div><input type=\"button\"  menuid =\"" + jsondata.SList[i].CId + "\" name=\"deletecollection\"  class=\"btn btn-1 btn-danger\" value =\"删除此菜谱\" /></div>";
+                }
+                $("#collectcontent").html(string);
+                BindDelCollect();
+            }, "text");
+           
+            
+
+        }
+        //加载菜谱
+        function LoadCookBook(cookbookindex)
+        {
+           // $("#cookbookcontent").remove();
+            $.post("mymainpageoperation/showCookBook.ashx", { "cbindex": cookbookindex }, function (data) {
+                var jsondata = $.parseJSON(data);
+                var jlength = jsondata.SList.length;
+                var string = "";
+                for (var i = 0; i < jlength; i++) 
+                {
+                    string = string + "<div class=\"col-md-4 col-sm-6\"><div class=\"project-item\" ><img src='" + jsondata.SList[i].path + "' style=\"width:433px;height:320px\"  /><div class=\"project-hover\">" +
+                                                "<div class=\"inside\">" +
+                                                    "<h5><a target='_blank' href=\"showpage/showcookbook.aspx?cid=" + jsondata.SList[i].CId + "\">" + jsondata.SList[i].CTitle + "</a></h5>" +
+                                                    "<p>" + jsondata.SList[i].CIntroduce + "</p>" +
+                                               " </div>" +
+                                           " </div>" +
+                                     " </div>" + "<input type=\"button\" name=\"addtocookbook\" class=\"btn btn-1 btn-info\" value =\"添加至菜单\" />" +
+                                       " <input type=\"button\"  menuid =\"" + jsondata.SList[i].CId + "\" name=\"addtocollection\"  class=\"btn btn-1 btn-info\" value =\"添加至收藏夹\" /></div>";
+                }
+                $("#cookbookcontent").html(string);
+               // alert(string);
+                $("#cookbookpagebar").html(jsondata.PageBar);
+                CookPageBar();
+                //绑定添加菜谱至收藏夹
+                BindAdd();
+                BindDel();
+            }, "text");
+        }
+        //加载分页条
+        function CookPageBar()
+        {
+            $(".cbpages").click(function () {
+                var cbindex = $(this).attr("href").split("=")[1];
+                LoadCookBook(cbindex);
+                //防止跳转
+                return false;
+            });
+        }
+
         //加载攻略
         function LoadStrategyInfo(strategypageindex) {
 
@@ -64,11 +132,10 @@
                 return false;
             });
         }
+
+
         // //加载菜单
-        function LoadMenuInfo(menupageindex)
-        {
-            //清除数据
-           // $("#showmenu").remove();
+        function LoadMenuInfo(menupageindex){
             $.post("mymainpageoperation/ShowMenu.ashx", { "menupageindex": menupageindex }, function (data) {
                 
                 var jsondata = data ;//$.parsejson(data);
@@ -85,12 +152,9 @@
                             + "</p>"
                             + "<hr />"
                 }
-                
+                BindAdd();
                 $.parseHTML(string);
-                //alert(string);
-                //alert(jlength);
-                $("#showmenu").html(string)
-                //alert($("#showmenu").html());
+                $("#showmenu").html(string);
                 $("#menupagebar").html(jsondata.PageBar);
                 MenuPageBar();
             },"json");
@@ -101,14 +165,35 @@
                 $(".menupages").click(function ()
                 {
                     var menupageindex = $(this).attr("href").split("=")[1];
-                    //清除数据   
+                  //  //清除数据   
                   //  $("#showmenu").remove();
                     LoadMenuInfo(menupageindex);
                     //不发生跳转
                     return false;
                 });
             }
+        //删除收藏
+            function BindDelCollect()
+            {
+                $("input[name='deletecollection']").bind('click', function () {
+                    if (!confirm("确认要删除吗？"))
+                        return false;
+                    else {
+                        var menuid = $(this).attr("menuid");
+                        $.post("mymainpageoperation/deleteCollection.ashx", { "menuid": menuid }, function (data) {
+                            if (data == "OK") {
+                                alert("删除成功！")
+                                LoadCollect();
+                            }
+                            else {
+                                alert("删除失败！请稍后再试！");
+                            }
+                        }, "text");
+                    }
 
+                });
+
+            }
         //删除攻略
         function BindDel() {
             
@@ -134,7 +219,21 @@
         //添加到收藏夹
         function AddToCollect()
         {
-            $(".btn btn-1 btn-info name=")
+            $("input[name='addtocollection']").bind('click', function () {
+                var menuid = $(this).attr("menuid");
+                $.post("mymainpageoperation/addtocollection.ashx", { "menuid": menuid }, function (data) {
+                    if (data == "OK") {
+                        alert("添加成功！");
+                        LoadCollect();
+                    }
+                    else if (data == "EXIST") {
+                        alert("此菜谱已经添加过，请勿重复添加！");
+                    }
+                    else {
+                        alert("添加失败，请稍后再试！");
+                    }
+                }, "text");
+            });
         }
         //绑定添加项
         function BindAdd()
@@ -171,15 +270,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="#" class="toggle-menu"><i class="fa fa-bars"></i></a>
-                <div class="main-navigation responsive-menu">
-                    <ul class="navigation">
-                        <li><a href="#top"><i class="fa fa-home"></i>Home</a></li>
-                        <li><a href="#about"><i class="fa fa-user"></i>About Me</a></li>
-                        <li><a href="#projects"><i class="fa fa-newspaper-o"></i>My Gallery</a></li>
-                        <li><a href="#contact"><i class="fa fa-envelope"></i>Contact Me</a></li>
-                    </ul>
-                </div>
+            
             </div>
         </div>
 		
@@ -197,7 +288,7 @@
                      <li><a href="#top"><i class="fa fa-link"></i>欢迎</a></li>
                     <%--<li><a href="#"><i class="fa fa-link"></i>我的厨房</a></li>--%>
                     <li><a href="#myworks"><i class="fa fa-link"></i>我的作品</a></li>
-                    <li><a href="#mycookbook"><i class="fa fa-link"></i>我的菜谱</a></li>
+                    <li><a href="#newmycookbook"><i class="fa fa-link"></i>我的菜谱</a></li>
                     <li><a href="#mystrategy"><i class="fa fa-link"></i>我的攻略</a></li>
                     <li><a href="#cookmenu"><i class="fa fa-link"></i>我的菜单</a></li>
                     <li><a href="#mycollect"><i class="fa fa-link"></i>我的收藏</a></li>
@@ -240,7 +331,7 @@
                                 
                                     <div class="col-md-4 col-sm-6">
                                         <div class="project-item">
-                                            <img src="<%#Eval("path") %>" alt=""/>
+                                            <img src="<%#Eval("path") %>" style="width:433px;height:320px" alt=""/>
                                             <div class="project-hover">
                                                 <div class="inside">
                                                     <h5><a href="#"><%#Eval("WTitle") %></a></h5>
@@ -267,15 +358,34 @@
                     </div>
                     <!---myworks-end--->
 
+                         <!----newmycookbook----->    
+                  <div class="page-section" id="newmycookbook" >
+                   <div class="row">
+                     <div class="col-md-12">
+                        <h4 style="font-size: 16px;font-family: 'robotobold';text-transform: uppercase;margin-bottom: 40px;"><%=Uinfo.name %>的菜谱</h4>
+                     </div>
+                  </div>
+                        <div class="row projects-holder" id="cookbookcontent"></div>
+                             <div class="page" id="cookbookpagebar"></div>
+                                <div>
+                                    <input type="button" id="addCookBook" class="btn btn-1 btn-primary" value ="添加个人菜谱"/>
+                                </div>
+                     
+
+
+                 </div>
+
+                         <!----endnewmycookbook----->       
+
                     <!----mycookbook----->          
-                    <div class="page-section" id="mycookbook" >
+                <%--    <div class="page-section" id="mycookbook" >
                     <div class="row">
                         <div class="col-md-12">
                             <h4 style="font-size: 16px;font-family: 'robotobold';text-transform: uppercase;margin-bottom: 40px;"><%=Uinfo.name %>的菜谱</h4>
                         </div>
                     </div>
                         <div class="row projects-holder">
-                        <asp:Repeater ID="Repeater2" runat="server">
+<%--                        <asp:Repeater ID="Repeater2" runat="server">
                             
                                      <ItemTemplate>
                                 
@@ -290,7 +400,7 @@
                                             </div>
                                         </div>
                                         <input type="button" name="addtocookbook" class="btn btn-1 btn-info" value ="添加至菜单" />
-                                        <input type="button" name="addtocollection"  class="btn btn-1 btn-info" value ="添加至收藏夹" />
+                                        <input type="button"  menuid ="<%#Eval("CId") %>" name="addtocollection"  class="btn btn-1 btn-info" value ="添加至收藏夹" />
                                     </div>
                             </ItemTemplate>
                                 
@@ -303,9 +413,9 @@
                                     <input type="button" id="addCookBook" class="btn btn-1 btn-primary" value ="添加个人菜谱"/>
                                 </div>
                             </FooterTemplate>
-                        </asp:Repeater>
-                            </div>
-                    </div>
+                        </asp:Repeater>--%>
+                     <%--       </div>
+                    </div> --%>
                         </form>
                     <!---mycookbook-end--->
 
@@ -360,8 +470,8 @@
                             <p></p>
                         </div>
                     </div>
-                    <div class="row projects-holder">
-                        <div class="col-md-4 col-sm-6">
+                    <div class="row projects-holder" id="collectcontent">
+<%--                        <div class="col-md-4 col-sm-6">
                             <div class="project-item">
                                 <img src="images/1.jpg" alt=""/>
                                 <div class="project-hover">
@@ -371,7 +481,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>--%>
                     </div>
             
                     </div> 

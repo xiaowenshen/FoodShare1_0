@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectTableBLL.cs" />
     <Compile Include="CookBookBLL.cs" />
     <Compile Include="FoodMenuBLL.cs" />
     <Compile Include="ManageMenuBLL.cs" />
