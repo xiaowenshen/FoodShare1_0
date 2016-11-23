@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="mymainpage.aspx.cs" Inherits="FoodShareUI.mymainpage" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="singlepage.aspx.cs" Inherits="FoodShareUI.showpage.singlepage" %>
 
 <!DOCTYPE html>
 
@@ -56,7 +56,7 @@
         function leaveComment(id)
         {
             var cdata = $("#msg").val();
-            $.post("mymainpageoperation/addComment.ashx", { "msg": cdata ,"u2id":id}, function (data) {
+            $.post("singlepageoperation/AddComment.ashx", { "msg": cdata ,"u2id":id}, function (data) {
 
                 if(data == "OK")
                 {
@@ -66,6 +66,7 @@
                 else if(data == "UNRES")
                 {
                     alert("请登录!");
+                    location.href = "login.aspx";
                 }
                 else
                 {
@@ -78,7 +79,7 @@
         //加载留言
         function LoadComment(index)
         {
-            $.post("mymainpageoperation/showComment.ashx", { "commentindex": index }, function (data) {
+            $.post("singlepageoperation/ShowComment.ashx", { "commentindex": index }, function (data) {
                 var jsondata = $.parseJSON(data);
                 var jlength = jsondata.SList == null ? 0 : jsondata.SList.length;
                 var string = "<h3>Comments</h3>";
@@ -133,27 +134,22 @@
         //加载关注
         function LoadFocus(focusindex)
         {
-            $.post("mymainpageoperation/showFocus.ashx", { "focusindex": focusindex }, function (data) {
+            $.post("singlepageoperation/ShowFocus.ashx", { "focusindex": focusindex }, function (data) {
                 //$("#focuscontent").remove();
                 var jsondata = $.parseJSON(data);
-                var jlength = jsondata.SList.length;
+                var jlength = jsondata.SList == null ? 0 : jsondata.SList.length;
                 var string = "";
                 for (var i = 0; i < jlength; i++) {
                     string = string +
                         "<div class=\"col-sm-6\"><dl>"+
                                       "<dt><a href='' target='_blank'><img src='"+jsondata.SList[i].U2path+"'   /></a></dt>"+
                                       "<dd>"+
-                                        "<h4><a href= target='_blank' id='" + jsondata.SList[i].UId2 + "' title='" + jsondata.SList[i].U2name+ "' class='user_name'>"+jsondata.SList[i].U2name+"</a></h4>" +
+                                        "<h4><a href='singlepage.aspx?cid=" + jsondata.SList[i].UId2 + "' target='_blank' id='" + jsondata.SList[i].UId2 + "' title='" + jsondata.SList[i].U2name + "' class='user_name'>" + jsondata.SList[i].U2name + "</a></h4>" +
                                         "<p>"+jsondata.SList[i].U2Introduce+"</p>"+
                                         "<div class=\"clearfix\">"+
                                          " <div class=\"pull-left\">"+
                                           "</div>"+
-                                          "<div class=\"pull-right\">"+
-                                           " <div class=\"follow \">"+
-                                            "  <div class=\"text\" onclick=\"unfollow("+jsondata.SList[i].FocusId+")\">取消关注</div>"+
-                                             " <div class=\"icon\"></div>"+
-                                            "</div>"+
-                                          "</div>"+
+                                        
                                         "</div>"+
                                       "</dd>"+
                                     "</dl>"+
@@ -185,7 +181,7 @@
             }
             else
             {
-                $.post("mymainpageoperation/deleteFocus.ashx", { "fid": fid }, function (data) {
+                $.post("singlepageoperation/deleteFocuss.ashx", { "fid": fid }, function (data) {
                     if (data == "OK") {
                         alert("取消关注成功！");
                         LoadFocus(1);//后期可以改成当前页
@@ -202,9 +198,9 @@
         //加载收藏
         function LoadCollect()
         {
-            $.post("mymainpageoperation/showCollection.ashx", {}, function (data) {
+            $.post("singlepageoperation/ShowCollection.ashx", {}, function (data) {
                 var jsondata = $.parseJSON(data);
-                var jlength = jsondata.SList.length;
+                var jlength = jsondata.SList == null ? 0 : jsondata.SList.length;
                 var string = "";
                 for (var i = 0; i < jlength; i++) {
                     string = string + "<div class=\"col-md-4 col-sm-6\"><div class=\"project-item\" ><img src='" + jsondata.SList[i].path + "' style=\"width:433px;height:320px\"  /><div class=\"project-hover\">" +
@@ -213,7 +209,7 @@
                                                     "<p>" + jsondata.SList[i].CIntroduce + "</p>" +
                                                " </div>" +
                                            " </div>" +
-                                     " </div><input type=\"button\"  menuid =\"" + jsondata.SList[i].CId + "\" name=\"deletecollection\"  class=\"btn btn-1 btn-danger\" value =\"删除此菜谱\" /></div>";
+                                     " </div></div>";
                 }
                 $("#collectcontent").html(string);
                 BindDelCollect();
@@ -226,9 +222,9 @@
         function LoadCookBook(cookbookindex)
         {
            // $("#cookbookcontent").remove();
-            $.post("mymainpageoperation/showCookBook.ashx", { "cbindex": cookbookindex }, function (data) {
+            $.post("singlepageoperation/ShowCookBook.ashx", { "cbindex": cookbookindex }, function (data) {
                 var jsondata = $.parseJSON(data);
-                var jlength = jsondata.SList.length;
+                var jlength = jsondata.SList == null ? 0 : jsondata.SList.length;
                 var string = "";
                 for (var i = 0; i < jlength; i++) 
                 {
@@ -266,13 +262,16 @@
 
             //清除数据
             $("#Strategylist tr:gt(0)").remove();
-            $.post("mymainpageoperation/ShowMyStrategy.ashx", { "mspageindex": strategypageindex }, function (data) {
+            $.post("singlepageoperation/ShowStrategy.ashx", { "mspageindex": strategypageindex }, function (data) {
                 var jsondata = $.parseJSON(data);
-                var jlength = jsondata.SList.length;
+                var jlength = jsondata.SList == null ? 0 : jsondata.SList.length;
                 for (var i = 0; i < jlength; i++) {
+                    var shortcontent = jsondata.SList[i].SContent;
+                    shortcontent = shortcontent.substring(0, 20);
+                    shortcontent = shortcontent + "...";
                     $("<tr><td>" + jsondata.SList[i].STitle + "</td><td>" + jsondata.SList[i].Uname + "</td><td>" +
-                        ChangeDateFormat(jsondata.SList[i].addtime) + "</td><td>" + "<a target=\"_blank\" href='<%=Page.ResolveUrl("~/showpage/showstrategy.aspx")%>?Sid="+jsondata.SList[i].SId+"' class='detail'>详情</a>" + "" +
-                        "</td><td><a href='<%=Page.ResolveUrl("~/showpage/editstrategy.aspx")%>?Sid=" + jsondata.SList[i].SId + "' class='edit'>编辑</a></td>" + "<td><a href='javascript:void(0)' sid='" + jsondata.SList[i].SId + "' class='del'>删除</a></td>" + "</tr>").appendTo("#Strategylist");
+                        shortcontent   + "</td><td>" + ChangeDateFormat(jsondata.SList[i].addtime) + 
+                        "</td><td>" + "<a target=\"_blank\" href='<%=Page.ResolveUrl("~/showpage/showstrategy.aspx")%>?Sid=" + jsondata.SList[i].SId + "' class='detail'>详情</a>"+ "</td>" + "</tr>").appendTo("#Strategylist");
                 }
                 $("#mspagebar").html(jsondata.PageBar);
                 StrategyPageBar();
@@ -296,10 +295,10 @@
 
         // //加载菜单
         function LoadMenuInfo(menupageindex){
-            $.post("mymainpageoperation/ShowMenu.ashx", { "menupageindex": menupageindex }, function (data) {
+            $.post("singlepageoperation/ShowMenu.ashx", { "menupageindex": menupageindex }, function (data) {
                 
                 var jsondata = data ;//$.parsejson(data);
-                var jlength = jsondata.SList.length;
+                var jlength = jsondata == null ? 0 : jsondata.SList.length;
                 var string = "<div class=\"comments-top\"><h3>CookMenu</h3>";
                 //alert(jsondata.Index);
                 for (var i = 0; i < jlength; i++) {
@@ -313,15 +312,7 @@
                  " <h4 class=\"media-heading\">介绍</h4>" +
                  " <p>" + jsondata.SList[i].MenuIntroduce + "</p>" +
                  "...<a target='_blank' href='<%=Page.ResolveUrl("~/showpage/showmenu.aspx")%>?MenuId=" + jsondata.SList[i].MenuId + "' >详情</a></div></div>";
-             
-                  <%-- string = string + "<img src=\"" + jsondata.SList[i].path + "\"  style=\"width:100px;height:100px\"/>"
-                            + "<p>介绍:</p>"
-                            + "<p>"
-                            + jsondata.SList[i].MenuIntroduce
-                            + "..."
-                            + "<a target='_blank' href='<%=Page.ResolveUrl("~/showpage/showmenu.aspx")%>?MenuId=" + jsondata.SList[i].MenuId + "' >详情</a>"
-                            + "</p>"
-                            + "<hr />"--%>
+       
                 }
                 string = string + "</div>";
                 BindAdd();
@@ -352,7 +343,7 @@
                         return false;
                     else {
                         var menuid = $(this).attr("menuid");
-                        $.post("mymainpageoperation/deleteCollection.ashx", { "menuid": menuid }, function (data) {
+                        $.post("singlepageoperation/deleteCollections.ashx", { "menuid": menuid }, function (data) {
                             if (data == "OK") {
                                 alert("删除成功！")
                                 LoadCollect();
@@ -393,7 +384,7 @@
         {
             $("input[name='addtocollection']").bind('click', function () {
                 var menuid = $(this).attr("menuid");
-                $.post("mymainpageoperation/addtocollection.ashx", { "menuid": menuid }, function (data) {
+                $.post("singlepageoperation/addtocollections.ashx", { "menuid": menuid }, function (data) {
                     if (data == "OK") {
                         alert("添加成功！");
                         LoadCollect();
@@ -519,17 +510,14 @@
                       
                             </ItemTemplate>
                                 
-                            <FooterTemplate>
-                                <div class ="page">
+                           
+                        </asp:Repeater>
+                                  <div class ="page">
                                     <br />
 
                                      <p><%=FoodShareCOMMON.PageBarHelper.GetPageBar(WorkIndex,WorkPageCount) %></p>
                                 </div>
-                                <div>
-                                    <input type="button" id="addMyWork" class="btn btn-1 btn-primary" value ="添加个人作品"/>
-                                </div>
-                            </FooterTemplate>
-                        </asp:Repeater>
+                            
                             </div>
                     </div>
                     <!---myworks-end--->
@@ -545,12 +533,6 @@
                   </div>
                         <div class="row projects-holder" id="cookbookcontent"></div>
                              <div class="page" id="cookbookpagebar"></div>
-                                <div>
-                                    <input type="button" id="addCookBook" class="btn btn-1 btn-primary" value ="添加个人菜谱"/>
-                                </div>
-                     
-
-
                  </div>
 
                          <!----endnewmycookbook----->       
@@ -569,7 +551,7 @@
 		                    <div class="bann-strip-main">
                                 <center>
                                     <table id="Strategylist">
-                                        <tr><th>攻略名</th><th>作者</th><th>攻略添加时间</th><th>详情</th><th>编辑</th><th>删除</th></tr>
+                                        <tr><th>攻略名</th><th>作者</th><th>简介</th><th>攻略添加时间</th><th>详情</th></tr>
                     
                                     </table>
                                     <div id="mspagebar" class ="page">
@@ -579,7 +561,7 @@
                             </div>
 	                    </div>
                     </div>
-                     <input type="button"   onclick="window.open('showpage/addstrategy.aspx')"  id="addStrategy" class="btn btn-1 btn-primary" value ="添加攻略"/>
+                    
                     </div>
                     <!----endmystrategy------->
 
@@ -597,7 +579,6 @@
                             </div>
                                 <div id="menupagebar" class="page">
                             </div>
-                                <input type="button"   onclick="window.open('showpage/addcookmenu.aspx')"  id="addcookmenu" class="btn btn-1 btn-primary" value ="添加个人菜单"/>
                           </div>
                               
                         </div>
@@ -632,25 +613,7 @@
               </div>
                         
                     <div class="list row" id="focuscontent">
-                       <%--       <div class="col-sm-6">
-                                    <dl>
-                                      <dt><a href="/caozhy" target='_blank'><img src="http://avatar.csdn.net/D/C/C/2_caozhy.jpg" alt="caozhy"   username="caozhy"/></a></dt>
-                                      <dd>
-                                        <h4><a href="/caozhy" target="_blank" id="li_username_10861814" title="caozhy" class="user_name">caozhy</a></h4>
-                                        <p>个人介绍............</p>
-                                        <div class="clearfix">
-                                          <div class="pull-left">
-                                          </div>
-                                          <div class="pull-right">
-                                            <div class="follow ">
-                                              <div class="text" onclick="unfollow('caozhy')">取消关注</div>
-                                              <div class="icon"></div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </dd>
-                                    </dl>
-                                  </div>--%>
+                    
                     </div>
                     <div class="page" id="foucuspagebar"></div>
                   </div>

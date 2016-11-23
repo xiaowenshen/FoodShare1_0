@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CollectTableDAL.cs" />
+    <Compile Include="CommentDAL.cs" />
     <Compile Include="CookBookDAL.cs" />
     <Compile Include="DbHelperSQL.cs" />
     <Compile Include="FollowTableDAL.cs" />
@@ -50,6 +52,7 @@
     <Compile Include="MyWorksDAL.cs" />
     <Compile Include="PhotoCollectionDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserFocusDAL.cs" />
     <Compile Include="UserInfoDAL.cs" />
   </ItemGroup>
   <ItemGroup>

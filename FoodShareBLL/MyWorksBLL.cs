@@ -58,6 +58,17 @@ namespace FoodShareBLL
             int works = mdal.GetMaxCount();
             return works % pagesize == 0 ? works / pagesize : works / pagesize + 1;
         }
+        /// <summary>
+        /// 获取页码数
+        /// </summary>
+        /// <param name="pagesize"></param>
+        /// <returns></returns>
+        public int GetPageCount(int pagesize,int uid)
+        {
+            int works = mdal.GetMaxCount(uid);
+            return works % pagesize == 0 ? works / pagesize : works / pagesize + 1;
+        }
+
 
         public Boolean UploadWork(MyWorks model)
         {

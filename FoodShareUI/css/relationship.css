@@ -1,0 +1,26 @@
+﻿body{background-image:none}
+#relationship .popover_mode{position:relative}
+#relationship .popover_mode .popover{display:none;left:-20px;top:15px;border-radius:0;border-width:2px}
+#relationship .popover_mode .popover .arrow{left:25px}
+#relationship .popover_mode .popover .close{top:10px;right:10px;font-size:14px}
+#relationship .popover_mode .popover .popover-title{background:0 0}
+#relationship .popover_mode .popover .btn{margin-right:5px;height:24px;padding:4px 15px}
+#relationship .popover_mode .popover a.cancel{color:#666}
+#relationship .popover_mode .popover.warning .status{width:16px;height:16px;margin:10px 0 0 10px;position:absolute;vertical-align:middle;background:url(//csdnimg.cn/public/themes/default/img/bg_icons.png) no-repeat -37px -64px}
+#relationship .popover_mode .popover.warning .popover-content{font-size:14px;padding-left:30px}
+#relationship .popover_mode .popover.warning .prompt{color:#fff;margin:5px 0 10px;text-align:center}
+#relationship .popover_mode .popover.warning .prompt span{display:inline-block;width:66px;height:22px;line-height:22px;margin-right:10px;text-align:center}
+#relationship .popover_mode .popover.warning .prompt .ok{background:#dc3c00}
+#relationship .popover_mode .popover.warning .prompt .cancel{background:#999}
+#relationship .popover_mode.open .popover_toggle{color:#c30}
+#relationship .popover_mode.pull-right .popover_toggle{color:#fff}
+#relationship .popover_mode.pull-right .popover{top:28px;left:auto;right:0}
+#relationship .popover_mode.pull-right .popover .arrow{left:auto;right:25px}
+#relationship .group_new{width:250px}#relationship .group_del{width:220px}
+                                     #relationship .group_set{width:140px}
+                                     #relationship .group_set .group_add{border-top:1px solid #eee;padding-top:10px}
+                                     #relationship .group_set .group_add .form{color:#c30;font-size:14px}
+                                     #relationship .group_set .group_add .form-add{display:none}
+                                     #relationship .group_set .group_add .form-add input{margin:10px 0}
+                                     #relationship .group_edit{width:200px}#relationship h2{border-bottom:none;height:50px;padding:0}
+                                                                           #relationship h2 .icon{width:48px;height:48px;background:url(../images/relationship-icon.png) no-repeat;vertical-align:middle;margin:0 10px 0 30px}#relationship .content{width:100%;padding:30px}#relationship .content .tabs{border-bottom:1px solid #dc3c00;margin-bottom:21px}#relationship .content .tabs a{background:#f3f3f3;float:left;padding:7px 23px;margin-right:5px;font-size:14px;color:#333}#relationship .content .tabs a:hover{color:#f30}#relationship .content .tabs a.on{background:#be1a21;color:#fff}#relationship .content .tags .label-text{padding-right:40px;position:relative}#relationship .content .tags .label-text .pop_fraction{display:none}#relationship .content .tags .label-text:hover .text{color:#f30}#relationship .content .tags .label-text:hover .pop_fraction{display:inline-block;position:absolute;right:-3px;width:40px;font-size:12px}#relationship .content .tags .label-text:hover .pop_fraction .glyphicon{color:#666}#relationship .content .tags .label-text:hover .pop_fraction .glyphicon:hover{color:#f30;cursor:pointer}#relationship .content .tags .btn{font-size:12px}#relationship .content .tags .btn .glyphicon{margin:-2px 5px 0 0}#relationship .content .list{margin-top:20px}#relationship .content .list dl{height:100px;margin-bottom:20px;position:relative}#relationship .content .list dl dt{position:absolute}#relationship .content .list dl dt img{width:100px;height:100px}#relationship .content .list dl dd{height:100px;margin-left:102px;background:#f3f3f3;padding:5px 10px;font:12px/20px arial}#relationship .content .list dl dd h4{font:700 12px/20px arial;margin:3px 0}#relationship .content .list dl dd>p{color:#666;height:40px;overflow:hidden;text-overflow:ellipsis}#relationship .content .list dl dd .clearfix{margin-top:-5px}#relationship .content .list dl dd .clearfix .pull-left{color:#666}#relationship .content .list dl dd .clearfix .pull-left .popover{top:8px;left:0}#relationship .content .list dl dd .clearfix .pull-right .text{cursor:pointer;padding-right:5px;margin-right:5px;vertical-align:middle}#relationship .content .list dl dd .clearfix .pull-right .follow{height:20px;padding:0 10px;margin-top:-5px}#relationship .content .list dl dd .clearfix .pull-right .follow .text{display:none;border-right:1px solid #ddd}#relationship .content .list dl dd .clearfix .pull-right .follow .icon{display:inline-block;width:12px;height:16px;background:url(../images/icon_follow.png) no-repeat center 2px;vertical-align:middle}#relationship .content .list dl dd .clearfix .pull-right .follow:hover{box-shadow:0 0 1px #888,inset 0 0 1px #fff}#relationship .content .list dl dd .clearfix .pull-right .follow:hover .text{display:inline-block}#relationship .content .list dl dd .clearfix .pull-right .follow.bothway .icon{background-position:center -24px}

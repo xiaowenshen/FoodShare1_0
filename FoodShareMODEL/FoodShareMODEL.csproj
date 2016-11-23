@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CollectTable.cs" />
+    <Compile Include="Comment.cs" />
     <Compile Include="CookBook.cs" />
     <Compile Include="FollowTable.cs" />
     <Compile Include="FoodMenu.cs" />
@@ -51,6 +53,7 @@
     <Compile Include="picModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="test.cs" />
+    <Compile Include="UserFocus.cs" />
     <Compile Include="UserInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

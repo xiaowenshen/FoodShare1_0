@@ -177,6 +177,7 @@
 
                 </div>
             </center>
+            <a href="singlepage.aspx?cid=6">test</a>
         </div>
 	</div>
 </div>

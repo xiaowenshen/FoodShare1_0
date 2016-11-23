@@ -133,7 +133,9 @@ namespace FoodShareDAL
         /// <returns></returns>
         public int GetMaxCount()
         {
-            string sql = "select count(WId) from MyWorks where isdel = 0";
+            string sql = "select count(WId) from MyWorks where isdel = 0 ";
+          
+
             return Convert.ToInt32(DbHelperSQL.ExecuteScalar(sql));
         }
         /// <summary>

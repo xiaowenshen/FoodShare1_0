@@ -247,8 +247,8 @@ namespace FoodShareDAL
         public List<MyStrategy> GetList(int uid,int start,int end)
         {
             string sql = "select * from "
-               + "(select ROW_NUMBER()over(order by t1.addtime DESC) AS num , t2.name as Uname, t1.* from MyStrategy as t1 inner join UserInfo as t2 on (t1.UId=t2.UId and t1.isdel=0 and t2.isdel = 0) ) as t " 
-               +"where  t.UId = @uid and t.num >=@start and t.num <=@end  ";
+               + "(select ROW_NUMBER()over(order by t1.addtime DESC) AS num , t2.name as Uname, t1.* from MyStrategy as t1 inner join UserInfo as t2 on (t1.UId=t2.UId and t1.isdel=0 and t2.isdel = 0) where  t1.UId = @uid ) as t "
+               + "where t.num >=@start and t.num <=@end  ";
             SqlParameter[] ps = {
                     new SqlParameter("@uid",SqlDbType.Int),
                     new SqlParameter("@start",SqlDbType.Int),

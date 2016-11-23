@@ -31,12 +31,12 @@ namespace FoodShareBLL
         /// 获取全部菜谱
         /// </summary>
         /// <returns></returns>
-        public List<CookBook> GetList(int pageindex , int pagecount)
+        public List<CookBook> GetList(int pageindex , int pagesize)
         {
             int start;
             int end;
-            start = (pageindex - 1) * pagecount + 1;
-            end = pageindex * pagecount;
+            start = (pageindex - 1) * pagesize + 1;
+            end = pageindex * pagesize;
             return cdal.GetCookBook(start, end);
         }
         /// <summary>
@@ -46,10 +46,10 @@ namespace FoodShareBLL
         /// <param name="pagecount"></param>
         /// <param name="uid"></param>
         /// <returns></returns>
-        public List<CookBook> GetList(int pageindex , int pagecount,int uid)
+        public List<CookBook> GetList(int pageindex , int pagesize,int uid)
         {
-            int start = (pageindex - 1) * pagecount + 1;
-            int end = pagecount * pageindex;
+            int start = (pageindex - 1) * pagesize + 1;
+            int end = pagesize * pageindex;
             return cdal.GetCookBook(start, end, uid);
         }
 
@@ -61,6 +61,16 @@ namespace FoodShareBLL
         public int GetPageCount(int pagesize)
         {
             int works = cdal.GetMaxCount();
+            return works % pagesize == 0 ? works / pagesize : works / pagesize + 1;
+        }
+        /// <summary>
+        /// 获取页码数
+        /// </summary>
+        /// <param name="pagesize"></param>
+        /// <returns></returns>
+        public int GetPageCount(int pagesize,int uid)
+        {
+            int works = cdal.GetMaxCount(uid);
             return works % pagesize == 0 ? works / pagesize : works / pagesize + 1;
         }
         /// <summary>

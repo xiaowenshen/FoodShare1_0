@@ -51,7 +51,7 @@ namespace FoodShareCOMMON
             }
             else if(pageindex>1)
             {
-                sb.AppendFormat("<a href='?pageindex=1'> 首页 </a><a href='?pageindex={0}' class = 'pages'> 上一页 </a>",pageindex - 1);
+                sb.AppendFormat("<a href='?pageindex=1' class = 'pages'> 首页 </a><a href='?pageindex={0}' class = 'pages'> 上一页 </a>", pageindex - 1);
 
             }
             //添加数字条

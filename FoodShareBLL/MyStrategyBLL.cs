@@ -90,5 +90,11 @@ namespace FoodShareBLL
             int maxrecord = mdal.GetRecordCount();
             return Convert.ToInt32(Math.Ceiling(1.0*maxrecord / pagesize));
         }
+        public int GetPageCount(int pagesize,int uid)
+        {
+            if (pagesize <= 0) return 0;
+            int maxrecord = mdal.GetRecordCount(uid);
+            return Convert.ToInt32(Math.Ceiling(1.0 * maxrecord / pagesize));
+        }
     }
 }

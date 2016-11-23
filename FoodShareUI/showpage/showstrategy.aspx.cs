@@ -11,7 +11,7 @@ using System.Web.UI.WebControls;
 
 namespace FoodShareUI.showpage
 {
-    public partial class showstrategy : CheckSession
+    public partial class showstrategy : System.Web.UI.Page
     {
      
         public MyStrategy ms { get; set; }

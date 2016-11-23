@@ -167,7 +167,32 @@ namespace FoodShareDAL
 
             return info;
         }
-	    
+        /// <summary>
+        /// 根据id获取用户数据
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public UserInfo GetUserInfoById(int uid)
+        {
+            string sql = "select * from UserInfo where UId = @uid and isdel = 0";
+            SqlParameter p = new SqlParameter("@uid", SqlDbType.NVarChar);
+            p.Value = uid;
+            DataTable dt = DbHelperSQL.GetDataTable(sql, p);
+            UserInfo info = new UserInfo();
+            if (dt.Rows.Count > 0)
+            {
+
+                LoadInfo(info, dt.Rows[0]);
+            }
+            else
+            {
+                info = null;
+            }
+
+            return info;
+
+        }
+
         private UserInfo LoadInfo(UserInfo uinfo,DataRow dr)
         {
             uinfo.account =dr["account"] != DBNull.Value ? dr["account"].ToString() :string.Empty;
