@@ -17,6 +17,13 @@ namespace FoodShareBLL
             int end = pagesize * pageindex;
             return mmdal.GetList(start, end,uid);
         }
+        public List<ManageMenu> GetList(int pageindex, int pagesize)
+        {
+            ManageMenuDAL mmdal = new ManageMenuDAL();
+            int start = (pageindex - 1) * pagesize + 1;
+            int end = pagesize * pageindex;
+            return mmdal.GetList(start, end);
+        }
 
         public bool Edit(ManageMenu model)
         {
@@ -41,6 +48,12 @@ namespace FoodShareBLL
             ManageMenuDAL mmdal = new ManageMenuDAL();
             int pagecount = mmdal.GetRecordCount(uid);
             return pagecount > 0 && pagesize > 0 ? Convert.ToInt32( Math.Ceiling(1.0 * pagecount / pagesize)) : 1;
+        }
+        public int GetPageCount(int pagesize)
+        {
+            ManageMenuDAL mmdal = new ManageMenuDAL();
+            int pagecount = mmdal.GetRecordCount();
+            return pagecount > 0 && pagesize > 0 ? Convert.ToInt32(Math.Ceiling(1.0 * pagecount / pagesize)) : 1;
         }
 
         public ManageMenu GetManageMenuById(int mid)

@@ -99,7 +99,6 @@
                     }
                     else
                     {
-             
                         string = string + "<div class=\"media\">" +
                          "<div class=\"media-left\">" +
                           "<a href='#'>" +
@@ -258,7 +257,8 @@
         }
 
         //加载攻略
-        function LoadStrategyInfo(strategypageindex) {
+        function LoadStrategyInfo(strategypageindex)
+        {
 
             //清除数据
             $("#Strategylist tr:gt(0)").remove();
@@ -269,7 +269,7 @@
                     var shortcontent = jsondata.SList[i].SContent;
                     shortcontent = shortcontent.substring(0, 20);
                     shortcontent = shortcontent + "...";
-                    $("<tr><td>" + jsondata.SList[i].STitle + "</td><td>" + jsondata.SList[i].Uname + "</td><td>" +
+                    $("<tr class='active'><td>" + jsondata.SList[i].STitle + "</td><td>" + jsondata.SList[i].Uname + "</td><td>" +
                         shortcontent   + "</td><td>" + ChangeDateFormat(jsondata.SList[i].addtime) + 
                         "</td><td>" + "<a target=\"_blank\" href='<%=Page.ResolveUrl("~/showpage/showstrategy.aspx")%>?Sid=" + jsondata.SList[i].SId + "' class='detail'>详情</a>"+ "</td>" + "</tr>").appendTo("#Strategylist");
                 }
@@ -422,7 +422,7 @@
                     <div class="col-md-12">
                         <div class="top-section">
                             <div class="profile-image">
-                                <img src="images/profile.jpg" alt="Volton"/>
+                                <img src="<%=Uinfo.display %>" />
                             </div>
                             <div class="profile-content">
                                 <h3 class="profile-title"><%=Uinfo.name %></h3>
@@ -445,8 +445,8 @@
                 <h3 class="profile-title"><%=Uinfo.name %></h3>
                 <p class="profile-description"><%=(Uinfo.introduce == "" ? "暂无介绍..." : Uinfo.introduce )  %></p>
                 <br />
-<%--                               <input type="button" value="添加关注" class="btn btn-1 btn-warning" />
-                               <span class="btn btn-1 btn-primary" >已经关注</span>--%>
+                    <input type="button" id="addfocus" value="添加关注" class="btn btn-1 btn-warning" />
+<%--                               <span class="btn btn-1 btn-primary" >已经关注</span>--%>--%>
             </div> <!-- top-section -->
             <div class="main-navigation">
                 <ul class="navigation">
@@ -550,8 +550,8 @@
 	                    <div class="container">
 		                    <div class="bann-strip-main">
                                 <center>
-                                    <table id="Strategylist">
-                                        <tr><th>攻略名</th><th>作者</th><th>简介</th><th>攻略添加时间</th><th>详情</th></tr>
+                                    <table id="Strategylist" class="table">
+                                        <tr class='success'><th>攻略名</th><th>作者</th><th>简介</th><th>攻略添加时间</th><th>详情</th></tr>
                     
                                     </table>
                                     <div id="mspagebar" class ="page">

@@ -49,6 +49,28 @@ namespace FoodShareBLL
             return mdal.GetList();
         }
         /// <summary>
+        /// 模糊查询
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public List<MyWorks> GetList(int pagesize, int pageindex,string msg)
+        {
+            int start = (pageindex - 1) * pagesize + 1;
+            int end = pagesize * pageindex;
+            return mdal.GetList(start , end, msg);
+        }
+
+        /// <summary>
+        /// 模糊查询
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public List<MyWorks> GetList(string msg)
+        {
+            
+            return mdal.GetList( msg);
+        }
+        /// <summary>
         /// 获取页码数
         /// </summary>
         /// <param name="pagesize"></param>

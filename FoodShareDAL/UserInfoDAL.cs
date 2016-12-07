@@ -167,6 +167,78 @@ namespace FoodShareDAL
 
             return info;
         }
+
+
+        /// <summary>
+        /// 获取模糊查询用户数据列表（无分页
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public List<UserInfo> GetUserInfoList(string msg)
+        {
+            List<UserInfo> list = new List<UserInfo>();
+            string sql = "select * from UserInfo where isdel = 0 and ( name like '%"+msg+ "%' or introduce like '%" + msg + "%')";
+          
+            DataTable dt = DbHelperSQL.GetDataTable(sql);
+            
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    UserInfo info = new UserInfo();
+                    LoadInfo(info, dr);
+                    list.Add(info);
+                }
+                
+            }
+            else
+            {
+               list = null;
+            }
+
+            return list;
+
+        }
+
+        /// <summary>
+        /// 获取模糊查询用户数据列表（有分页
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public List<UserInfo> GetUserInfoList(int start , int end ,string msg)
+        {
+            List<UserInfo> list = new List<UserInfo>();
+            string sql = "select * from (select * , row_number()over(order by UId) as num from UserInfo where isdel = 0 and ( name like '%@msg%' or introduce like '%@msg%') )as t where t.num >= @start and t.num <=@end";
+            SqlParameter[] ps = {
+                new SqlParameter("@msg", SqlDbType.NVarChar),
+                new SqlParameter("@start",SqlDbType.Int),
+                new SqlParameter("@end",SqlDbType.Int)
+            };
+            ps[0].Value = msg;
+            ps[1].Value = start;
+            ps[2].Value = end;
+            DataTable dt = DbHelperSQL.GetDataTable(sql, ps);
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    UserInfo info = new UserInfo();
+                    LoadInfo(info, dr);
+                    list.Add(info);
+                }
+
+            }
+            else
+            {
+                list = null;
+            }
+
+            return list;
+
+        }
         /// <summary>
         /// 根据id获取用户数据
         /// </summary>

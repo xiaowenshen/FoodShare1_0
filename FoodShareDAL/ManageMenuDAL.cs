@@ -302,25 +302,35 @@ namespace FoodShareDAL
         }
 
 
+
+
         /// <summary>
         /// 获取记录总数
         /// </summary>
         public int GetRecordCount(int uid)
-		{
+        {
             string sql = "select count(1) from ManageMenu where isdel = 0 and UId = @uid";
             SqlParameter p = new SqlParameter("@uid", SqlDbType.Int);
             p.Value = uid;
-            return Convert.ToInt32(DbHelperSQL.ExecuteScalar(sql , p));
-		}
+            return Convert.ToInt32(DbHelperSQL.ExecuteScalar(sql, p));
+        }
+        /// <summary>
+        /// 获取记录总数
+        /// </summary>
+        public int GetRecordCount()
+        {
+            string sql = "select count(1) from ManageMenu where isdel = 0 ";
+            return Convert.ToInt32(DbHelperSQL.ExecuteScalar(sql));
+        }
 
 
 
-	
 
-		#endregion  BasicMethod
-		#region  ExtensionMethod
 
-		#endregion  ExtensionMethod
-	}
+        #endregion  BasicMethod
+        #region  ExtensionMethod
+
+        #endregion  ExtensionMethod
+    }
 }
 

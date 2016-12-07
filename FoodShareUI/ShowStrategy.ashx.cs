@@ -22,7 +22,7 @@ namespace FoodShareUI
                 index = 1;//
             }
             MyStrategyBLL sbll = new MyStrategyBLL();
-            int pagesize = 10;
+            int pagesize = 6;
             int pagecount = sbll.GetPageCount(pagesize);
             index = index <= 0 ? 1 : index;
             index = index >= pagecount ? pagecount : index;

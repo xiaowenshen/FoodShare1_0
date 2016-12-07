@@ -147,7 +147,7 @@ namespace FoodShareDAL
         /// <returns></returns>
         public List<MyWorks> GetList(int uid, int start, int end)
         {
-            string sql = "select * from (select *,row_number() over(order by addtime DESC) as num from MyWorks) as t where t.isdel = 0 and t.UId = @uid and t.num >= @start and t.num <= @end";
+            string sql = "select * from (select *,row_number() over(order by addtime DESC) as num from MyWorks where UId = @uid) as t where t.isdel = 0  and t.num >= @start and t.num <= @end";
             SqlParameter[] ps = {
                                 new SqlParameter("@uid",SqlDbType.Int),
                                 new SqlParameter("@start" , SqlDbType.Int),
@@ -211,11 +211,76 @@ namespace FoodShareDAL
             }
             return list;
         }
+
+
+        public List<MyWorks> GetList(int start, int end, string msg)
+        {
+            string sql = "select * from (select *,row_number() over(order by addtime DESC) as num from MyWorks where WTitle like '%@msg%' or introduce like '%msg%' ) as t where t.isdel = 0 and  t.num >= @start and t.num <= @end";
+            SqlParameter[] ps = {
+
+                                new SqlParameter("@start" , SqlDbType.Int),
+                                new SqlParameter("@end" , SqlDbType.Int),
+                                new SqlParameter("@msg" , SqlDbType.NVarChar)
+                                };
+
+            ps[0].Value = start;
+            ps[1].Value = end;
+            ps[2].Value = msg;
+
+            List<MyWorks> list = new List<MyWorks>();
+            DataTable dt = new DataTable();
+            dt = DbHelperSQL.GetDataTable(sql, ps);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    MyWorks work = new MyWorks();
+                    LoadMyWorks(dr, work);
+                    list.Add(work);
+                }
+            }
+            else
+            {
+                list = null;
+            }
+            return list;
+        }
+
+        public List<MyWorks> GetList(string msg)
+        {
+            string sql = "select * from (select *,row_number() over(order by addtime DESC) as num from MyWorks where WTitle like '%"+msg+ "%' or introduce like '%" + msg + "%' ) as t where t.isdel = 0 ";
+            //SqlParameter[] ps = {
+
+            //                  new SqlParameter("@msg" , SqlDbType.NVarChar),
+            //                    new SqlParameter("@msg1" , SqlDbType.NVarChar)
+            //                    };
+
+            
+            //ps[0].Value = msg;
+            //ps[1].Value = msg;
+            List<MyWorks> list = new List<MyWorks>();
+            DataTable dt = new DataTable();
+            dt = DbHelperSQL.GetDataTable(sql);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    MyWorks work = new MyWorks();
+                    LoadMyWorks(dr, work);
+                    list.Add(work);
+                }
+            }
+            else
+            {
+                list = null;
+            }
+            return list;
+        }
         /// <summary>
         /// 获取所有的作品
         /// </summary>
         /// <returns></returns>
-         public List<MyWorks> GetList()
+        public List<MyWorks> GetList()
         {
             string sql = "select * from MyWorks where isdel = 0 ";
             

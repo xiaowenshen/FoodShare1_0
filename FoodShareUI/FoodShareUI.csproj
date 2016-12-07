@@ -74,6 +74,7 @@
     <Content Include="css\owl-carousel.css" />
     <Content Include="css\pageStyle.css" />
     <Content Include="css\relationship.css" />
+    <Content Include="css\SearchStyle.css" />
     <Content Include="css\style.css" />
     <Content Include="css\style3.css" />
     <Content Include="css\style_common.css" />
@@ -116,6 +117,7 @@
     <Content Include="images\h8.jpg" />
     <Content Include="images\icon.png" />
     <Content Include="images\icons.svg" />
+    <Content Include="images\icon_biying.png" />
     <Content Include="images\icon_follow.png" />
     <Content Include="images\new-bann.jpg" />
     <Content Include="images\profile.jpg" />
@@ -158,6 +160,8 @@
     <Content Include="login_file\userpanel.css" />
     <Content Include="login_file\webtemples.js" />
     <Content Include="mymainpage.aspx" />
+    <Content Include="Search.aspx" />
+    <Content Include="SearchSubPage.html" />
     <Content Include="showpage\addcookmenu.aspx" />
     <Content Include="showpage\addstrategy.aspx" />
     <Content Include="showpage\editstrategy.aspx" />
@@ -166,6 +170,8 @@
     <Content Include="showpage\showstrategy.aspx" />
     <Content Include="singlepage.aspx" />
     <Content Include="SubmitInfo.aspx" />
+    <Content Include="s\a\hpc18.png" />
+    <Content Include="s\a\ms_search.png" />
     <Content Include="temple\mymainpage.html" />
     <Content Include="mypage.aspx" />
     <Content Include="register.html" />
@@ -192,6 +198,15 @@
     </Compile>
     <Compile Include="guide.Master.designer.cs">
       <DependentUpon>guide.Master</DependentUpon>
+    </Compile>
+    <Compile Include="GuideShow\ShowCookBook.ashx.cs">
+      <DependentUpon>ShowCookBook.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="GuideShow\ShowMenu.ashx.cs">
+      <DependentUpon>ShowMenu.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="GuideShow\showtop.ashx.cs">
+      <DependentUpon>showtop.ashx</DependentUpon>
     </Compile>
     <Compile Include="login.aspx.cs">
       <DependentUpon>login.aspx</DependentUpon>
@@ -256,6 +271,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="register.ashx.cs">
       <DependentUpon>register.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Search.aspx.cs">
+      <DependentUpon>Search.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Search.aspx.designer.cs">
+      <DependentUpon>Search.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SearchPage\searchshow.ashx.cs">
+      <DependentUpon>searchshow.ashx</DependentUpon>
     </Compile>
     <Compile Include="showpage\addcookmenu.aspx.cs">
       <DependentUpon>addcookmenu.aspx</DependentUpon>
@@ -429,6 +454,10 @@
     <Content Include="singlepageoperation\ShowMenu.ashx" />
     <Content Include="singlepageoperation\ShowCookBook.ashx" />
     <Content Include="singlepageoperation\ShowFocus.ashx" />
+    <Content Include="GuideShow\ShowCookBook.ashx" />
+    <Content Include="GuideShow\ShowMenu.ashx" />
+    <Content Include="GuideShow\showtop.ashx" />
+    <Content Include="SearchPage\searchshow.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -29,7 +29,6 @@ namespace FoodShare1_0
         protected void Page_Load(object sender, EventArgs e)
         {
             ShowMyWork();
-            ShowCookBook();
         }
         /// <summary>
         /// 展示作品
@@ -52,28 +51,7 @@ namespace FoodShare1_0
             Repeater1.DataBind();
         }
 
-        /// <summary>
-        /// 展示菜谱
-        /// </summary>
-        private void ShowCookBook()
-        {
-            int cookindex;
-            if (Request["CookIndex"] == null || !int.TryParse(Request["CookIndex"].ToString(), out cookindex))
-            {
-                cookindex = 1;
-            }
-            int cookpagesize = 8;
-            int cookpagecount = cbll.GetPageCount(cookpagesize);
-            cookindex = cookindex < 1 ? 1 : cookindex;
-            cookindex = cookindex > cookpagecount ? cookpagecount : cookindex;
-            CookIndex = cookindex;
-            CookPageCount = cookpagecount;
-            string cookPageBar = PageBarHelper.GetPageBar(cookindex, cookpagecount);
-            cookPageBar = cookPageBar.Replace("pageindex", "CookIndex");
-            CookPageBar = cookPageBar;
-            Repeater2.DataSource = cbll.GetList(cookindex, cookpagesize);
-            Repeater2.DataBind();
-        }
+
 
     }
 }

@@ -40,6 +40,27 @@ namespace FoodShareBLL
             return cdal.GetCookBook(start, end);
         }
         /// <summary>
+        /// 获取全部模糊查询菜谱（无分页）
+        /// </summary>
+        /// <returns></returns>
+        public List<CookBook> GetList(string msg)
+        {
+            return cdal.GetCookBook(msg);
+        }
+
+        /// <summary>
+        /// 获取全部模糊查询菜谱(有分页)
+        /// </summary>
+        /// <returns></returns>
+        public List<CookBook> GetList(int pageindex, int pagesize, string msg)
+        {
+            int start;
+            int end;
+            start = (pageindex - 1) * pagesize + 1;
+            end = pageindex * pagesize;
+            return cdal.GetCookBook(start, end,msg);
+        }
+        /// <summary>
         /// 获取个人所有菜谱
         /// </summary>
         /// <param name="pageindex"></param>

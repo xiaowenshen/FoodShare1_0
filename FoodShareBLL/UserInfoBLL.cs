@@ -32,6 +32,16 @@ namespace FoodShareBLL
             return udal.GetUserInfoById(uid);
         }
 
+        public List<UserInfo> GetUserInfoList( string msg)
+        {
+            return udal.GetUserInfoList(msg);
+        }
 
+        public List<UserInfo> GetUserInfoList(int index , int pagesize ,string msg)
+        {
+            int start = (index - 1) * pagesize;
+            int end = index * pagesize;
+            return udal.GetUserInfoList(start , end, msg);
+        }
     }
 }

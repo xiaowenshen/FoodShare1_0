@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="css/font-awesome.css"/>
         <link rel="stylesheet" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" href="css/templatemo-style.css"/>
-        <link href="css/tableStytle.css" rel="stylesheet" />
+        <%--<link href="css/tableStytle.css" rel="stylesheet" />--%>
         <link href="css/relationship.css" rel="stylesheet" />
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
@@ -51,8 +51,14 @@
             //加载关注
             LoadFocus(1);
             //加载留言
-           LoadComment(1);
+            LoadComment(1);
+            //显示欢迎
+            displaywellcome()
+
         })
+
+     
+            //添加留言
         function leaveComment(id)
         {
             var cdata = $("#msg").val();
@@ -270,7 +276,7 @@
                 var jsondata = $.parseJSON(data);
                 var jlength = jsondata.SList.length;
                 for (var i = 0; i < jlength; i++) {
-                    $("<tr><td>" + jsondata.SList[i].STitle + "</td><td>" + jsondata.SList[i].Uname + "</td><td>" +
+                    $("<tr class=\"active\"><td>" + jsondata.SList[i].STitle + "</td><td>" + jsondata.SList[i].Uname + "</td><td>" +
                         ChangeDateFormat(jsondata.SList[i].addtime) + "</td><td>" + "<a target=\"_blank\" href='<%=Page.ResolveUrl("~/showpage/showstrategy.aspx")%>?Sid="+jsondata.SList[i].SId+"' class='detail'>详情</a>" + "" +
                         "</td><td><a href='<%=Page.ResolveUrl("~/showpage/editstrategy.aspx")%>?Sid=" + jsondata.SList[i].SId + "' class='edit'>编辑</a></td>" + "<td><a href='javascript:void(0)' sid='" + jsondata.SList[i].SId + "' class='del'>删除</a></td>" + "</tr>").appendTo("#Strategylist");
                 }
@@ -314,14 +320,7 @@
                  " <p>" + jsondata.SList[i].MenuIntroduce + "</p>" +
                  "...<a target='_blank' href='<%=Page.ResolveUrl("~/showpage/showmenu.aspx")%>?MenuId=" + jsondata.SList[i].MenuId + "' >详情</a></div></div>";
              
-                  <%-- string = string + "<img src=\"" + jsondata.SList[i].path + "\"  style=\"width:100px;height:100px\"/>"
-                            + "<p>介绍:</p>"
-                            + "<p>"
-                            + jsondata.SList[i].MenuIntroduce
-                            + "..."
-                            + "<a target='_blank' href='<%=Page.ResolveUrl("~/showpage/showmenu.aspx")%>?MenuId=" + jsondata.SList[i].MenuId + "' >详情</a>"
-                            + "</p>"
-                            + "<hr />"--%>
+                 
                 }
                 string = string + "</div>";
                 BindAdd();
@@ -412,7 +411,119 @@
         {
             AddToCollect();
         }
-      
+            /*
+              <li><a href="#myworks" onclick="displaywork()"><i class="fa fa-link"></i>我的作品</a></li>
+                    <li><a href="#newmycookbook" onclick="displaycookbook()"><i class="fa fa-link"></i>我的菜谱</a></li>
+                    <li><a href="#mystrategy" onclick="displaystrategy()"><i class="fa fa-link"></i>我的攻略</a></li>
+                    <li><a href="#cookmenu" onclick="displaycookmenu()"><i class="fa fa-link"></i>我的菜单</a></li>
+                    <li><a href="#mycollect" onclick="displaycollection()"><i class="fa fa-link"></i>我的收藏</a></li>
+                    <li><a href="#myconcern" onclick="displayfocus()"><i class="fa fa-link"></i>关注的人</a></li>
+                    <li><a href="#myboard" onclick="displaycomment()"><i class="fa fa-link"></i>留言板</a></li>
+            */
+
+
+        function displaywellcome()
+        {
+            $("#top").css("display", "block");
+            $("#myworks").css("display", "none");
+            $("#newmycookbook").css("display", "none");
+            $("#mystrategy").css("display", "none");
+            $("#cookmenu").css("display", "none");
+            $("#mycollect").css("display", "none");
+            $("#myconcern").css("display", "none");
+            $("#myboard").css("display", "none");
+        }
+
+        function displaywork() {
+            $("#top").css("display", "none");
+            $("#myworks").css("display", "block");
+            $("#newmycookbook").css("display", "none");
+            $("#mystrategy").css("display", "none");
+            $("#cookmenu").css("display", "none");
+            $("#mycollect").css("display", "none");
+            $("#myconcern").css("display", "none");
+            $("#myboard").css("display", "none");
+
+        }
+
+
+        function displaycookbook() {
+            $("#top").css("display", "none");
+            $("#myworks").css("display", "none");
+            $("#newmycookbook").css("display", "block");
+            $("#mystrategy").css("display", "none");
+            $("#cookmenu").css("display", "none");
+            $("#mycollect").css("display", "none");
+            $("#myconcern").css("display", "none");
+            $("#myboard").css("display", "none");
+
+        }
+
+
+        function displaystrategy() {
+            $("#top").css("display", "none");
+            $("#myworks").css("display", "none");
+            $("#newmycookbook").css("display", "none");
+            $("#mystrategy").css("display", "block");
+            $("#cookmenu").css("display", "none");
+            $("#mycollect").css("display", "none");
+            $("#myconcern").css("display", "none");
+            $("#myboard").css("display", "none");
+
+        }
+
+
+        function displaycookmenu() {
+            $("#top").css("display", "none");
+            $("#myworks").css("display", "none");
+            $("#newmycookbook").css("display", "none");
+            $("#mystrategy").css("display", "none");
+            $("#cookmenu").css("display", "block");
+            $("#mycollect").css("display", "none");
+            $("#myconcern").css("display", "none");
+            $("#myboard").css("display", "none");
+
+        }
+
+
+        function displaycollection() {
+            $("#top").css("display", "none");
+            $("#myworks").css("display", "none");
+            $("#newmycookbook").css("display", "none");
+            $("#mystrategy").css("display", "none");
+            $("#cookmenu").css("display", "none");
+            $("#mycollect").css("display", "block");
+            $("#myconcern").css("display", "none");
+            $("#myboard").css("display", "none");
+
+        }
+
+
+        function displayfocus() {
+            $("#top").css("display", "none");
+            $("#myworks").css("display", "none");
+            $("#newmycookbook").css("display", "none");
+            $("#mystrategy").css("display", "none");
+            $("#cookmenu").css("display", "none");
+            $("#mycollect").css("display", "none");
+            $("#myconcern").css("display", "block");
+            $("#myboard").css("display", "none");
+
+        }
+
+
+        function displaycomment() {
+            $("#top").css("display", "none");
+            $("#myworks").css("display", "none");
+            $("#newmycookbook").css("display", "none");
+            $("#mystrategy").css("display", "none");
+            $("#cookmenu").css("display", "none");
+            $("#mycollect").css("display", "none");
+            $("#myconcern").css("display", "none");
+            $("#myboard").css("display", "block");
+
+        }
+
         //将序列化成json格式后日期(毫秒数)转成日期格式
         function ChangeDateFormat(cellval) {
             var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
@@ -454,19 +565,18 @@
                 <h3 class="profile-title"><%=Uinfo.name %></h3>
                 <p class="profile-description"><%=(Uinfo.introduce == "" ? "暂无介绍..." : Uinfo.introduce )  %></p>
                 <br />
-<%--                               <input type="button" value="添加关注" class="btn btn-1 btn-warning" />
-                               <span class="btn btn-1 btn-primary" >已经关注</span>--%>
+
             </div> <!-- top-section -->
             <div class="main-navigation">
                 <ul class="navigation">
-                     <li><a href="#top"><i class="fa fa-link"></i>欢迎</a></li>
-                    <li><a href="#myworks"><i class="fa fa-link"></i>我的作品</a></li>
-                    <li><a href="#newmycookbook"><i class="fa fa-link"></i>我的菜谱</a></li>
-                    <li><a href="#mystrategy"><i class="fa fa-link"></i>我的攻略</a></li>
-                    <li><a href="#cookmenu"><i class="fa fa-link"></i>我的菜单</a></li>
-                    <li><a href="#mycollect"><i class="fa fa-link"></i>我的收藏</a></li>
-                    <li><a href="#myconcern"><i class="fa fa-link"></i>关注的人</a></li>
-                    <li><a href="#myboard"><i class="fa fa-link"></i>留言板</a></li>
+                  
+                    <li><a href="#myworks" onclick="displaywork()"><i class="fa fa-link"></i>我的作品</a></li>
+                    <li><a href="#newmycookbook" onclick="displaycookbook()"><i class="fa fa-link"></i>我的菜谱</a></li>
+                    <li><a href="#mystrategy" onclick="displaystrategy()"><i class="fa fa-link"></i>我的攻略</a></li>
+                    <li><a href="#cookmenu" onclick="displaycookmenu()"><i class="fa fa-link"></i>我的菜单</a></li>
+                    <li><a href="#mycollect" onclick="displaycollection()"><i class="fa fa-link"></i>我的收藏</a></li>
+                    <li><a href="#myconcern" onclick="displayfocus()"><i class="fa fa-link"></i>关注的人</a></li>
+                    <li><a href="#myboard" onclick="displaycomment()"><i class="fa fa-link"></i>留言板</a></li>
                 </ul>
             </div> <!-- .main-navigation -->
             
@@ -568,8 +678,8 @@
 	                    <div class="container">
 		                    <div class="bann-strip-main">
                                 <center>
-                                    <table id="Strategylist">
-                                        <tr><th>攻略名</th><th>作者</th><th>攻略添加时间</th><th>详情</th><th>编辑</th><th>删除</th></tr>
+                                    <table id="Strategylist" class="table">
+                                        <tr class="success"><th>攻略名</th><th>作者</th><th>攻略添加时间</th><th>详情</th><th>编辑</th><th>删除</th></tr>
                     
                                     </table>
                                     <div id="mspagebar" class ="page">
@@ -587,9 +697,7 @@
                     <div class="page-section" id="cookmenu">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="comments-top">
-                           <h3>MyCookBook</h3>
-                                </div>
+                          
                           
                             <div id="menucontent" >
                                 <div id ="showmenu">
@@ -618,8 +726,7 @@
                     </div>
                     <div class="row projects-holder" id="collectcontent"></div>
                     </div> 
-                    <!-- endmycollect -->、
-                    <hr/>
+                    <!-- endmycollect -->
                      <!----myconcern------->
    <div class="page-section" id="myconcern" >
        <div id="relationship" class="simple-box">
@@ -632,25 +739,7 @@
               </div>
                         
                     <div class="list row" id="focuscontent">
-                       <%--       <div class="col-sm-6">
-                                    <dl>
-                                      <dt><a href="/caozhy" target='_blank'><img src="http://avatar.csdn.net/D/C/C/2_caozhy.jpg" alt="caozhy"   username="caozhy"/></a></dt>
-                                      <dd>
-                                        <h4><a href="/caozhy" target="_blank" id="li_username_10861814" title="caozhy" class="user_name">caozhy</a></h4>
-                                        <p>个人介绍............</p>
-                                        <div class="clearfix">
-                                          <div class="pull-left">
-                                          </div>
-                                          <div class="pull-right">
-                                            <div class="follow ">
-                                              <div class="text" onclick="unfollow('caozhy')">取消关注</div>
-                                              <div class="icon"></div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </dd>
-                                    </dl>
-                                  </div>--%>
+              
                     </div>
                     <div class="page" id="foucuspagebar"></div>
                   </div>

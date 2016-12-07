@@ -226,6 +226,7 @@ namespace FoodShareDAL
             return Convert.ToInt32(DbHelperSQL.ExecuteScalar(sql.ToString()));
         }
 
+
         /// <summary>
 		/// 获取指定用户记录总数
 		/// </summary>

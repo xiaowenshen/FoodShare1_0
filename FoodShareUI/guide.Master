@@ -50,8 +50,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<ul class="res">
 					   <li><a href="<%=Page.ResolveUrl("~/TESTGUID.aspx")%>" class="active">主页</a></li> 
 						<li><a href="<%=Page.ResolveUrl("~/mypage.aspx")%>">我的主页</a></li> 
-						<li><a href="#">我的厨房</a></li> <%--gallery.html typo.html contact.html --%>
-						<li><a href="#">搜索</a></li> 
+						<%--<li><a href="#">我的厨房</a></li> <%--gallery.html typo.html contact.html --%>
+						<li><a target="_blank" href="<%=Page.ResolveUrl("~/SearchSubPage.html")%>">搜索</a></li> 
 						<li><a href="#">联系我们</a></li> 
 				   </ul>
 				</nav>

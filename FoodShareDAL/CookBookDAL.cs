@@ -211,41 +211,69 @@ namespace FoodShareDAL
                 return model;
             }
 
-      
 
-            /// <summary>
-            /// 获取所有人的全部菜谱
-            /// </summary>
-            /// <returns></returns>
-            public List<CookBook> GetCookBook()
+
+        /// <summary>
+        /// 获取所有人的全部菜谱
+        /// </summary>
+        /// <returns></returns>
+        public List<CookBook> GetCookBook()
+        {
+            string sql = "select * from CookBook where isdel = 0 order by addtime DESC";
+            List<CookBook> list = new List<CookBook>();
+            DataTable dt = new DataTable();
+            dt = DbHelperSQL.GetDataTable(sql);
+            if (dt.Rows.Count > 0)
             {
-                string sql = "select * from CookBook where isdel = 0 order by addtime DESC";
-                List<CookBook> list = new List<CookBook>();
-                DataTable dt = new DataTable();
-                dt = DbHelperSQL.GetDataTable(sql);
-                if (dt.Rows.Count > 0)
+                foreach (DataRow dr in dt.Rows)
                 {
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        CookBook cb = new CookBook();
-                        LoadCookBook(dr, cb);
-                        list.Add(cb);
-                    }
+                    CookBook cb = new CookBook();
+                    LoadCookBook(dr, cb);
+                    list.Add(cb);
+                }
 
-                }
-                else
-                {
-                    list = null;
-                }
-                return list;
             }
-            /// <summary>
-            /// 获取个人的全部菜谱
-            /// </summary>
-            /// <returns></returns>
-            public List<CookBook> GetCookBook(int start, int end, int uid)
+            else
             {
-                string sql = "select * from(select * , row_number() over( order by addtime DESC) as num  from CookBook )as t  where t.isdel = 0 and t.num >= @start and t.num <= @end  and t.UId = @uid";
+                list = null;
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 获取所有人的全部模糊查询菜谱（无分页）
+        /// </summary>
+        /// <returns></returns>
+        public List<CookBook> GetCookBook(string msg)
+        {
+            string sql = "select * from CookBook where isdel = 0 and CTitle like '%" + msg + "%' or CIntroduce like '%" + msg + "%' or CContent like '%" + msg + "%' order by addtime DESC ";
+       
+            List<CookBook> list = new List<CookBook>();
+            DataTable dt = new DataTable();
+            dt = DbHelperSQL.GetDataTable(sql);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    CookBook cb = new CookBook();
+                    LoadCookBook(dr, cb);
+                    list.Add(cb);
+                }
+
+            }
+            else
+            {
+                list = null;
+            }
+            return list;
+        }
+        /// <summary>
+        /// 获取个人的全部菜谱
+        /// </summary>
+        /// <returns></returns>
+        public List<CookBook> GetCookBook(int start, int end, int uid)
+            {
+                string sql = "select * from(select * , row_number() over( order by addtime DESC) as num  from CookBook where UId = @uid )as t  where t.isdel = 0 and t.num >= @start and t.num <= @end  ";
                 SqlParameter[] ps = {
                                     new SqlParameter("@start",SqlDbType.Int),
                                     new SqlParameter("@end",SqlDbType.Int),
@@ -275,47 +303,81 @@ namespace FoodShareDAL
                 }
                 return list;
             }
-            /// <summary>
-            /// 获取所有人的全部菜谱
-            /// </summary>
-            /// <returns></returns>
-            public List<CookBook> GetCookBook(int start, int end)
-            {
-                string sql = "select * from(select * , row_number() over( order by addtime DESC) as num  from CookBook )as t  where t.isdel = 0 and t.num >= @start and t.num <= @end";
-                SqlParameter[] ps = {
+        /// <summary>
+        /// 获取所有人的全部菜谱
+        /// </summary>
+        /// <returns></returns>
+        public List<CookBook> GetCookBook(int start, int end)
+        {
+            string sql = "select * from(select * , row_number() over( order by addtime DESC) as num  from CookBook )as t  where t.isdel = 0 and t.num >= @start and t.num <= @end";
+            SqlParameter[] ps = {
                                     new SqlParameter("@start",SqlDbType.Int),
                                     new SqlParameter("@end",SqlDbType.Int),
-                                    
+
                                     };
-                ps[0].Value = start;
-                ps[1].Value = end;
-            
+            ps[0].Value = start;
+            ps[1].Value = end;
 
-                List<CookBook> list = new List<CookBook>();
-                DataTable dt = new DataTable();
-                dt = DbHelperSQL.GetDataTable(sql, ps);
-                if (dt.Rows.Count > 0)
-                {
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        CookBook cb = new CookBook();
-                        LoadCookBook(dr, cb);
-                        list.Add(cb);
-                    }
 
-                }
-                else
+            List<CookBook> list = new List<CookBook>();
+            DataTable dt = new DataTable();
+            dt = DbHelperSQL.GetDataTable(sql, ps);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
                 {
-                    list = null;
+                    CookBook cb = new CookBook();
+                    LoadCookBook(dr, cb);
+                    list.Add(cb);
                 }
-                return list;
+
             }
-           /// <summary>
-           /// 加载菜谱对象
+            else
+            {
+                list = null;
+            }
+            return list;
+        }  /// <summary>
+           /// 获取所有人的全部模糊查询菜谱(有分页）
            /// </summary>
-           /// <param name="dr"></param>
-           /// <param name="cb"></param>
-            private void LoadCookBook(DataRow dr,CookBook cb)
+           /// <returns></returns>
+        public List<CookBook> GetCookBook(int start, int end,string msg)
+        {
+            string sql = "select * from(select * , row_number() over( order by addtime DESC) as num  from CookBook where CTitle like '%@msg%' or CIntroduce like '%@msg%' or CContent like '%@msg%' )as t  where t.isdel = 0 and t.num >= @start and t.num <= @end";
+            SqlParameter[] ps = {
+                                    new SqlParameter("@start",SqlDbType.Int),
+                                    new SqlParameter("@end",SqlDbType.Int),
+                                    new SqlParameter("@msg",SqlDbType.NVarChar)
+                                    };
+            ps[0].Value = start;
+            ps[1].Value = end;
+            ps[2].Value = msg;
+
+            List<CookBook> list = new List<CookBook>();
+            DataTable dt = new DataTable();
+            dt = DbHelperSQL.GetDataTable(sql, ps);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    CookBook cb = new CookBook();
+                    LoadCookBook(dr, cb);
+                    list.Add(cb);
+                }
+
+            }
+            else
+            {
+                list = null;
+            }
+            return list;
+        }
+        /// <summary>
+        /// 加载菜谱对象
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="cb"></param>
+        private void LoadCookBook(DataRow dr,CookBook cb)
             {
 
                 cb.CId = Convert.ToInt32(dr["CId"]);
