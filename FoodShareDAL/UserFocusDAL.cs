@@ -18,37 +18,27 @@ namespace FoodShareDAL
 	{
 		public UserFocusDAL()
 		{}
-		#region  BasicMethod
+        #region  BasicMethod
 
-		/// <summary>
-		/// 得到最大ID
-		/// </summary>
-		//public int GetMaxId()
-		//{
-		//return DbHelperSQL.GetMaxID("FocusId", "UserFocus"); 
-		//}
+     
+        public bool CheckFocus(int uid1,int uid2)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) FROM UserFocus where isdel = 0 and UId1 = @uid1 and UId2 = @uid2");
+            SqlParameter[] ps = {
+                new SqlParameter("@uid1", SqlDbType.Int),
+                new SqlParameter("@uid2",SqlDbType.Int)
+            };
 
-		/// <summary>
-		/// 是否存在该记录
-		/// </summary>
-		//public bool Exists(int FocusId)
-		//{
-		//	StringBuilder strSql=new StringBuilder();
-		//	strSql.Append("select count(1) from UserFocus");
-		//	strSql.Append(" where FocusId=@FocusId");
-		//	SqlParameter[] parameters = {
-		//			new SqlParameter("@FocusId", SqlDbType.Int,4)
-		//	};
-		//	parameters[0].Value = FocusId;
+            ps[0].Value = uid1;
+            ps[1].Value = uid2;
+            return Convert.ToInt32(DbHelperSQL.ExecuteScalar(strSql.ToString(), ps)) > 0;
+        }
 
-		//	return DbHelperSQL.Exists(strSql.ToString(),parameters);
-		//}
-
-
-		/// <summary>
-		/// 增加一条数据
-		/// </summary>
-		public int Add(UserFocus model)
+        /// <summary>
+        /// 增加一条数据
+        /// </summary>
+        public int Add(UserFocus model)
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into UserFocus(");
@@ -281,26 +271,7 @@ namespace FoodShareDAL
             return list;
         }
 
-		///// <summary>
-		///// 获得前几行数据
-		///// </summary>
-		//public DataSet GetList(int Top,string strWhere)
-		//{
-		//	StringBuilder strSql=new StringBuilder();
-		//	strSql.Append("select ");
-		//	if(Top>0)
-		//	{
-		//		strSql.Append(" top "+Top.ToString());
-		//	}
-		//	strSql.Append(" FocusId,UId1,U1name,UId2,U2name,U2path,U2Introduce,isdel,addtime ");
-		//	strSql.Append(" FROM UserFocus ");
-		//	if(strWhere.Trim()!="")
-		//	{
-		//		strSql.Append(" where "+strWhere);
-		//	}
-		//	strSql.Append(" order by addtime");
-		//	return DbHelperSQL.Query(strSql.ToString());
-		//}
+
 
 		/// <summary>
 		/// 获取记录总数
@@ -314,56 +285,7 @@ namespace FoodShareDAL
             return Convert.ToInt32(DbHelperSQL.ExecuteScalar(strSql.ToString(),p));
 			
 		}
-		///// <summary>
-		///// 分页获取数据列表
-		///// </summary>
-		//public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
-		//{
-		//	StringBuilder strSql=new StringBuilder();
-		//	strSql.Append("SELECT * FROM ( ");
-		//	strSql.Append(" SELECT ROW_NUMBER() OVER (");
-		//	if (!string.IsNullOrEmpty(orderby.Trim()))
-		//	{
-		//		strSql.Append("order by T." + orderby );
-		//	}
-		//	else
-		//	{
-		//		strSql.Append("order by T.FocusId desc");
-		//	}
-		//	strSql.Append(")AS Row, T.*  from UserFocus T ");
-		//	if (!string.IsNullOrEmpty(strWhere.Trim()))
-		//	{
-		//		strSql.Append(" WHERE " + strWhere);
-		//	}
-		//	strSql.Append(" ) TT");
-		//	strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
-		//	return DbHelperSQL.Query(strSql.ToString());
-		//}
-
-		/*
-		/// <summary>
-		/// 分页获取数据列表
-		/// </summary>
-		public DataSet GetList(int PageSize,int PageIndex,string strWhere)
-		{
-			SqlParameter[] parameters = {
-					new SqlParameter("@tblName", SqlDbType.VarChar, 255),
-					new SqlParameter("@fldName", SqlDbType.VarChar, 255),
-					new SqlParameter("@PageSize", SqlDbType.Int),
-					new SqlParameter("@PageIndex", SqlDbType.Int),
-					new SqlParameter("@IsReCount", SqlDbType.Bit),
-					new SqlParameter("@OrderType", SqlDbType.Bit),
-					new SqlParameter("@strWhere", SqlDbType.VarChar,1000),
-					};
-			parameters[0].Value = "UserFocus";
-			parameters[1].Value = "FocusId";
-			parameters[2].Value = PageSize;
-			parameters[3].Value = PageIndex;
-			parameters[4].Value = 0;
-			parameters[5].Value = 0;
-			parameters[6].Value = strWhere;	
-			return DbHelperSQL.RunProcedure("UP_GetRecordByPage",parameters,"ds");
-		}*/
+	
 
 		#endregion  BasicMethod
 		#region  ExtensionMethod

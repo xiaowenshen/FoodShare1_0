@@ -51,29 +51,75 @@
             //加载关注
             LoadFocus(1);
             //加载留言
-           LoadComment(1);
+            LoadComment(1);
+            //添加关注
+            AddFocus();
         })
+
+        function AddFocus()
+        {
+            $.post("singlepageoperation/CheckFocus.ashx", {}, function (data) {
+                var jdata = $.parseJSON(data);
+                if(jdata.State == "-1")
+                {
+                    //未登录
+                    $("#addfocus").val("关注前，请先登录");
+                    $("#addfocus").click(function () {
+                        location.href = "login.aspx";
+                    })
+                }
+                else if (jdata.Focus == "1")
+                {
+                   
+                        $("#addfocus").val( "已经关注");
+                  
+                }
+                else {
+                    $("#addfocus").click(function () {
+                       
+                        //添加关注
+                        $.post("singlepageoperation/AddFocus.ashx", {}, function (data) {
+                            if(data == "0")
+                            {
+                                alert("关注失败，请稍再试！");
+                            }
+                            else
+                            {
+                                alert("关注成功！");
+                            }
+
+
+                        });
+
+                    })
+                }
+
+            });
+
+        }
         function leaveComment(id)
         {
             var cdata = $("#msg").val();
-            $.post("singlepageoperation/AddComment.ashx", { "msg": cdata ,"u2id":id}, function (data) {
+            if (cdata.trim() == "") {
+                alert("留言不能为空！");
+            }
+            else {
+                $.post("singlepageoperation/AddComment.ashx", { "msg": cdata, "u2id": id }, function (data) {
 
-                if(data == "OK")
-                {
-                    alert("留言成功!");
-                    LoadComment(1);
-                }
-                else if(data == "UNRES")
-                {
-                    alert("请登录!");
-                    location.href = "login.aspx";
-                }
-                else
-                {
-                    alert("服务器繁忙，请稍后再试！");
-                }
-        
-        });
+                    if (data == "OK") {
+                        alert("留言成功!");
+                        LoadComment(1);
+                    }
+                    else if (data == "UNRES") {
+                        alert("请登录!");
+                        location.href = "login.aspx";
+                    }
+                    else {
+                        alert("服务器繁忙，请稍后再试！");
+                    }
+
+                });
+            }
         }
 
         //加载留言
@@ -446,7 +492,7 @@
                 <p class="profile-description"><%=(Uinfo.introduce == "" ? "暂无介绍..." : Uinfo.introduce )  %></p>
                 <br />
                     <input type="button" id="addfocus" value="添加关注" class="btn btn-1 btn-warning" />
-<%--                               <span class="btn btn-1 btn-primary" >已经关注</span>--%>--%>
+<%--                               <span class="btn btn-1 btn-primary" >已经关注</span>--%>
             </div> <!-- top-section -->
             <div class="main-navigation">
                 <ul class="navigation">

@@ -36,12 +36,28 @@ namespace FoodShareBLL
         {
             return udal.GetUserInfoList(msg);
         }
-
+        //模糊查询
         public List<UserInfo> GetUserInfoList(int index , int pagesize ,string msg)
         {
             int start = (index - 1) * pagesize;
             int end = index * pagesize;
             return udal.GetUserInfoList(start , end, msg);
+        }
+
+        //获取页码数
+        public int GetPageCount(int pagesize)
+        {
+            return  Convert.ToInt32(Math.Ceiling( udal.GetTotalCount()*1.0/pagesize));
+        }
+
+        //获取分页列表
+        public List<UserInfo> GetUserInfoList(int pageindex, int pagesize)
+        {
+            int start = (pageindex - 1) * pagesize;
+            int end = pagesize * pageindex;
+            return udal.GetUserInfoList(start, end);
+
+
         }
     }
 }

@@ -168,6 +168,7 @@
     <Content Include="showpage\showcookbook.aspx" />
     <Content Include="showpage\showmenu.aspx" />
     <Content Include="showpage\showstrategy.aspx" />
+    <Content Include="showpage\UpdateStrategy.aspx" />
     <Content Include="singlepage.aspx" />
     <Content Include="SubmitInfo.aspx" />
     <Content Include="s\a\hpc18.png" />
@@ -237,6 +238,9 @@
     <Compile Include="mymainpageoperation\deleteFocus.ashx.cs">
       <DependentUpon>deleteFocus.ashx</DependentUpon>
     </Compile>
+    <Compile Include="mymainpageoperation\deleteWork.ashx.cs">
+      <DependentUpon>deleteWork.ashx</DependentUpon>
+    </Compile>
     <Compile Include="mymainpageoperation\showCollection.ashx.cs">
       <DependentUpon>showCollection.ashx</DependentUpon>
     </Compile>
@@ -249,11 +253,17 @@
     <Compile Include="mymainpageoperation\showFocus.ashx.cs">
       <DependentUpon>showFocus.ashx</DependentUpon>
     </Compile>
+    <Compile Include="mymainpageoperation\showMemberInfo.ashx.cs">
+      <DependentUpon>showMemberInfo.ashx</DependentUpon>
+    </Compile>
     <Compile Include="mymainpageoperation\ShowMenu.ashx.cs">
       <DependentUpon>ShowMenu.ashx</DependentUpon>
     </Compile>
     <Compile Include="mymainpageoperation\ShowMyStrategy.ashx.cs">
       <DependentUpon>ShowMyStrategy.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="mymainpageoperation\showWorks.ashx.cs">
+      <DependentUpon>showWorks.ashx</DependentUpon>
     </Compile>
     <Compile Include="mymainpageoperation\UploadCookBook.ashx.cs">
       <DependentUpon>UploadCookBook.ashx</DependentUpon>
@@ -327,6 +337,13 @@
     <Compile Include="showpage\showstrategy.aspx.designer.cs">
       <DependentUpon>showstrategy.aspx</DependentUpon>
     </Compile>
+    <Compile Include="showpage\UpdateStrategy.aspx.cs">
+      <DependentUpon>UpdateStrategy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="showpage\UpdateStrategy.aspx.designer.cs">
+      <DependentUpon>UpdateStrategy.aspx</DependentUpon>
+    </Compile>
     <Compile Include="singlepage.aspx.cs">
       <DependentUpon>singlepage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -343,8 +360,14 @@
     <Compile Include="singlepageoperation\addCookbookinfos.ashx.cs">
       <DependentUpon>addCookbookinfos.ashx</DependentUpon>
     </Compile>
+    <Compile Include="singlepageoperation\AddFocus.ashx.cs">
+      <DependentUpon>AddFocus.ashx</DependentUpon>
+    </Compile>
     <Compile Include="singlepageoperation\addtocollections.ashx.cs">
       <DependentUpon>addtocollections.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="singlepageoperation\CheckFocus.ashx.cs">
+      <DependentUpon>CheckFocus.ashx</DependentUpon>
     </Compile>
     <Compile Include="singlepageoperation\deleteCollections.ashx.cs">
       <DependentUpon>deleteCollections.ashx</DependentUpon>
@@ -458,6 +481,11 @@
     <Content Include="GuideShow\ShowMenu.ashx" />
     <Content Include="GuideShow\showtop.ashx" />
     <Content Include="SearchPage\searchshow.ashx" />
+    <Content Include="mymainpageoperation\showMemberInfo.ashx" />
+    <Content Include="singlepageoperation\CheckFocus.ashx" />
+    <Content Include="singlepageoperation\AddFocus.ashx" />
+    <Content Include="mymainpageoperation\showWorks.ashx" />
+    <Content Include="mymainpageoperation\deleteWork.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

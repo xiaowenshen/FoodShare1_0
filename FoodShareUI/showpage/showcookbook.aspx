@@ -9,7 +9,7 @@
         <div class="comment-bottom">
         <h3>菜谱展示</h3>
             
-                <img class="img-responsive" src="../<%=cb.path %>"/>
+                <img class="img-responsive" style="width:650px;height:400px" src="../<%=cb.path %>"/>
         <!------------showstrategy--------->
       
         <br />
@@ -21,12 +21,8 @@
             <br /> 
             <div>
                 <br />
-                <h2>菜谱内容:</h2>
-
-                
+                <h2>菜谱内容:</h2>                
                     <%=CBcontent %>
-                
-
             </div>
 
             <div id="content">

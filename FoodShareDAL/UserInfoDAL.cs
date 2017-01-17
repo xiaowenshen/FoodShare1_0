@@ -283,6 +283,52 @@ namespace FoodShareDAL
             uinfo.isdel = false;
             return uinfo;
         }
-	}
+
+        //获取记录数
+        public int GetTotalCount()
+        {
+            string sql = "select count(1) from UserInfo where isdel = 0 ";
+            return Convert.ToInt32(DbHelperSQL.ExecuteScalar(sql));
+
+        }
+
+        /// <summary>
+        /// 分页获取数据
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public List<UserInfo> GetUserInfoList(int start, int end)
+        {
+            List<UserInfo> list = new List<UserInfo>();
+            string sql = "select * from (select * , row_number()over(order by UId) as num from UserInfo where isdel = 0 )as t where t.num >= @start and t.num <=@end";
+            SqlParameter[] ps = {
+                new SqlParameter("@start",SqlDbType.Int),
+                new SqlParameter("@end",SqlDbType.Int)
+            };
+            ps[0].Value = start;
+            ps[1].Value = end;
+            DataTable dt = DbHelperSQL.GetDataTable(sql, ps);
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    UserInfo info = new UserInfo();
+                    LoadInfo(info, dr);
+                    list.Add(info);
+                }
+
+            }
+            else
+            {
+                list = null;
+            }
+
+            return list;
+
+        }
+
+    }
 }
 

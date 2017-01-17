@@ -10,7 +10,7 @@
         <div class="comment-bottom">
         <h3>攻略展示</h3>
             
-                <img class="img-responsive" src="../<%=ms.Path %>"/>
+                <img class="img-responsive"    style="width:600px;height:400px" src="../<%=ms.Path %>"/>
         <!------------showstrategy--------->
       
         <br />

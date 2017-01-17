@@ -16,7 +16,6 @@
         <link rel="stylesheet" href="css/font-awesome.css"/>
         <link rel="stylesheet" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" href="css/templatemo-style.css"/>
-        <%--<link href="css/tableStytle.css" rel="stylesheet" />--%>
         <link href="css/relationship.css" rel="stylesheet" />
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
@@ -39,7 +38,8 @@
             $("#addCookBook").click(function () {
                 location.href = "addCookBook.aspx";
             })
-            
+            //加载个人作品
+            LoadWorks(1)
             //加载攻略列表
             LoadStrategyInfo(1);
             //加载菜单
@@ -57,28 +57,83 @@
 
         })
 
-     
+        function deletework(id)
+        {
+            $.post("mymainpageoperation/deleteWork.ashx", { "wid": id }, function (data) {
+                if(data == "1")
+                {
+                    alert("删除成功！");
+                }
+                else {
+                    alert("删除失败，请稍后再试！");
+                }
+
+            });
+        }
+        function LoadWorks(index)
+        {
+            var string = "";
+            $.post("mymainpageoperation/showWorks.ashx", { "worksindex": index }, function (data) {
+                var jsondata = $.parseJSON(data);
+                var jlength = jsondata.SList == null ? 0 : jsondata.SList.length;
+                var string = "";
+                for (var i = 0; i < jlength; i++)
+                {
+                    string += " <div class=\"col-md-4 col-sm-6\">　"+
+                                        "<div class=\"project-item\">"+
+                                            "<img src='" + jsondata.SList[i].path+ "' style=\"width:433px;height:320px\" />" +
+                                            "<div class=\"project-hover\">"+
+                                                "<div class=\"inside\">"+
+                                                    "<h5><a href=''>"+ jsondata.SList[i].WIitle+"</a></h5>"+
+                                                    "<p>"+ jsondata.SList[i].introduce+"</p>"+
+                                                "</div>"+
+                                            "</div>"+
+                                        "</div>" +
+                                        "<input type=\"button\" id=\"addMyWork\" class=\"btn btn-1 btn-primary\" value =\"编辑\"/> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" +
+                                         "        <input type=\"button\" onclick ='deletework("+ jsondata.SList[i].WId+")' class=\"btn btn-1 btn-danger\" value =\"删除\"/>"+
+                                         
+                                    "</div>";
+                }
+               
+                $("#workscontent").html(string);
+                $("#workspagebar").html(jsondata.PageBar );
+               worksPageBar();
+            }, "text");
+        }
+        function worksPageBar()
+        {
+            $(".workspages").click(function () {
+                var index = $(this).attr("href").split("=")[1];
+                LoadWorks(index);
+                return false;
+            });
+        }
             //添加留言
         function leaveComment(id)
         {
             var cdata = $("#msg").val();
-            $.post("mymainpageoperation/addComment.ashx", { "msg": cdata ,"u2id":id}, function (data) {
+            if(cdata.trim() == "")
+            {
+                alert("留言不能为空！");
+            }
+            else
+            {
+                $.post("mymainpageoperation/addComment.ashx", { "msg": cdata, "u2id": id }, function (data) {
 
-                if(data == "OK")
-                {
-                    alert("留言成功!");
-                    LoadComment(1);
-                }
-                else if(data == "UNRES")
-                {
-                    alert("请登录!");
-                }
-                else
-                {
-                    alert("服务器繁忙，请稍后再试！");
-                }
+                    if (data == "OK") {
+                        alert("留言成功!");
+                        LoadComment(1);
+                    }
+                    else if (data == "UNRES") {
+                        alert("请登录!");
+                    }
+                    else {
+                        alert("服务器繁忙，请稍后再试！");
+                    }
+
+                });
+            }
         
-        });
         }
 
         //加载留言
@@ -147,9 +202,9 @@
                 for (var i = 0; i < jlength; i++) {
                     string = string +
                         "<div class=\"col-sm-6\"><dl>"+
-                                      "<dt><a href='' target='_blank'><img src='"+jsondata.SList[i].U2path+"'   /></a></dt>"+
+                                      "<dt><a href='singlepage.aspx?cid=" + jsondata.SList[i].UId2 +"' target='_blank'><img src='"+jsondata.SList[i].U2path+"'   /></a></dt>"+
                                       "<dd>"+
-                                        "<h4><a href= target='_blank' id='" + jsondata.SList[i].UId2 + "' title='" + jsondata.SList[i].U2name+ "' class='user_name'>"+jsondata.SList[i].U2name+"</a></h4>" +
+                                        "<h4><a href='singlepage.aspx?cid=" + jsondata.SList[i].UId2 + "'  target='_blank' id='" + jsondata.SList[i].UId2 + "' title='" + jsondata.SList[i].U2name + "' class='user_name'>" + jsondata.SList[i].U2name + "</a></h4>" +
                                         "<p>"+jsondata.SList[i].U2Introduce+"</p>"+
                                         "<div class=\"clearfix\">"+
                                          " <div class=\"pull-left\">"+
@@ -215,7 +270,7 @@
                 for (var i = 0; i < jlength; i++) {
                     string = string + "<div class=\"col-md-4 col-sm-6\"><div class=\"project-item\" ><img src='" + jsondata.SList[i].path + "' style=\"width:433px;height:320px\"  /><div class=\"project-hover\">" +
                                                 "<div class=\"inside\">" +
-                                                    "<h5><a target='_blank' href=\"showpage/showcookbook.aspx?cid=" + jsondata.SList[i].CId + "\">" + jsondata.SList[i].CTitle + "</a></h5>" +
+                                                    "<h5><a target='_blank' href=\"showpage/showcookbook.aspx?cid=" + jsondata.SList[i].CId +"&op=0"+ "\">" + jsondata.SList[i].CTitle + "</a></h5>" +
                                                     "<p>" + jsondata.SList[i].CIntroduce + "</p>" +
                                                " </div>" +
                                            " </div>" +
@@ -240,7 +295,7 @@
                 {
                     string = string + "<div class=\"col-md-4 col-sm-6\"><div class=\"project-item\" ><img src='" + jsondata.SList[i].path + "' style=\"width:433px;height:320px\"  /><div class=\"project-hover\">" +
                                                 "<div class=\"inside\">" +
-                                                    "<h5><a target='_blank' href=\"showpage/showcookbook.aspx?cid=" + jsondata.SList[i].CId + "\">" + jsondata.SList[i].CTitle + "</a></h5>" +
+                                                    "<h5><a target='_blank' href=\"showpage/showcookbook.aspx?cid=" + jsondata.SList[i].CId +"&op=1"+ "\">" + jsondata.SList[i].CTitle + "</a></h5>" +
                                                     "<p>" + jsondata.SList[i].CIntroduce + "</p>" +
                                                " </div>" +
                                            " </div>" +
@@ -278,7 +333,7 @@
                 for (var i = 0; i < jlength; i++) {
                     $("<tr class=\"active\"><td>" + jsondata.SList[i].STitle + "</td><td>" + jsondata.SList[i].Uname + "</td><td>" +
                         ChangeDateFormat(jsondata.SList[i].addtime) + "</td><td>" + "<a target=\"_blank\" href='<%=Page.ResolveUrl("~/showpage/showstrategy.aspx")%>?Sid="+jsondata.SList[i].SId+"' class='detail'>详情</a>" + "" +
-                        "</td><td><a href='<%=Page.ResolveUrl("~/showpage/editstrategy.aspx")%>?Sid=" + jsondata.SList[i].SId + "' class='edit'>编辑</a></td>" + "<td><a href='javascript:void(0)' sid='" + jsondata.SList[i].SId + "' class='del'>删除</a></td>" + "</tr>").appendTo("#Strategylist");
+                        "</td><td><a target=\"_blank\" href='<%=Page.ResolveUrl("~/showpage/editstrategy.aspx")%>?Sid=" + jsondata.SList[i].SId + "' class='edit'>编辑</a></td>" + "<td><a href='javascript:void(0)' sid='" + jsondata.SList[i].SId + "' class='del'>删除</a></td>" + "</tr>").appendTo("#Strategylist");
                 }
                 $("#mspagebar").html(jsondata.PageBar);
                 StrategyPageBar();
@@ -407,25 +462,16 @@
             });
         }
         //绑定添加项
+
         function BindAdd()
         {
             AddToCollect();
         }
-            /*
-              <li><a href="#myworks" onclick="displaywork()"><i class="fa fa-link"></i>我的作品</a></li>
-                    <li><a href="#newmycookbook" onclick="displaycookbook()"><i class="fa fa-link"></i>我的菜谱</a></li>
-                    <li><a href="#mystrategy" onclick="displaystrategy()"><i class="fa fa-link"></i>我的攻略</a></li>
-                    <li><a href="#cookmenu" onclick="displaycookmenu()"><i class="fa fa-link"></i>我的菜单</a></li>
-                    <li><a href="#mycollect" onclick="displaycollection()"><i class="fa fa-link"></i>我的收藏</a></li>
-                    <li><a href="#myconcern" onclick="displayfocus()"><i class="fa fa-link"></i>关注的人</a></li>
-                    <li><a href="#myboard" onclick="displaycomment()"><i class="fa fa-link"></i>留言板</a></li>
-            */
-
 
         function displaywellcome()
         {
             $("#top").css("display", "block");
-            $("#myworks").css("display", "none");
+            $("#myworks").css("display", "block");
             $("#newmycookbook").css("display", "none");
             $("#mystrategy").css("display", "none");
             $("#cookmenu").css("display", "none");
@@ -435,7 +481,7 @@
         }
 
         function displaywork() {
-            $("#top").css("display", "none");
+            $("#top").css("display", "block");
             $("#myworks").css("display", "block");
             $("#newmycookbook").css("display", "none");
             $("#mystrategy").css("display", "none");
@@ -445,7 +491,6 @@
             $("#myboard").css("display", "none");
 
         }
-
 
         function displaycookbook() {
             $("#top").css("display", "none");
@@ -459,7 +504,6 @@
 
         }
 
-
         function displaystrategy() {
             $("#top").css("display", "none");
             $("#myworks").css("display", "none");
@@ -471,7 +515,6 @@
             $("#myboard").css("display", "none");
 
         }
-
 
         function displaycookmenu() {
             $("#top").css("display", "none");
@@ -485,7 +528,6 @@
 
         }
 
-
         function displaycollection() {
             $("#top").css("display", "none");
             $("#myworks").css("display", "none");
@@ -498,7 +540,6 @@
 
         }
 
-
         function displayfocus() {
             $("#top").css("display", "none");
             $("#myworks").css("display", "none");
@@ -510,7 +551,6 @@
             $("#myboard").css("display", "none");
 
         }
-
 
         function displaycomment() {
             $("#top").css("display", "none");
@@ -608,39 +648,16 @@
                             <div class="comments-top">
                            <h3>MyWorks</h3>
                                 </div>
-                        </div>
-                    </div>
-                        <div class="row projects-holder">
-                        <asp:Repeater ID="Repeater1" runat="server">
-                            
-                                     <ItemTemplate>
-                                
-                                    <div class="col-md-4 col-sm-6">
-                                        <div class="project-item">
-                                            <img src="<%#Eval("path") %>" style="width:433px;height:320px" alt=""/>
-                                            <div class="project-hover">
-                                                <div class="inside">
-                                                    <h5><a href="#"><%#Eval("WTitle") %></a></h5>
-                                                    <p><%#Eval("introduce") %></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                      
-                            </ItemTemplate>
-                                
-                            <FooterTemplate>
-                                <div class ="page">
-                                    <br />
+                            <div id="workscontent"></div>
+                            <div class="page" id="workspagebar"></div>
+                            <div>
+                                <br />
 
-                                     <p><%=FoodShareCOMMON.PageBarHelper.GetPageBar(WorkIndex,WorkPageCount) %></p>
-                                </div>
-                                <div>
                                     <input type="button" id="addMyWork" class="btn btn-1 btn-primary" value ="添加个人作品"/>
                                 </div>
-                            </FooterTemplate>
-                        </asp:Repeater>
-                            </div>
+                        </div>
+                    </div>
+                    
                     </div>
                     <!---myworks-end--->
 

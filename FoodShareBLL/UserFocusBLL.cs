@@ -48,5 +48,11 @@ namespace FoodShareBLL
             int end = pageindex * pagesize;
             return udal.GetList(start, end, uid);
         }
+
+        public bool CheckFocus(int uid1,int uid2)
+        {
+            UserFocusDAL udal = new UserFocusDAL();
+            return udal.CheckFocus(uid1,uid2) ;
+        }
     }
 }

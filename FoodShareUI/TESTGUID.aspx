@@ -2,19 +2,64 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="css/pageStyle.css" rel="stylesheet" />
+    <link href="css/relationship.css" rel="stylesheet" />
     <script  type="text/javascript">
         $(function () {
             //加载攻略
-            LoadStrategyInfo(1);
+           // LoadStrategyInfo(1);
             //加载菜谱
             LoadCookBook(1);
             //加载菜单
-            LoadMenuInfo(1);
+         //   LoadMenuInfo(1);
             //加载top3
             loadTop();
+            //加载所有人的主页链接
+            LoadFocus(1);
         });
       
-       
+
+        //加载关注
+        function LoadFocus(focusindex) {
+            $.post("mymainpageoperation/showMemberInfo.ashx", { "index": focusindex }, function (data) {
+                //$("#focuscontent").remove();
+                var jsondata = $.parseJSON(data);
+                var jlength = jsondata.SList.length;
+                var string = "";
+                for (var i = 0; i < jlength; i++) {
+                    string = string +
+                        "<div class=\"col-sm-6\"><dl>" +
+                                      "<dt><a href='singlepage.aspx?cid="+jsondata.SList[i].UId+"' target='_blank'><img src='" + jsondata.SList[i].display + "'   /></a></dt>" +
+                                      "<dd>" +
+                                        "<h4><a href='singlepage.aspx?cid=" + jsondata.SList[i].UId + "' target='_blank' id='" + jsondata.SList[i].UId + "' title='" + jsondata.SList[i].name + "' class='user_name'>" + jsondata.SList[i].name + "</a></h4>" +
+                                        "<p>" + jsondata.SList[i].introduce + "</p>" +
+                                        "<div class=\"clearfix\">" +
+                                         " <div class=\"pull-left\">" +
+                                          "</div>" +
+                                          "<div class=\"pull-right\">" +
+                                           " <div class=\"follow \">" +
+                                            "  <div class=\"text\" ><a href = 'singlepage.aspx?cid="+jsondata.SList[i].UId+"'>点击前往</a></div>" +
+                                             " <div class=\"icon\"></div>" +
+                                            "</div>" +
+                                          "</div>" +
+                                        "</div>" +
+                                      "</dd>" +
+                                    "</dl>" +
+                                  "</div>"
+                }
+                $("#focuscontent").html(string);
+                $("#foucuspagebar").html(jsondata.PageBar);
+                FocusPageBar();
+
+            });
+        }
+
+        function FocusPageBar() {
+            $(".focuspages").click(function () {
+                var index = $(this).attr("href").split("=")[1];
+                LoadFocus(index);
+                return false;
+            });
+        }
         function loadTop()
         {
             var string = "";
@@ -129,7 +174,7 @@
 			  	 "<div class=\"details\">"+
 			  	 "	<h4><a target='_blank' href=\"showpage/showcookbook.aspx?cid=" + jsondata.SList[i].CId + "\">" + jsondata.SList[i].CTitle + "</a></h4>" +
                     "<p>" + shortcontent + "</p>" +
-			  	 	"<a class=\"bannn-btn\" target='_blank' href=\"showpage/showcookbook.aspx?cid=" + jsondata.SList[i].CId + "\">Read More</a>"+
+			  	 	"<a class=\"bannn-btn\" target='_blank' href=\"showpage/showcookbook.aspx?cid=" + jsondata.SList[i].CId + "&op=0" + "\">Read More</a>" +
 			  	 "</div>"+
 			  "</div>";
 
@@ -297,7 +342,7 @@
     
                          <!----Strategy----->   
       
-          <div class="comments-top">
+<%--          <div class="comments-top">
                           <center> <h3>Strategy</h3></center> 
           </div>
      
@@ -311,7 +356,7 @@
 
                 </div>
                     </div>
-            </center>
+            </center>--%>
                          <!----endStrategy----->   
                         <!-- cookmenu -->
 <%--    <div class="container">
@@ -344,6 +389,21 @@
 </div>
                     <!-- endcookmenu -->
 
-            <a target="_blank" href="singlepage.aspx?cid=6">test</a>
+    <!-- start singlepage> -->
+    <div class="container">
+       <div class="page-section" id="myconcern" >
+       <div id="relationship" class="simple-box">
+      <div class="content">
+          <div class="comments-top"><center><h3>SinglePage</h3></center></div>
+                    <div class="list row" id="focuscontent">
+              
+                    </div>
+                    <div class="page" id="foucuspagebar"></div>
+                  </div> 
+
+             </div>
+       </div>
+      </div>
+        <!--end singlepage   -->
 
 </asp:Content>

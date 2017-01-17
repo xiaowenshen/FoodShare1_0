@@ -91,10 +91,16 @@ namespace FoodShareBLL
             return works % pagesize == 0 ? works / pagesize : works / pagesize + 1;
         }
 
-
+        //编辑作品
         public Boolean UploadWork(MyWorks model)
         {
             return mdal.Add(model) > 0;
+        }
+
+        //删除作品
+        public bool Delete(int wid)
+        {
+            return mdal.Delete(wid);
         }
     }
 }

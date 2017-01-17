@@ -518,6 +518,15 @@
             _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/s/a/hp_zh_cn.png');
         }
 
+        #hp_cellCenter .content_wrap .sw_logo, #hp_cellCenter #sbox .hp_sw_logoredifine {
+            background: url(/s/a/ms_search.png) no-repeat;
+            margin: -4px 18px 0 0;
+            height: 53px;
+            width: 107px;
+            _background-image: none;
+            _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/s/a/ms_searh.png');
+        }
+
         .lit .sw_logo {
             background-position: 0 -85px;
             _margin-top: -85px;

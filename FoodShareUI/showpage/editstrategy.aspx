@@ -17,7 +17,7 @@
       
         <br />
        
-                <img class="img-responsive" src="../<%=ms.Path %>"/>
+                <img class="img-responsive"  style="width:600px;height:400px" src="../<%=ms.Path %>"/>
              <h2>标题：</h2>
             <input type="text" name="title" value="<%=ms.STitle %>" />
 
@@ -44,5 +44,5 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
     <br />
 
-  
+
 </asp:Content>
