@@ -10,13 +10,21 @@ namespace FoodShareBLL
    public partial  class ManageMenuBLL
     {
 
-        public List<ManageMenu> GetList(int pageindex,int pagesize,int uid)
+        public List<ManageMenu> GetList(int pageindex, int pagesize, int uid)
         {
             ManageMenuDAL mmdal = new ManageMenuDAL();
             int start = (pageindex - 1) * pagesize + 1;
             int end = pagesize * pageindex;
-            return mmdal.GetList(start, end,uid);
+            return mmdal.GetList(start, end, uid);
         }
+        public List<ManageMenu> GetList( int uid)
+        {
+            ManageMenuDAL mmdal = new ManageMenuDAL();
+           
+            return mmdal.GetList( uid);
+        }
+
+
         public List<ManageMenu> GetList(int pageindex, int pagesize)
         {
             ManageMenuDAL mmdal = new ManageMenuDAL();

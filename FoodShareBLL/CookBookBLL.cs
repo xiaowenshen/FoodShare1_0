@@ -103,11 +103,29 @@ namespace FoodShareBLL
         {
             return cdal.Add(cb);
         }
-
+        /// <summary>
+        /// 通过id获取菜谱
+        /// </summary>
+        /// <param name="cid"></param>
+        /// <returns></returns>
         public CookBook GetCookBookById(int cid)
         {
            return  cdal.GetCookBookById(cid);
         }
+        /// <summary>
+        /// 删除菜谱
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="cid"></param>
+        /// <returns></returns>
+        public bool deleteCookBook(int uid ,int cid)
+        {
+            return cdal.DeleteCookBook(cid);
+        }
 
+        public bool EditCookBook(CookBook model)
+        {
+            return cdal.Update(model);
+        }
     }
 }

@@ -28,7 +28,7 @@
             <div id="content">
                </div>
            
-    
+            <asp:Button ID="Button1" runat="server"  class="btn btn-lg btn-warning" Text="确认修改" OnClick="Button1_Click"  />
          <asp:Button ID="returnmypage" runat="server" class="btn btn-lg btn-warning" Text="返回我的主页" OnClick="returnmypage_Click" />
             </div>
     </div>

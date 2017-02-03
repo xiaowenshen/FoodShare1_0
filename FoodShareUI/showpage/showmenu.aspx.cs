@@ -40,7 +40,7 @@ namespace FoodShareUI.showpage
                 foreach (var item in List)
                 {
                     
-                    sb.AppendFormat("<div class='view view-third'><a href = '{0}' class='b-link-stripe b-animate-go  swipebox'  title='{1}'><img src = '../{2}' class='img-responsive'/><div class=\"mask\"><h2>{3}</h2><p>{4}</p><a href='showcookbook.aspx?cid={5}' target='_blank' ><span class=\"gall\">More</span></a></div></a></div>", item.Path,item.CTitle,item.Path, item.CTitle, item.CIntroduce,item.CId);
+                    sb.AppendFormat("<div class='view view-third'><a href = '{0}' class='b-link-stripe b-animate-go  swipebox'  title='{1}'><img src = '../{2}' class='img-responsive'/><div class=\"mask\"><h2>{3}</h2><p>{4}</p><a href='showpage/showcookbook.aspx?cid={5}&op=0' target='_blank' ><span class=\"gall\">More</span></a></div></a></div>", item.Path,item.CTitle,item.Path, item.CTitle, item.CIntroduce,item.CId);
                 }
                 showitem = sb.ToString();
             }
@@ -50,7 +50,6 @@ namespace FoodShareUI.showpage
                 ManageMenu mm =  mbll.GetManageMenuById(MenuId);
                 FoodMenuName = mm.MenuName;
                 FoodIntroduce = mm.MenuIntroduce;
-
               showitem = "<div>菜单是空的！~</div>";
                 //Response.Write("<script>alert('查询失败！')</script>");
                 //Response.Redirect("mymainpage.aspx");

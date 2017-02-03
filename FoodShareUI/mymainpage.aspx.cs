@@ -17,6 +17,7 @@ namespace FoodShareUI
         protected void Page_Load(object sender, EventArgs e)
         {
             Uinfo = (UserInfo)Session["uinfo"];
+
         }
     }
 }

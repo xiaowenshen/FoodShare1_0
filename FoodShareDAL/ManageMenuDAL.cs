@@ -231,6 +231,37 @@ namespace FoodShareDAL
 			return model;
 		}
 
+        public List<ManageMenu> GetList(int uid)
+        {
+            string sql = "select * from ManageMenu where UId = @uid and isdel = 0 order by addtime desc";
+            List<ManageMenu> list = new List<ManageMenu>();
+            SqlParameter[] ps = {
+                new SqlParameter("@uid",SqlDbType.Int),
+
+            };
+          
+            ps[0].Value = uid;
+
+            DataTable dt = DbHelperSQL.GetDataTable(sql, ps);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    ManageMenu mm = new ManageMenu();
+                    mm = DataRowToModel(dr);
+                    list.Add(mm);
+                }
+            }
+            else
+            {
+
+                list = null;
+
+            }
+            return list;
+        }
+
+
         /// <summary>
         /// 获得数据列表
         /// </summary>

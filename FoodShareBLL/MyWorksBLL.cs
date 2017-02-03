@@ -91,16 +91,47 @@ namespace FoodShareBLL
             return works % pagesize == 0 ? works / pagesize : works / pagesize + 1;
         }
 
-        //编辑作品
+        /// <summary>
+        /// 上传作品
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public Boolean UploadWork(MyWorks model)
         {
             return mdal.Add(model) > 0;
         }
 
-        //删除作品
+        public bool UpDate(MyWorks model)
+        {
+            return mdal.Update(model);
+        }
+        /// <summary>
+        /// 删除作品
+        /// </summary>
+        /// <param name="wid"></param>
+        /// <returns></returns>
         public bool Delete(int wid)
         {
             return mdal.Delete(wid);
+        }
+        /// <summary>
+        /// 判断作品是否属于作者
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="wid"></param>
+        /// <returns></returns>
+        public bool IsUserWork(int uid ,int wid)
+        {
+            return mdal.IsUserWork(uid, wid);
+        }
+        /// <summary>
+        /// 通过id查找作品
+        /// </summary>
+        /// <param name="wid"></param>
+        /// <returns></returns>
+        public MyWorks GetWorkById(int wid)
+        {
+            return mdal.GetWorkById(wid);
         }
     }
 }

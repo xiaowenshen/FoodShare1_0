@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" href="css/templatemo-style.css"/>
         <link href="css/relationship.css" rel="stylesheet" />
+        <link href="css/checkbox.css" rel="stylesheet" />
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
@@ -53,23 +54,57 @@
             //加载留言
             LoadComment(1);
             //显示欢迎
-            displaywellcome()
+            displaycookmenu()
+            //testlist
+            
 
         })
+        function loadCookBookList(index)
+        {
+               $.post("mymainpageoperation/ShowMenuList.ashx", { }, function (data) {
+                
+                var jsondata = data;
+                var jlength = jsondata.SList == null ? 0 : jsondata.SList.length;
+                var string = "";
 
+                for (var i = 0; i < jlength; i++) {
+                    string = string + "<tr class=\"active\"><td>" + "<input type='checkbox' name='" + jsondata.SList[i].MenuName + "' value=' " + jsondata.SList[i].MenuName + "'/>" + "</td><td>" + "<label>" + jsondata.SList[i].MenuName + "<label/></td></tr>";
+
+                }
+                string = string + "<br/><input type='button' class = 'btn btn-1 btn-warning' value='确认添加'>"
+                alert(string);
+                $.parseHTML(string);
+                $("#showmenulist").html(string);
+               }, "json");
+
+        }
+      
+            //编辑作品
+        function editwork(id)
+        {
+            windows.open( "showpage/editWork.aspx?wid=" + id);
+        }
+            //删除作品
         function deletework(id)
         {
-            $.post("mymainpageoperation/deleteWork.ashx", { "wid": id }, function (data) {
-                if(data == "1")
-                {
-                    alert("删除成功！");
-                }
-                else {
-                    alert("删除失败，请稍后再试！");
-                }
 
-            });
+            if (!confirm("确认要删除吗？"))
+                return false;
+            else
+            {
+                $.post("mymainpageoperation/deleteWork.ashx", { "wid": id }, function (data) {
+                    if (data == "1") {
+                        alert("删除成功！");
+                        LoadWorks(1);
+                    }
+                    else {
+                        alert("删除失败，请稍后再试！");
+                    }
+
+                });
+            }
         }
+            //加载作品
         function LoadWorks(index)
         {
             var string = "";
@@ -89,17 +124,16 @@
                                                 "</div>"+
                                             "</div>"+
                                         "</div>" +
-                                        "<input type=\"button\" id=\"addMyWork\" class=\"btn btn-1 btn-primary\" value =\"编辑\"/> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" +
+                                        "<input type=\"button\" id=\"addMyWork\" onclick='editwork(" + jsondata.SList[i].WId + ")' class=\"btn btn-1 btn-primary\" value =\"编辑\"/> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" +
                                          "        <input type=\"button\" onclick ='deletework("+ jsondata.SList[i].WId+")' class=\"btn btn-1 btn-danger\" value =\"删除\"/>"+
-                                         
                                     "</div>";
                 }
-               
                 $("#workscontent").html(string);
                 $("#workspagebar").html(jsondata.PageBar );
                worksPageBar();
             }, "text");
         }
+            //作品的页码
         function worksPageBar()
         {
             $(".workspages").click(function () {
@@ -135,8 +169,7 @@
             }
         
         }
-
-        //加载留言
+            //加载留言
         function LoadComment(index)
         {
             $.post("mymainpageoperation/showComment.ashx", { "commentindex": index }, function (data) {
@@ -180,8 +213,7 @@
                 commentPageBar();
             }, "text")
         }
-
-
+            //评论页码
         function commentPageBar() {
             $(".commentpages").click(function () {
                 var index = $(this).attr("href").split("=")[1];
@@ -189,9 +221,7 @@
                 return false;
             });
         }
-
-
-        //加载关注
+            //加载关注
         function LoadFocus(focusindex)
         {
             $.post("mymainpageoperation/showFocus.ashx", { "focusindex": focusindex }, function (data) {
@@ -283,6 +313,12 @@
             
 
         }
+        //把菜谱添加至菜单
+        function addtocookbook(cid)
+        {
+
+        }
+
         //加载菜谱
         function LoadCookBook(cookbookindex)
         {
@@ -299,12 +335,13 @@
                                                     "<p>" + jsondata.SList[i].CIntroduce + "</p>" +
                                                " </div>" +
                                            " </div>" +
-                                     " </div>" + "<input type=\"button\" name=\"addtocookbook\" class=\"btn btn-1 btn-info\" value =\"添加至菜单\" />" +
+                                     " </div>" + "<input type=\"button\" onclick=\"addtocookbook(" + jsondata.SList[i].CId + ")\" class=\"btn btn-1 btn-info\" value =\"添加至菜单\" />" +
                                        " <input type=\"button\"  menuid =\"" + jsondata.SList[i].CId + "\" name=\"addtocollection\"  class=\"btn btn-1 btn-info\" value =\"添加至收藏夹\" /></div>";
                 }
                 $("#cookbookcontent").html(string);
                // alert(string);
                 $("#cookbookpagebar").html(jsondata.PageBar);
+
                 CookPageBar();
                 //绑定添加菜谱至收藏夹
                 BindAdd();
@@ -321,9 +358,90 @@
                 return false;
             });
         }
+        //绑定菜谱管理
+        function BindManageCookBook()
+        {
+            $("#managecookbook").click(ManageCookBook());
+        }
+        //管理菜谱
+        function ManageCookBook()
+        {
+            displaymanagecookbook();
+            LoadManageCookBook(1);
+        }
+        //删除菜谱
+        function deleteCookBook()
+        {
+            var cid = $(this).attr("cid");
+            if(!confirm("确定要删除吗？111"))
+            {
+                return false;
+            }
+            else
+            {
+                $.post("mymainpageoperation/deleteCookBook.ashx", { "cid": cid }, function (data) {
+                    if(data == "1")
+                    {
+                        alert("删除成功！");
+                        LoadManageCookBook(1);
+                    }
 
+                });
+            }
+        }
+        //绑定删除菜谱
+        function BindManageDel()
+        {
+            $(".cbdel").click(function () {
+
+                var cid = $(this).attr("cid");
+                if (!confirm("确定要删除吗？")) {
+                    return false;
+                }
+                else {
+                    $.post("mymainpageoperation/deleteCookBook.ashx", { "cid": cid }, function (data) {
+                        if (data == "1") {
+                            alert("删除成功！");
+                            LoadManageCookBook(1);
+                        }
+
+                    });
+                }
+            });
+        }
+        //加载管理页面
+        function LoadManageCookBook(cookbookindex)
+        {
+            $("#CookBooklist tr:gt(0)").remove();
+            $.post("mymainpageoperation/showCookBook.ashx", { "cbindex": cookbookindex }, function (data) {
+                var jsondata = $.parseJSON(data);
+                var jlength = jsondata.SList.length;
+                var string = "";
+                for (var i = 0; i < jlength; i++)
+                {
+                         $("<tr class=\"active\"><td>" + jsondata.SList[i].CTitle + "</td><td>" +
+                        ChangeDateFormat(jsondata.SList[i].addtime) + "</td><td>" + "<a target=\"_blank\" href='<%=Page.ResolveUrl("~/showpage/showcookbook.aspx")%>?cid=" + jsondata.SList[i].CId + "&op=0" +"' class='detail'>详情</a>" + "" +
+                        "</td><td><a target=\"_blank\" href='<%=Page.ResolveUrl("~/showpage/showcookbook.aspx")%>?cid=" + jsondata.SList[i].CId + "&op=1" + "' class='edit'>编辑</a></td>" + "<td><a href='javascript:void(0)' cid='" + jsondata.SList[i].CId + "' class='cbdel'>删除</a></td>" + "</tr>").appendTo("#CookBooklist");
+                }
+                $("#cbookpagebar").html(jsondata.PageBar);
+                BindManageDel();
+                ManageCookBookPageBar();
+            }, "text");
+        }
+
+         //管理菜谱页码条
+        function ManageCookBookPageBar()
+        {
+            $(".cbpages").click(function () {
+                var cbindex = $(this).attr("href").split("=")[1];
+                LoadManageCookBook(cbindex);
+                //防止跳转
+                return false;
+            });
+        } 
         //加载攻略
-        function LoadStrategyInfo(strategypageindex) {
+        function LoadStrategyInfo(strategypageindex)
+        {
 
             //清除数据
             $("#Strategylist tr:gt(0)").remove();
@@ -478,6 +596,8 @@
             $("#mycollect").css("display", "none");
             $("#myconcern").css("display", "none");
             $("#myboard").css("display", "none");
+            
+            $("#managecbook").css("display", "none");
         }
 
         function displaywork() {
@@ -489,7 +609,7 @@
             $("#mycollect").css("display", "none");
             $("#myconcern").css("display", "none");
             $("#myboard").css("display", "none");
-
+            $("#managecbook").css("display", "none");
         }
 
         function displaycookbook() {
@@ -501,7 +621,7 @@
             $("#mycollect").css("display", "none");
             $("#myconcern").css("display", "none");
             $("#myboard").css("display", "none");
-
+            $("#managecbook").css("display", "none");
         }
 
         function displaystrategy() {
@@ -513,7 +633,7 @@
             $("#mycollect").css("display", "none");
             $("#myconcern").css("display", "none");
             $("#myboard").css("display", "none");
-
+            $("#managecbook").css("display", "none");
         }
 
         function displaycookmenu() {
@@ -525,7 +645,8 @@
             $("#mycollect").css("display", "none");
             $("#myconcern").css("display", "none");
             $("#myboard").css("display", "none");
-
+            $("#managecbook").css("display", "none");
+            loadCookBookList(1);
         }
 
         function displaycollection() {
@@ -537,7 +658,7 @@
             $("#mycollect").css("display", "block");
             $("#myconcern").css("display", "none");
             $("#myboard").css("display", "none");
-
+            $("#managecbook").css("display", "none");
         }
 
         function displayfocus() {
@@ -549,7 +670,7 @@
             $("#mycollect").css("display", "none");
             $("#myconcern").css("display", "block");
             $("#myboard").css("display", "none");
-
+            $("#managecbook").css("display", "none");
         }
 
         function displaycomment() {
@@ -561,9 +682,22 @@
             $("#mycollect").css("display", "none");
             $("#myconcern").css("display", "none");
             $("#myboard").css("display", "block");
-
+            $("#managecbook").css("display", "none");
         }
 
+        function displaymanagecookbook()
+        {
+            $("#top").css("display", "none");
+            $("#myworks").css("display", "none");
+            $("#newmycookbook").css("display", "none");
+            $("#mystrategy").css("display", "none");
+            $("#cookmenu").css("display", "none");
+            $("#mycollect").css("display", "none");
+            $("#myconcern").css("display", "none");
+            $("#myboard").css("display", "none");
+            $("#managecbook").css("display", "block");
+           
+        }
         //将序列化成json格式后日期(毫秒数)转成日期格式
         function ChangeDateFormat(cellval) {
             var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
@@ -642,7 +776,7 @@
                     <form id="works" runat="server">
 
                     
-                    <div class="page-section" id="myworks" >
+                          <div class="page-section" id="myworks" >
                     <div class="row">
                         <div class="col-md-12">             
                             <div class="comments-top">
@@ -656,13 +790,14 @@
                                     <input type="button" id="addMyWork" class="btn btn-1 btn-primary" value ="添加个人作品"/>
                                 </div>
                         </div>
+                        <input type="button" onclick="loadCookBookList(1)" value ="测试" />
                     </div>
                     
                     </div>
                     <!---myworks-end--->
 
                          <!----newmycookbook----->    
-                  <div class="page-section" id="newmycookbook" >
+                         <div class="page-section" id="newmycookbook" >
                    <div class="row">
                      <div class="col-md-12">             
                          <div class="comments-top">
@@ -673,14 +808,42 @@
                         <div class="row projects-holder" id="cookbookcontent"></div>
                              <div class="page" id="cookbookpagebar"></div>
                                 <div>
-                                    <input type="button" id="addCookBook" class="btn btn-1 btn-primary" value ="添加个人菜谱"/>
+                                     <input type="button" id="managecookbook" onclick="ManageCookBook()" class="btn btn-1 btn-primary" value ="管理个人菜谱"/>
+                                 
                                 </div>
                      
 
 
                  </div>
+                         <!----endnewmycookbook-----> 
+                         <!----managecookbook-----> 
+                        <div class="page-section" id="managecbook">
 
-                         <!----endnewmycookbook----->       
+                             <div class="comments-top">
+                           <h3>CookBook</h3>
+                                </div>
+                      <div class="bann-strip">
+	                    <div class="container">
+		                    <div class="bann-strip-main">
+                                <center>
+                                    <table id="CookBooklist" class="table">
+                                        <tr class="success"><th>菜谱名</th><th>菜谱添加时间</th><th>详情</th><th>编辑</th><th>删除</th></tr>
+                    
+                                    </table>
+                                    <div id="cbookpagebar" class ="page">
+
+                                    </div>
+                                </center>
+                            </div>
+                            <input type="button" class="btn btn-1 btn-warning" onclick="displaycookbook()" value ="返回我的菜谱"/>
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                               <input type="button" id="addCookBook" class="btn btn-1 btn-primary" value ="添加个人菜谱"/>
+	                    </div>
+
+                    </div>
+
+                        </div>
+                         <!----endmanagecookbook----->       
 
                  
                         </form>
@@ -744,24 +907,47 @@
                     <div class="row projects-holder" id="collectcontent"></div>
                     </div> 
                     <!-- endmycollect -->
+                    <!----mycookbooklist------->
+                      <div class="page-section" id="cookbooklist">
+
+                             <div class="comments-top">
+                           <h3>CookBookList</h3>
+                                </div>
+                      <div class="bann-strip">
+	                    <div class="container">
+		                    <div class="bann-strip-main">
+                                <center>
+                          <table  class="table" id="showmenulist">
+                             
+                          </table>
+                                    <div class="page" id="menulistpagebar"></div>
+                                </center>
+                            </div>
+	                    </div>
+
+                      </div>
+
+                      </div>
+
+                    <!----endmycookbooklist------->
                      <!----myconcern------->
-   <div class="page-section" id="myconcern" >
-       <div id="relationship" class="simple-box">
-      <div class="content">
-        <div class="tabs clearfix">
-        <a class="on">我的关注</a>
-        </div>
-              <div class="tags clearfix">
-        					<span class="label-text">全部</span>
-              </div>
+                     <div class="page-section" id="myconcern" >
+                     <div id="relationship" class="simple-box">
+                      <div class="content">
+                        <div class="tabs clearfix">
+                        <a class="on">我的关注</a>
+                        </div>
+                              <div class="tags clearfix">
+        					                <span class="label-text">全部</span>
+                              </div>
                         
-                    <div class="list row" id="focuscontent">
+                                    <div class="list row" id="focuscontent">
               
-                    </div>
-                    <div class="page" id="foucuspagebar"></div>
-                  </div>
-                </div>
-        </div>
+                                    </div>
+                                    <div class="page" id="foucuspagebar"></div>
+                                  </div>
+                                </div>
+                     </div>
                     <!----endmyconcern------->
 
                      <!----myboard------->

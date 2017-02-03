@@ -93,8 +93,8 @@ namespace FoodShareDAL
             strSql.Append("addtime=@addtime,");
             strSql.Append("UId=@UId");
             strSql.Append(" where isdel = 0");
+            strSql.Append("and CId=@CId"); 
             SqlParameter[] parameters = {
-					
 					new SqlParameter("@CTitle", SqlDbType.NVarChar,50),
 					new SqlParameter("@CIntroduce", SqlDbType.NVarChar,150),
 					new SqlParameter("@CContent", SqlDbType.NVarChar,150),
@@ -102,7 +102,9 @@ namespace FoodShareDAL
 					new SqlParameter("@isdel", SqlDbType.Bit,1),
 					new SqlParameter("@addtime", SqlDbType.DateTime),
 					new SqlParameter("@UId", SqlDbType.Int,4),
-                    new SqlParameter("@path", SqlDbType.NVarChar)};
+                    new SqlParameter("@path", SqlDbType.NVarChar),
+                    new SqlParameter("@CId",SqlDbType.Int)
+            };
             parameters[0].Value = model.CTitle;
             parameters[1].Value = model.CIntroduce;
             parameters[2].Value = model.CContent;
@@ -111,6 +113,30 @@ namespace FoodShareDAL
             parameters[5].Value = model.addtime;
             parameters[6].Value = model.UId;
             parameters[7].Value = model.path;
+            parameters[8].Value = model.CId;
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteCookBook(int cid)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update CookBook set ");
+            strSql.Append("isdel=1 ");
+            strSql.Append(" where ");
+            strSql.Append("CId=@CId");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@CId", SqlDbType.Int,4),
+
+                                        };
+            parameters[0].Value = cid;
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
             {
@@ -127,7 +153,7 @@ namespace FoodShareDAL
         /// </summary>
         public bool Delete(int uid, int cid)
         {
-            {
+
                 StringBuilder strSql = new StringBuilder();
                 strSql.Append("update FollowTable set ");
                 strSql.Append("isdel=1 ");
@@ -150,7 +176,6 @@ namespace FoodShareDAL
                 {
                     return false;
                 }
-            }
         }
             /// <summary>
             /// 得到一个对象实体
@@ -273,7 +298,7 @@ namespace FoodShareDAL
         /// <returns></returns>
         public List<CookBook> GetCookBook(int start, int end, int uid)
             {
-                string sql = "select * from(select * , row_number() over( order by addtime DESC) as num  from CookBook where UId = @uid )as t  where t.isdel = 0 and t.num >= @start and t.num <= @end  ";
+                string sql = "select * from(select * , row_number() over( order by addtime DESC) as num  from CookBook where UId = @uid and isdel = 0 )as t  where  t.num >= @start and t.num <= @end  ";
                 SqlParameter[] ps = {
                                     new SqlParameter("@start",SqlDbType.Int),
                                     new SqlParameter("@end",SqlDbType.Int),
@@ -309,7 +334,7 @@ namespace FoodShareDAL
         /// <returns></returns>
         public List<CookBook> GetCookBook(int start, int end)
         {
-            string sql = "select * from(select * , row_number() over( order by addtime DESC) as num  from CookBook )as t  where t.isdel = 0 and t.num >= @start and t.num <= @end";
+            string sql = "select * from(select * , row_number() over( order by addtime DESC) as num  from CookBook  where isdel = 0)as t  where  t.num >= @start and t.num <= @end";
             SqlParameter[] ps = {
                                     new SqlParameter("@start",SqlDbType.Int),
                                     new SqlParameter("@end",SqlDbType.Int),

@@ -16,12 +16,45 @@ namespace FoodShareDAL
 	{
         public MyWorksDAL()
 		{}
+        /// <summary>
+        /// 判断是否为该用户的作品
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="wid"></param>
+        /// <returns></returns>
+        public bool IsUserWork(int uid, int wid)
+        {
+            string sql = "select count(1) from MyWorks where  isdel = 0 and WId = @wid and UId =@uid";
+            SqlParameter[] ps = 
+            {
+                new SqlParameter("@uid", SqlDbType.Int),
+                new SqlParameter("@wid",SqlDbType.Int),
+            };
+            ps[0].Value = uid;
+            ps[1].Value = wid;
+            int res = Convert.ToInt32(DbHelperSQL.ExecuteScalar(sql, ps));
+            return res > 0;
 
+        }
 
-		/// <summary>
-		/// 增加一条数据-------------
-		/// </summary>
-		public int Add(MyWorks model)
+        public MyWorks GetWorkById(int wid)
+        {
+            string sql = "select * from MyWorks where isdel = 0 and WId = @wid";
+            SqlParameter p = new SqlParameter("@wid", SqlDbType.Int);
+            p.Value = wid;
+            MyWorks work = new MyWorks();
+            DataTable dt =  DbHelperSQL.GetDataTable(sql, p);
+            if (dt.Rows.Count > 0)
+                LoadMyWorks(dt.Rows[0], work);
+            else
+                work = null;
+            return work;
+               
+        }
+        /// <summary>
+        /// 增加一条数据-------------
+        /// </summary>
+        public int Add(MyWorks model)
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into MyWorks(");
@@ -147,7 +180,7 @@ namespace FoodShareDAL
         /// <returns></returns>
         public List<MyWorks> GetList(int uid, int start, int end)
         {
-            string sql = "select * from (select *,row_number() over(order by addtime DESC) as num from MyWorks where UId = @uid) as t where t.isdel = 0  and t.num >= @start and t.num <= @end";
+            string sql = "select * from (select *,row_number() over(order by addtime DESC) as num from MyWorks where UId = @uid and isdel = 0) as t where  t.num >= @start and t.num <= @end";
             SqlParameter[] ps = {
                                 new SqlParameter("@uid",SqlDbType.Int),
                                 new SqlParameter("@start" , SqlDbType.Int),
@@ -184,7 +217,7 @@ namespace FoodShareDAL
         /// <returns></returns>
         public List<MyWorks> GetList( int start, int end)
         {
-            string sql = "select * from (select *,row_number() over(order by addtime DESC) as num from MyWorks) as t where t.isdel = 0 and  t.num >= @start and t.num <= @end";
+            string sql = "select * from (select *,row_number() over(order by addtime DESC) as num from MyWorks where isdel = 0) as t where  t.num >= @start and t.num <= @end";
             SqlParameter[] ps = {
                           
                                 new SqlParameter("@start" , SqlDbType.Int),
@@ -215,7 +248,7 @@ namespace FoodShareDAL
 
         public List<MyWorks> GetList(int start, int end, string msg)
         {
-            string sql = "select * from (select *,row_number() over(order by addtime DESC) as num from MyWorks where WTitle like '%@msg%' or introduce like '%msg%' ) as t where t.isdel = 0 and  t.num >= @start and t.num <= @end";
+            string sql = "select * from (select *,row_number() over(order by addtime DESC) as num from MyWorks where isdel = 0 and  WTitle like '%@msg%' or introduce like '%@msg%'  ) as t where  and  t.num >= @start and t.num <= @end";
             SqlParameter[] ps = {
 
                                 new SqlParameter("@start" , SqlDbType.Int),
