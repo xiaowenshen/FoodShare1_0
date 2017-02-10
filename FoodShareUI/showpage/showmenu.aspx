@@ -7,7 +7,7 @@
     <div class="gallery">
 	<div class="container">
 		<div class="gallery-main">
-			<div class="gallery-top">
+			<div class="gallery-top" >
 				<h2><%=FoodMenuName %></h2>
 				<p><%=FoodIntroduce %></p>
 			</div>

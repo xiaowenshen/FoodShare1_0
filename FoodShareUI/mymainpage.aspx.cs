@@ -19,5 +19,12 @@ namespace FoodShareUI
             Uinfo = (UserInfo)Session["uinfo"];
 
         }
+
+        protected void logout_btn_Click(object sender, EventArgs e)
+        {
+
+            Session["uinfo"] = null;
+            Response.Redirect(Page.ResolveUrl("~/login.aspx"));
+        }
     }
 }

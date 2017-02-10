@@ -5,12 +5,9 @@
     <link href="css/relationship.css" rel="stylesheet" />
     <script  type="text/javascript">
         $(function () {
-            //加载攻略
-           // LoadStrategyInfo(1);
+         
             //加载菜谱
             LoadCookBook(1);
-            //加载菜单
-         //   LoadMenuInfo(1);
             //加载top3
             loadTop();
             //加载所有人的主页链接
@@ -21,7 +18,7 @@
         //加载关注
         function LoadFocus(focusindex) {
             $.post("mymainpageoperation/showMemberInfo.ashx", { "index": focusindex }, function (data) {
-                //$("#focuscontent").remove();
+               
                 var jsondata = $.parseJSON(data);
                 var jlength = jsondata.SList.length;
                 var string = "";
@@ -80,10 +77,10 @@
                     }
                     string = string + " <li>" +
                            "<div class=\"col-md-4 banner-left\">" +
-                              "<h3>" + jsondata.SList[i].CTitle + " <span class=\"bann-sli-text\">" + shortcontent + "...</span></h3>" +
+                              "<h3>" +"<a class=\"bannn-btn\" target='_blank' href=\"showpage/showcookbook.aspx?cid=" + jsondata.SList[i].CId + "&op=0" + "\">"+ jsondata.SList[i].CTitle + " </a><span class=\"bann-sli-text\">" + shortcontent + "...</span></h3>" +
                            "</div>" +
                             "<div class=\"col-md-8 banner-right\">" +
-                               "<img  class=\"img-responsive\" style=\"width:800px;height:473.38px\" src=\"" + jsondata.SList[i].path + "\" />" +
+                               "<a class=\"bannn-btn\" target='_blank' href=\"showpage/showcookbook.aspx?cid=" + jsondata.SList[i].CId + "&op=0" + "\"><img  class=\"img-responsive\" style=\"width:800px;height:473.38px\" src=\"" + jsondata.SList[i].path + "\" /></a>" +
                              "</div> " +
                             "<div class=\"clearfix\"> </div>" +
                       "</li>";
@@ -102,17 +99,7 @@
                 var string = "<div class=\"comments-top\"><center><h3>CookMenu</h3></center>";
                 //alert(jsondata.Index);
                 for (var i = 0; i < jlength; i++) {
-                  <%--  string = string + "<div class=\"media\">" +
-                                        "<div class=\"media-left\">" +
-                                        " <a href=''>" +
-                      "<img src='" + jsondata.SList[i].path + "' alt='' style=\"width:100px;height:100px\">" +
-                  "</a>" +
-                "</div>" +
-                "<div class=\"media-body\">" +
-                 " <h4 class=\"media-heading\">介绍</h4>" +
-                 " <p>" + jsondata.SList[i].MenuIntroduce + "</p>" +
-                 "...<a target='_blank' href='<%=Page.ResolveUrl("~/showpage/showmenu.aspx")%>?MenuId=" + jsondata.SList[i].MenuId + "' >详情</a></div></div>";
-                    --%>
+               
                     string = string + "<div class=\"can-help\">" +
 	                "<div class=\"container\">"+
 		            "<div class=\"can-help-main\">"+
@@ -172,7 +159,7 @@
                     string = string +   "<div class=\"col-md-3 bann-grid\">"+
 			  	" <a target='_blank' href=\"showpage/showcookbook.aspx?cid=" + jsondata.SList[i].CId + "\"><img src='" + jsondata.SList[i].path + "'  style=\"width:255px;height:191.25px\"  class=\"img-responsive\"></a>" +
 			  	 "<div class=\"details\">"+
-			  	 "	<h4><a target='_blank' href=\"showpage/showcookbook.aspx?cid=" + jsondata.SList[i].CId + "\">" + jsondata.SList[i].CTitle + "</a></h4>" +
+			  	 "	<h4><a target='_blank' href=\"showpage/showcookbook.aspx?cid=" + jsondata.SList[i].CId + "&op=0\">" + jsondata.SList[i].CTitle + "</a></h4>" +
                     "<p>" + shortcontent + "</p>" +
 			  	 	"<a class=\"bannn-btn\" target='_blank' href=\"showpage/showcookbook.aspx?cid=" + jsondata.SList[i].CId + "&op=0" + "\">Read More</a>" +
 			  	 "</div>"+
@@ -297,11 +284,11 @@
             <asp:Repeater ID="Repeater1" runat="server">
                 <ItemTemplate>
                       <div class="col-md-3 bann-grid">
-			  	 <a href="single.html"><img src="<%#Eval("path") %>" style="width:255px;height:191.25px" class="img-responsive"/></a>
+			  	 <a  target="_blank" href="showpage/showwork.aspx?wid=<%#Eval("WId") %>"><img src="<%#Eval("path") %>" style="width:255px;height:191.25px" class="img-responsive"/></a>
 			  	 <div class="details">
-			  	 	<h4><a href="single.html"><%#Eval("WTitle").ToString().Length < 1 ? "暂无名称" : Eval("WTitle") %></a></h4>
+			  	 	<h4><%#Eval("WTitle").ToString().Length < 1 ? "暂无名称" : Eval("WTitle") %></h4>
 			  	 	<p><%#Eval("introduce").ToString().Length < 1 ? "暂无介绍.." :  Eval("introduce").ToString().Substring(0,Eval("introduce").ToString().Length > 5 ? 5 : Eval("introduce").ToString().Length) %></p>
-			  	 	<a class="bannn-btn" target="_blank" href="mypage.aspx">Read More</a>
+			  	 	<a class="bannn-btn" target="_blank" href="showpage/showwork.aspx?wid=<%#Eval("WId") %>">Read More</a>
 			  	 </div>
 			  </div>
                 </ItemTemplate>
@@ -340,46 +327,7 @@
 
                          <!----endnewmycookbook----->   
     
-                         <!----Strategy----->   
-      
-<%--          <div class="comments-top">
-                          <center> <h3>Strategy</h3></center> 
-          </div>
-     
-            <center>
-                <div class="container">
-                <table id="Strategylist" class="table">
-                    <tr class="success"><th>攻略名</th><th>作者</th><th>攻略添加时间</th><th>详情</th></tr>
-                    
-                </table>
-                <div id="mspagebar" class ="page">
-
-                </div>
-                    </div>
-            </center>--%>
-                         <!----endStrategy----->   
-                        <!-- cookmenu -->
-<%--    <div class="container">
-                    <div class="page-section" id="cookmenu">
-                  <div class="row">
-                        <div class="col-md-12">
-                            <div class="comments-top">
-                          
-                                </div>
-                         
-                            <div id="menucontent" >
-                                <div id ="showmenu">
-
-                            </div>
-                                <div id="menupagebar" class="page">
-                            </div>
-                          </div>
-                              
-                       </div>
-                    </div>-
-                         
-                    </div>
-        </div>--%>
+  
     <div class="can-help">
 	<div class="container">
 		<div class="can-help-main" id ="showmenu" >

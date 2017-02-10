@@ -34,6 +34,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="container">
 				<div class="single">
         <div class="comment-bottom">
+             <input type="button" class="btn btn-lg btn-warning" id="returnmymainpage" value="返回我的主页" />
         <h3>作品上传</h3>
         <!------------作品上传--------->
         <div>
@@ -51,7 +52,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         <asp:Button ID="submitworks" runat="server" class="btn btn-lg btn-primary" Text="提交" OnClick="submitworks_Click" Visible="true" />
       
-        <input type="button" class="btn btn-lg btn-warning" id="returnmymainpage" value="返回我的主页" />
+       
             </div>
     </div>
     </div>

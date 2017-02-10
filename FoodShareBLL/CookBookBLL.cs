@@ -92,7 +92,7 @@ namespace FoodShareBLL
         public int GetPageCount(int pagesize,int uid)
         {
             int works = cdal.GetMaxCount(uid);
-            return works % pagesize == 0 ? works / pagesize : works / pagesize + 1;
+            return Convert.ToInt32(Math.Ceiling(works * 1.0 / pagesize));
         }
         /// <summary>
         /// 添加菜谱

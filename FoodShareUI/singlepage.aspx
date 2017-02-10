@@ -8,6 +8,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <title>个人主页</title>
         <meta name="description" content=""/>
+    
+    <link rel="shortcut icon" href="images/Hicon.png" />
         <script src="js/jquery-1.11.0.min.js"></script>
         <script src="js/jquery.easyui.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -54,7 +56,93 @@
             LoadComment(1);
             //添加关注
             AddFocus();
+            //显示主内容
+            displaymain()
+
         })
+
+        function BindAddToCBList()
+        {
+            
+            $("input[name='addtocookbook']").bind('click', function () {
+                var cid = $(this).attr("cid");
+                loadCookBookList(1, cid)
+                displaychoose();
+            });
+          }
+        function loadCookBookList(index, cid) {
+            var name = "";
+            $.post("mymainpageoperation/ShowMenuList.ashx", {}, function (data) {
+
+                var jsondata = data;
+                var jlength = jsondata.SList == null ? 0 : jsondata.SList.length;
+                var string = "";
+                for (var i = 0; i < jlength; i++) {
+                    string = string + "<tr class=\"active\"><td>" + "<input type='checkbox' name='" + jsondata.SList[i].MenuName + "' value=' " + jsondata.SList[i].MenuId + "'/>" + "</td><td>" + "<label>" + jsondata.SList[i].MenuName + "<label/></td></tr>";
+
+                }
+                name = jsondata.SList[0].MenuName;
+                var addbutton = "<br/><input type=\"button\" class=\"btn btn-1 btn-warning\" onclick=\"displaycookbook()\" value=\"返回我的菜谱\">" +
+                    "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type='button' id='addcbl' onclick=\"addtocookmenu('" +
+                    name + "'," + cid + ")\" class = 'btn btn-1 btn-warning' value='确认添加'>";
+                alert(string);
+                $.parseHTML(string);
+                
+                $("#showmenulist").html(string);
+                $("#menulistpagebar").html(addbutton);
+               
+            }, "json");
+        }
+
+        //把菜谱添加至菜单
+        function addtocookbook(cid) {
+            loadCookBookList(1, cid)
+            displaycookbooklist();
+        }
+
+        //把作品添加至菜单
+        function addtocookmenu(menuname, cid) {
+            //获取复选框选中的部分
+            var text = $("input:checked").map(function (index, elem) {
+                return $(elem).val();
+            }).get().join(',');
+            if (text != "") {
+                alert(text);
+
+                $.post("mymainpageoperation/addtomenulist.ashx", { "text": text, "cid": cid }, function (data) {
+                    if (data == "OK") {
+                        alert("添加成功！");
+                        //加载菜单
+                        LoadMenuInfo(1);
+                    }
+                    else if (data == "NOLOG") {
+                        if(confirm("未登录，是否选择登陆？"))
+                        {
+                            location.href = "login.aspx";
+                        }
+                    }
+                    else
+                    {
+
+                        alert("添加失败，请稍后再试！");
+                    }
+
+                }, "text");
+            }
+        }
+
+        //显示主内容
+        function displaymain()
+        {
+            $("#main").css("display", "block");
+            $("#choose").css("display", "none");
+        }
+
+        //显示选择内容
+        function displaychoose() {
+            $("#main").css("display", "none");
+            $("#choose").css("display", "block");
+        }
 
         function AddFocus()
         {
@@ -279,7 +367,7 @@
                                                     "<p>" + jsondata.SList[i].CIntroduce + "</p>" +
                                                " </div>" +
                                            " </div>" +
-                                     " </div>" + "<input type=\"button\" name=\"addtocookbook\" class=\"btn btn-1 btn-info\" value =\"添加至菜单\" />" +
+                                     " </div>" + "<input type=\"button\" name=\"addtocookbook\" cid='" + jsondata.SList[i].CId + "'  class=\"btn btn-1 btn-info\" value =\"添加至菜单\" />" +
                                        " <input type=\"button\"  menuid =\"" + jsondata.SList[i].CId + "\" name=\"addtocollection\"  class=\"btn btn-1 btn-info\" value =\"添加至收藏夹\" /></div>";
                 }
                 $("#cookbookcontent").html(string);
@@ -289,7 +377,16 @@
                 //绑定添加菜谱至收藏夹
                 BindAdd();
                 BindDel();
+                //绑定添加至菜单按钮
+                BindAddToCBList();
             }, "text");
+        }
+            //返回菜谱显示
+        function displaycookbook()
+        {
+            displaymain();
+            //选中newmycookbook
+
         }
         //加载分页条
         function CookPageBar()
@@ -497,13 +594,13 @@
             <div class="main-navigation">
                 <ul class="navigation">
                      <li><a href="#top"><i class="fa fa-link"></i>欢迎</a></li>
-                    <li><a href="#myworks"><i class="fa fa-link"></i>我的作品</a></li>
-                    <li><a href="#newmycookbook"><i class="fa fa-link"></i>我的菜谱</a></li>
-                    <li><a href="#mystrategy"><i class="fa fa-link"></i>我的攻略</a></li>
-                    <li><a href="#cookmenu"><i class="fa fa-link"></i>我的菜单</a></li>
-                    <li><a href="#mycollect"><i class="fa fa-link"></i>我的收藏</a></li>
-                    <li><a href="#myconcern"><i class="fa fa-link"></i>关注的人</a></li>
-                    <li><a href="#myboard"><i class="fa fa-link"></i>留言板</a></li>
+                    <li><a href="#myworks"><i class="fa fa-link"></i>他的作品</a></li>
+                    <li><a href="#newmycookbook"><i class="fa fa-link"></i>他的菜谱</a></li>
+                    <li><a href="#mystrategy"><i class="fa fa-link"></i>他的攻略</a></li>
+                    <li><a href="#cookmenu"><i class="fa fa-link"></i>他的菜单</a></li>
+                    <li><a href="#mycollect"><i class="fa fa-link"></i>他的收藏</a></li>
+                    <li><a href="#myconcern"><i class="fa fa-link"></i>他关注的人</a></li>
+                    <li><a href="#myboard"><i class="fa fa-link"></i>他的留言板</a></li>
                 </ul>
             </div> <!-- .main-navigation -->
             
@@ -521,7 +618,7 @@
 
         <!-- MAIN CONTENT -->
         <div class="main-content">
-            <div class="fluid-container">
+            <div class="fluid-container" id="main">
 
                 <div class="content-wrapper">
                     <!---myworks---->
@@ -669,7 +766,6 @@
 
                      <!----myboard------->
                      <div class="page-section" id="myboard" >
-                     <center><h4 style="font-size:3px;color : gray">留言板</h4></center>
                       <div class="bann-strip">
 	                    <div class="container">			
 					<div class="comments-top" id="commentcontent" >
@@ -695,6 +791,31 @@
         <script src="js/vendor/jquery-1.10.2.min.js"></script>
         <script src="js/min/plugins.min.js"></script>
         <script src="js/min/main.min.js"></script>
+            </div>
+            <div class="fluid-container" id="choose">
+                  <!----mycookbooklist------->
+                      <div class="page-section" id="cookbooklist">
 
+                             <div class="comments-top">
+                           <h3>CookBookList</h3>
+                                </div>
+                      <div class="bann-strip">
+	                    <div class="container">
+		                    <div class="bann-strip-main">
+                                <center>
+                          <table  class="table" id="showmenulist">
+                             
+                          </table>
+                                     </center>
+                           <div class="page" id="menulistpagebar"></div>
+                            </div>
+	                    </div>
+
+                      </div>
+                          
+                      </div>
+                  <!----endmycookbooklist------->
+            </div>
+       
     </body>
 </html>

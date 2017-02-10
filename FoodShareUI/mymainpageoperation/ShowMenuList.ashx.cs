@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.UI;
 
 namespace FoodShareUI.mymainpageoperation
 {
@@ -16,8 +17,14 @@ namespace FoodShareUI.mymainpageoperation
         ManageMenuBLL mmbll = new ManageMenuBLL();
         public void ProcessRequest(HttpContext context)
         {
-            UserInfo user = (UserInfo)context.Session["uinfo"];
+
             context.Response.ContentType = "text/plain";
+            UserInfo user = context.Session["uinfo"]==null ? null : (UserInfo)context.Session["uinfo"];
+            if(user == null )
+            {
+                Page pg = new Page();
+                context.Response.Redirect(pg.ResolveUrl("~/login.aspx"));
+            }
             List<ManageMenu> list = new List<ManageMenu>();
             list = mmbll.GetList( user.UId);
             System.Web.Script.Serialization.JavaScriptSerializer js = new System.Web.Script.Serialization.JavaScriptSerializer();

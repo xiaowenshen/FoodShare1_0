@@ -23,8 +23,9 @@
             margin: 0;
             padding: 0;
             /*background-color: #333;*/
-            background-color:#acacac;
+            background-color:#e5cd68;
             border: 0;
+            
         }
 
         #hp_cellCenter {
@@ -515,7 +516,7 @@
             height: 53px;
             width: 107px;
             _background-image: none;
-            _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/s/a/hp_zh_cn.png');
+            _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/s/a/MS_FOOD.png');
         }
 
         #hp_cellCenter .content_wrap .sw_logo, #hp_cellCenter #sbox .hp_sw_logoredifine {
@@ -524,7 +525,7 @@
             height: 53px;
             width: 107px;
             _background-image: none;
-            _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/s/a/ms_searh.png');
+            _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/s/a/MS_FOOD.png');
         }
 
         .lit .sw_logo {

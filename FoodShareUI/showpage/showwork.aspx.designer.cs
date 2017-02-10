@@ -7,27 +7,18 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace FoodShare1_0 {
+namespace FoodShareUI.showpage {
     
     
-    public partial class login {
+    public partial class showwork {
         
         /// <summary>
-        /// loginform 控件。
+        /// returnmypage 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm loginform;
-        
-        /// <summary>
-        /// btnlogin 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnlogin;
+        protected global::System.Web.UI.WebControls.Button returnmypage;
     }
 }

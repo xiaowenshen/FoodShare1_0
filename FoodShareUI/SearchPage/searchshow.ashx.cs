@@ -21,11 +21,7 @@ namespace FoodShareUI.SearchPage
             {
                 context.Response.Redirect("Search.aspx");
             }
-            //int index = 1;
-            //if (context.Request.Form["index"] == null || !int.TryParse(context.Request.Form["index"].ToString(), out index))
-            //{
-            //    index = 1;
-            //}
+      
             string msg = context.Request.Form["msg"].ToString().Trim();
             //作品进行查找
             MyWorksBLL mybll = new MyWorksBLL();

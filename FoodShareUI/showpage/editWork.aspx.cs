@@ -42,8 +42,6 @@ namespace FoodShareUI.showpage
             work.introduce = Request["content"].ToString();
             if (mbll.UpDate(work))
             {
-
-                Response.Write("alert('修改成功！')") ;
                 Response.Redirect(Page.ResolveUrl("~/mymainpage.aspx"));
             }
             else

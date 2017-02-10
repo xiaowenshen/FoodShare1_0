@@ -6,6 +6,8 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>一起用餐吧登陆</title>
+    
+    <link rel="shortcut icon" href="images/Hicon.png" />
     <link href="./login_file/style_log.css" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" type="text/css" href="./login_file/style.css"/>
 <link rel="stylesheet" type="text/css" href="./login_file/userpanel.css"/>

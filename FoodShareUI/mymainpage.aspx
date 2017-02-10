@@ -8,6 +8,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <title>个人主页</title>
         <meta name="description" content=""/>
+    
+    <link rel="shortcut icon" href="images/Hicon.png" />
         <script src="js/jquery-1.11.0.min.js"></script>
         <script src="js/jquery.easyui.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -54,13 +56,15 @@
             //加载留言
             LoadComment(1);
             //显示欢迎
-            displaycookmenu()
+            displaywork()
             //testlist
+           // loadCookBookList(1);
             
 
         })
-        function loadCookBookList(index)
+        function loadCookBookList(index,cid)
         {
+            var name = "";
                $.post("mymainpageoperation/ShowMenuList.ashx", { }, function (data) {
                 
                 var jsondata = data;
@@ -68,21 +72,65 @@
                 var string = "";
 
                 for (var i = 0; i < jlength; i++) {
-                    string = string + "<tr class=\"active\"><td>" + "<input type='checkbox' name='" + jsondata.SList[i].MenuName + "' value=' " + jsondata.SList[i].MenuName + "'/>" + "</td><td>" + "<label>" + jsondata.SList[i].MenuName + "<label/></td></tr>";
+                    string = string + "<tr class=\"active\"><td>" + "<input type='checkbox' name='" + jsondata.SList[i].MenuName + "' value=' " + jsondata.SList[i].MenuId + "'/>" + "</td><td>" + "<label>" + jsondata.SList[i].MenuName + "<label/></td></tr>";
 
                 }
-                string = string + "<br/><input type='button' class = 'btn btn-1 btn-warning' value='确认添加'>"
-                alert(string);
-                $.parseHTML(string);
-                $("#showmenulist").html(string);
-               }, "json");
+                name = jsondata.SList[0].MenuName;
+                var addbutton = "<br/><input type=\"button\" class=\"btn btn-1 btn-warning\" onclick=\"displaycookbook()\" value=\"返回我的菜谱\">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type='button' id='addcbl' onclick=\"addtocookmenu('" + name + "'," + cid + ")\" class = 'btn btn-1 btn-warning' value='确认添加'>"
+                if (string == "")
+                {
+                    alert("菜单为空，请创建新的菜单！");
+                    LoadCookBook(1);
 
+                }
+                else {
+                    $.parseHTML(string);
+                    $("#showmenulist").html(string);
+                    $("#menulistpagebar").html(addbutton);
+                }
+             
+               }, "json");
+        }
+
+        //把菜谱添加至菜单
+        function addtocookbook(cid) {
+            loadCookBookList(1, cid)
+            displaycookbooklist();
+            
+        }
+
+            //把作品添加至菜单
+        function addtocookmenu(menuname,cid)
+        {
+                //获取复选框选中的部分
+                var text = $("input:checked").map(function (index, elem) {
+                    return $(elem).val();
+                }).get().join(',');
+                if (text != "")
+                {
+                    alert(text);
+
+                    $.post("mymainpageoperation/addtomenulist.ashx", { "text": text ,"cid":cid}, function (data) {
+                        if(data=="OK")
+                        {
+                            alert("添加成功！");
+                            //加载菜单
+                            LoadMenuInfo(1);
+                        }
+                        else {
+                            alert("添加失败，请稍后再试！");
+                        }
+
+                    }, "text");
+                }
+           
+          
         }
       
             //编辑作品
         function editwork(id)
         {
-            windows.open( "showpage/editWork.aspx?wid=" + id);
+            window.open( "showpage/editWork.aspx?wid=" + id);
         }
             //删除作品
         function deletework(id)
@@ -119,7 +167,7 @@
                                             "<img src='" + jsondata.SList[i].path+ "' style=\"width:433px;height:320px\" />" +
                                             "<div class=\"project-hover\">"+
                                                 "<div class=\"inside\">"+
-                                                    "<h5><a href=''>"+ jsondata.SList[i].WIitle+"</a></h5>"+
+                                                    "<h5>"+ jsondata.SList[i].WTitle+"</h5>"+
                                                     "<p>"+ jsondata.SList[i].introduce+"</p>"+
                                                 "</div>"+
                                             "</div>"+
@@ -313,12 +361,7 @@
             
 
         }
-        //把菜谱添加至菜单
-        function addtocookbook(cid)
-        {
-
-        }
-
+   
         //加载菜谱
         function LoadCookBook(cookbookindex)
         {
@@ -373,7 +416,7 @@
         function deleteCookBook()
         {
             var cid = $(this).attr("cid");
-            if(!confirm("确定要删除吗？111"))
+            if(!confirm("确定要删除吗？"))
             {
                 return false;
             }
@@ -579,6 +622,15 @@
                 }, "text");
             });
         }
+            //退出登录
+        function logout_btn_Click()
+        {
+            if(confirm("确定要退出吗？"))
+            {
+                window.parent.location.href = "login.aspx";
+                
+            }
+        }
         //绑定添加项
 
         function BindAdd()
@@ -596,7 +648,7 @@
             $("#mycollect").css("display", "none");
             $("#myconcern").css("display", "none");
             $("#myboard").css("display", "none");
-            
+            $("#cookbooklist").css("display", "none");
             $("#managecbook").css("display", "none");
         }
 
@@ -610,6 +662,7 @@
             $("#myconcern").css("display", "none");
             $("#myboard").css("display", "none");
             $("#managecbook").css("display", "none");
+            $("#cookbooklist").css("display", "none");
         }
 
         function displaycookbook() {
@@ -622,6 +675,7 @@
             $("#myconcern").css("display", "none");
             $("#myboard").css("display", "none");
             $("#managecbook").css("display", "none");
+            $("#cookbooklist").css("display", "none");
         }
 
         function displaystrategy() {
@@ -634,6 +688,7 @@
             $("#myconcern").css("display", "none");
             $("#myboard").css("display", "none");
             $("#managecbook").css("display", "none");
+            $("#cookbooklist").css("display", "none");
         }
 
         function displaycookmenu() {
@@ -646,7 +701,8 @@
             $("#myconcern").css("display", "none");
             $("#myboard").css("display", "none");
             $("#managecbook").css("display", "none");
-            loadCookBookList(1);
+            $("#cookbooklist").css("display", "none");
+            //
         }
 
         function displaycollection() {
@@ -659,6 +715,7 @@
             $("#myconcern").css("display", "none");
             $("#myboard").css("display", "none");
             $("#managecbook").css("display", "none");
+            $("#cookbooklist").css("display", "none");
         }
 
         function displayfocus() {
@@ -671,6 +728,7 @@
             $("#myconcern").css("display", "block");
             $("#myboard").css("display", "none");
             $("#managecbook").css("display", "none");
+            $("#cookbooklist").css("display", "none");
         }
 
         function displaycomment() {
@@ -683,6 +741,7 @@
             $("#myconcern").css("display", "none");
             $("#myboard").css("display", "block");
             $("#managecbook").css("display", "none");
+            $("#cookbooklist").css("display", "none");
         }
 
         function displaymanagecookbook()
@@ -695,9 +754,23 @@
             $("#mycollect").css("display", "none");
             $("#myconcern").css("display", "none");
             $("#myboard").css("display", "none");
+            $("#cookbooklist").css("display", "none");
             $("#managecbook").css("display", "block");
            
         }
+        function displaycookbooklist() {
+            $("#top").css("display", "none");
+            $("#myworks").css("display", "none");
+            $("#newmycookbook").css("display", "none");
+            $("#mystrategy").css("display", "none");
+            $("#cookmenu").css("display", "none");
+            $("#mycollect").css("display", "none");
+            $("#myconcern").css("display", "none");
+            $("#myboard").css("display", "none");
+            $("#managecbook").css("display", "none");
+            $("#cookbooklist").css("display", "block");
+        }
+
         //将序列化成json格式后日期(毫秒数)转成日期格式
         function ChangeDateFormat(cellval) {
             var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
@@ -710,18 +783,19 @@
  
 </head>
     <body>
-        <div class="responsive-header visible-xs visible-sm">
+<%--        <div class="responsive-header visible-xs visible-sm">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="top-section">
                             <div class="profile-image">
-                                <img src="images/profile.jpg" alt="Volton"/>
+                                <img src="<%=Uinfo.display %>" />
+
                             </div>
                             <div class="profile-content">
                                 <h3 class="profile-title"><%=Uinfo.name %></h3>
                                 <p class="profile-description"><%=(Uinfo.introduce == "" ? "暂无介绍..." : Uinfo.introduce )  %></p>
-                              
+                                <asp:Button ID="logout" runat="server" Text="退出" />
                             </div>
                         </div>
                     </div>
@@ -729,17 +803,17 @@
             
             </div>
         </div>
-		
+		--%>
         <!-- SIDEBAR -->
         <div class="sidebar-menu hidden-xs hidden-sm">
             <div class="top-section">
                 <div class="profile-image">
-                    <img src="images/profile.jpg" alt="Volton"/>
+                         <img src="<%=Uinfo.display %>" />
                 </div>
                 <h3 class="profile-title"><%=Uinfo.name %></h3>
                 <p class="profile-description"><%=(Uinfo.introduce == "" ? "暂无介绍..." : Uinfo.introduce )  %></p>
                 <br />
-
+                 <input type="button" id="logout_btn" class="btn btn-1 btn-primary" value="退出" onclick ="logout_btn_Click()" />
             </div> <!-- top-section -->
             <div class="main-navigation">
                 <ul class="navigation">
@@ -786,11 +860,9 @@
                             <div class="page" id="workspagebar"></div>
                             <div>
                                 <br />
-
                                     <input type="button" id="addMyWork" class="btn btn-1 btn-primary" value ="添加个人作品"/>
                                 </div>
                         </div>
-                        <input type="button" onclick="loadCookBookList(1)" value ="测试" />
                     </div>
                     
                     </div>
@@ -920,8 +992,8 @@
                           <table  class="table" id="showmenulist">
                              
                           </table>
-                                    <div class="page" id="menulistpagebar"></div>
-                                </center>
+                                     </center>
+                           <div class="page" id="menulistpagebar"></div>
                             </div>
 	                    </div>
 
@@ -952,7 +1024,6 @@
 
                      <!----myboard------->
                      <div class="page-section" id="myboard" >
-                     <center><h4 style="font-size:3px;color : gray">留言板</h4></center>
                       <div class="bann-strip">
 	                    <div class="container">			
 					<div class="comments-top" id="commentcontent" >

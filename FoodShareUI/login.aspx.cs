@@ -13,7 +13,7 @@ namespace FoodShare1_0
         UserInfoBLL ubll = new UserInfoBLL();
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            Session["uinfo"] = null;
         }
 
         protected void btnlogin_Click(object sender, EventArgs e)

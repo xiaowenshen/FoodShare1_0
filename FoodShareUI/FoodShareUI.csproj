@@ -87,7 +87,6 @@
     <Content Include="fonts\Roboto-Bold-webfont.svg" />
     <Content Include="fonts\Roboto-Light-webfont.svg" />
     <Content Include="fonts\Roboto-Regular-webfont.svg" />
-    <Content Include="gallery.html" />
     <Content Include="images\1.jpg" />
     <Content Include="images\2.jpg" />
     <Content Include="images\3.jpg" />
@@ -128,7 +127,6 @@
     <Content Include="images\t2.jpg" />
     <Content Include="images\t3.jpg" />
     <Content Include="images\t4.jpg" />
-    <Content Include="index.html" />
     <Content Include="js\jquery-1.11.0.min.js" />
     <Content Include="js\jquery.easyui.min.js" />
     <Content Include="js\jquery.flexslider.js" />
@@ -161,7 +159,6 @@
     <Content Include="login_file\userpanel.css" />
     <Content Include="login_file\webtemples.js" />
     <Content Include="mymainpage.aspx" />
-    <Content Include="Search.aspx" />
     <Content Include="SearchSubPage.html" />
     <Content Include="showpage\addcookmenu.aspx" />
     <Content Include="mymainpageoperation\addstrategy.aspx" />
@@ -170,18 +167,17 @@
     <Content Include="showpage\showcookbook.aspx" />
     <Content Include="showpage\showmenu.aspx" />
     <Content Include="showpage\showstrategy.aspx" />
+    <Content Include="showpage\showwork.aspx" />
     <Content Include="showpage\UpdateStrategy.aspx" />
     <Content Include="showpage\UpdateWork.aspx" />
     <Content Include="singlepage.aspx" />
     <Content Include="SubmitInfo.aspx" />
     <Content Include="s\a\hpc18.png" />
     <Content Include="s\a\ms_search.png" />
-    <Content Include="temple\mymainpage.html" />
     <Content Include="mypage.aspx" />
     <Content Include="register.html" />
     <Content Include="single.html" />
     <Content Include="TESTGUID.aspx" />
-    <Content Include="teststyle.html" />
     <Content Include="typo.html" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -234,6 +230,9 @@
     </Compile>
     <Compile Include="mymainpageoperation\addtocollection.ashx.cs">
       <DependentUpon>addtocollection.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="mymainpageoperation\addtomenulist.ashx.cs">
+      <DependentUpon>addtomenulist.ashx</DependentUpon>
     </Compile>
     <Compile Include="mymainpageoperation\deleteCollection.ashx.cs">
       <DependentUpon>deleteCollection.ashx</DependentUpon>
@@ -294,13 +293,6 @@
     <Compile Include="register.ashx.cs">
       <DependentUpon>register.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Search.aspx.cs">
-      <DependentUpon>Search.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Search.aspx.designer.cs">
-      <DependentUpon>Search.aspx</DependentUpon>
-    </Compile>
     <Compile Include="SearchPage\searchshow.ashx.cs">
       <DependentUpon>searchshow.ashx</DependentUpon>
     </Compile>
@@ -355,6 +347,13 @@
     </Compile>
     <Compile Include="showpage\showstrategy.aspx.designer.cs">
       <DependentUpon>showstrategy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="showpage\showwork.aspx.cs">
+      <DependentUpon>showwork.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="showpage\showwork.aspx.designer.cs">
+      <DependentUpon>showwork.aspx</DependentUpon>
     </Compile>
     <Compile Include="showpage\UpdateStrategy.aspx.cs">
       <DependentUpon>UpdateStrategy.aspx</DependentUpon>
@@ -515,6 +514,7 @@
     <Content Include="mymainpageoperation\deleteCookBook.ashx" />
     <Content Include="mymainpageoperation\showcblist.ashx" />
     <Content Include="mymainpageoperation\ShowMenuList.ashx" />
+    <Content Include="mymainpageoperation\addtomenulist.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

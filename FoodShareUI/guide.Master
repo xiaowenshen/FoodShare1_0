@@ -11,6 +11,7 @@
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery-1.11.0.min.js"></script>
 <!-- Custom Theme files -->
+    <link rel="shortcut icon" href="images/Hicon.png" />
     <link href="css/tableStytle.css" rel="stylesheet" />
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
 <!-- Custom Theme files -->
@@ -52,7 +53,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<li><a href="<%=Page.ResolveUrl("~/mypage.aspx")%>">我的主页</a></li> 
 						<%--<li><a href="#">我的厨房</a></li> <%--gallery.html typo.html contact.html --%>
 						<li><a target="_blank" href="<%=Page.ResolveUrl("~/SearchSubPage.html")%>">搜索</a></li> 
-						<li><a href="#">联系我们</a></li> 
+						
 				   </ul>
 				</nav>
 					<!-- script-for-menu -->
@@ -74,7 +75,44 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
  
         </asp:ContentPlaceHolder>
-        <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server"></asp:ContentPlaceHolder>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+
+        </asp:ContentPlaceHolder>
+        <div class="footer">
+	<div class="container">
+		<div class="footer-main">
+		    <div class="col-md-3 ftr-grid">
+		    	<h3>About</h3>
+		    	<p>让做饭更简单，每个人都可以是自己的厨师</p>
+		    </div>
+		    <div class="col-md-3 ftr-grid">
+		    	<h3>Link</h3>
+		    	<ul>
+		    		<li><a href="http://www.chinacaipu.com/">中国菜谱网</a></li>
+		    		<li><a href="http://you.ctrip.com/">携程网</a></li>
+		    		<li><a href="http://www.meishij.net/chufang/diy/">美食杰</a></li>
+		    	</ul>
+		    </div>
+		    <div class="col-md-3 ftr-grid">
+		    	<h3>Contact</h3>
+		    	<input type="text" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}">
+		    	<input type="submit" value="Subscribe">
+		    </div>
+		    <div class="col-md-3 ftr-grid">
+		    	<h3>Follow Us</h3>
+		    	<ul>
+		    		<li><a href="#">WeChat</a></li>
+		    		<li><a href="#">Twitter</a></li>
+		    		<li><a href="#">Google +</a></li>
+		    	</ul>
+		    </div>
+			<div class="clearfix"> </div>
+		</div>
+		<div class="copy-right">
+			   <p>华南农业大学数学与信息学院（软件学院）</p>
+		   </div>
+	</div>
+</div>
     </div>
     </form>
 </body>

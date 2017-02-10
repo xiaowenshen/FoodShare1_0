@@ -18,21 +18,22 @@ namespace FoodShareUI.mymainpageoperation
         {
 
             int cookindex;
+            UserInfo user = (UserInfo)(context.Session["uinfo"]);
+            int uid;
+            uid = user.UId;
             if (context.Request["cbindex"] == null || !int.TryParse(context.Request["cbindex"].ToString(), out cookindex))
             {
                 cookindex = 1;
             }
             int cookpagesize = 6;
             CookBookBLL cbll = new CookBookBLL();
-            int cookpagecount = cbll.GetPageCount(cookpagesize);
+            int cookpagecount = cbll.GetPageCount(cookpagesize,uid);
             cookindex = cookindex < 1 ? 1 : cookindex;
             cookindex = cookindex > cookpagecount ? cookpagecount : cookindex;
             string cookPageBar = PageBarHelper.GetPageBar(cookindex, cookpagecount);
             cookPageBar = cookPageBar.Replace("pageindex", "cbindex");
             List<CookBook> list = new List<CookBook>();
-            int uid;
-            UserInfo user = (UserInfo)(context.Session["uinfo"]);
-            uid = user.UId;
+
             list = cbll.GetList( cookindex, cookpagesize, uid);
             System.Web.Script.Serialization.JavaScriptSerializer js = new System.Web.Script.Serialization.JavaScriptSerializer();
             string pagebar = FoodShareCOMMON.PageBarHelper.GetPageBar(cookindex, cookpagecount);
